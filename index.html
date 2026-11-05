@@ -1,0 +1,1562 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0714">
+<title>Say Hay Sợ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800;900&display=swap">
+<style>
+:root{
+  --bg1:#0b0714;--bg2:#1a0b2e;--panel:#21123a;--panel2:#2c1a4b;--line:#ffffff1f;
+  --text:#f6f0ff;--muted:#b9a9d6;
+  --purple:#b026ff;--pink:#ff2e88;--yellow:#ffd60a;--cyan:#00f0ff;--red:#ff3b3b;--green:#2bff88;
+  --c:var(--purple);
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;color:var(--text);font:400 16px/1.45 var(--font);overflow:hidden;overscroll-behavior:none}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#app{height:100vh;height:100dvh;max-width:520px;margin:0 auto;overflow:hidden}
+#shell{height:100%;display:flex;flex-direction:column}
+#main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:14px 16px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
+.center{margin:auto 0;display:flex;flex-direction:column;gap:14px;text-align:center;width:100%}
+.stack{display:flex;flex-direction:column;gap:12px}
+h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
+.muted{color:var(--muted)}.small{font-size:14px}
+
+/* Nút */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;padding:10px 16px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);font-weight:800;font-size:18px;transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pri{background:linear-gradient(135deg,var(--purple),var(--pink));border:0;box-shadow:0 0 22px #b026ff66}
+.btn.ok{background:linear-gradient(135deg,#0fbf6b,#2bff88);color:#04170c;border:0}
+.btn.warn{background:linear-gradient(135deg,#d97a00,var(--yellow));color:#201400;border:0}
+.btn.bad{background:linear-gradient(135deg,#b3122a,var(--red));border:0}
+.btn.cyan{background:linear-gradient(135deg,#0a7f9c,var(--cyan));color:#00161c;border:0}
+.btn.ghost{background:transparent}
+.icon-btn{min-width:48px;min-height:48px;border-radius:14px;border:1px solid var(--line);background:var(--panel2);font-size:20px;display:inline-flex;align-items:center;justify-content:center;flex:none;padding:0}
+
+/* Thanh trên */
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 12px 4px;padding-top:calc(8px + env(safe-area-inset-top))}
+.topbar .brand{margin-right:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:900;letter-spacing:.3px;color:var(--yellow);text-shadow:0 0 12px #ffd60a88;white-space:nowrap}
+@media (max-width:399px){.topbar .brand{font-size:14px;letter-spacing:0}.topbar{gap:6px}.topbar .chip{padding:4px 8px}}
+@media (max-width:359px){.topbar .brand{visibility:hidden;flex:1 1 0}}
+.chip{flex:none;padding:4px 10px;border-radius:99px;background:var(--panel);border:1px solid var(--line);font-size:13px;font-weight:600;white-space:nowrap}
+.pbar{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
+.pbar::-webkit-scrollbar{display:none}
+.pchip{flex:none;width:68px;padding:6px 2px;border-radius:14px;border:1px solid var(--line);background:var(--panel);text-align:center;position:relative;min-height:48px}
+.pchip .e{font-size:24px;line-height:1.1;display:block}
+.pchip .n{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 3px;color:var(--c)}
+.pchip .m{display:flex;justify-content:center;gap:2px;white-space:nowrap;font-size:11px;font-weight:800;align-items:center;min-height:16px}
+.pchip .m i{font-style:normal;border-radius:99px;min-width:15px;padding:0 3px;color:#071017}
+.pchip .m .b{background:var(--cyan)}.pchip .m .r{background:var(--red);color:#fff}
+.pchip.on{border-color:var(--c);animation:pulse 1.5s infinite}
+.pchip .mute{position:absolute;top:-2px;right:0;font-size:13px}
+@keyframes pulse{0%,100%{box-shadow:0 0 4px var(--c)}50%{box-shadow:0 0 16px var(--c)}}
+.banners{display:flex;gap:6px;padding:0 12px 4px;overflow-x:auto;scrollbar-width:none}
+.banners::-webkit-scrollbar{display:none}
+.banner{flex:1 0 88%;display:flex;align-items:center;gap:8px;padding:4px 6px 4px 10px;border-radius:12px;background:#ffd60a1c;border:1px solid #ffd60a55;font-size:13px;line-height:1.2;font-weight:600}
+.banner span{flex:1;min-width:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.banner button{flex:none;min-height:48px;min-width:48px;padding:0 10px;border-radius:10px;border:0;background:var(--yellow);color:#201400;font-weight:800;font-size:13px}
+.lastlog{padding:0 14px 2px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Lượt chơi */
+.spot{position:relative;padding:18px 8px;border-radius:24px;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--c) 45%,transparent),transparent 68%)}
+.spot .ava{font-size:72px;line-height:1.1;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.spot .pass{color:var(--muted);font-weight:600}
+.spot .who{font-size:34px;font-weight:900;color:var(--c);text-shadow:0 0 18px var(--c);overflow-wrap:anywhere}
+.spot.compact{padding:6px 8px}.spot.compact .ava{font-size:36px}.spot.compact .who{font-size:30px}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.choose{display:flex;flex-direction:column;gap:12px}
+.choose .btn{min-height:88px;font-size:28px;font-weight:900;border-radius:22px}
+.btn.truth{background:linear-gradient(135deg,#0a7f9c,var(--cyan));color:#00161c;border:0;box-shadow:0 0 22px #00f0ff55}
+.btn.dare{background:linear-gradient(135deg,#e0115f,var(--pink));border:0;box-shadow:0 0 22px #ff2e8866}
+.locked{font-size:13px;font-weight:600;display:block}
+
+/* Thẻ */
+.scene{perspective:1100px}
+.card3d{position:relative;transform-style:preserve-3d;animation:flip .7s cubic-bezier(.3,.9,.35,1) both}
+@keyframes flip{from{transform:rotateY(180deg)}to{transform:rotateY(0)}}
+.face{backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:26px;border:2px solid var(--lv);box-shadow:0 0 26px var(--lv),inset 0 0 20px color-mix(in srgb,var(--lv) 25%,transparent);background:linear-gradient(170deg,var(--panel2),#160a29);padding:18px 18px 16px;min-height:280px;display:flex;flex-direction:column;gap:12px}
+.face.back{position:absolute;inset:0;transform:rotateY(180deg);align-items:center;justify-content:center;font-weight:900;font-size:30px;color:var(--yellow);background:repeating-linear-gradient(45deg,#2c1a4b 0 14px,#21123a 14px 28px)}
+.lv1{--lv:var(--green)}.lv2{--lv:var(--yellow)}.lv3{--lv:var(--red)}
+.face .tagline{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:800}
+.face .q{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;font-size:24px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.face .cost{font-size:14px;text-align:center;color:var(--muted)}
+.pn{font-weight:900;color:var(--c);text-shadow:0 0 10px color-mix(in srgb,var(--c) 60%,transparent)}
+.note{font-size:15px;padding:8px 10px;border-radius:12px;background:#ffffff10;text-align:center}
+.after-flip{animation:fadeup .4s .45s both}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Vòng quay */
+.wheel-wrap{position:relative;width:min(84vw,300px);height:min(84vw,300px);margin:6px auto 0}
+.wheel-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 28px #b026ff88}
+.wheel-wrap .ptr{position:absolute;left:50%;top:-8px;margin-left:-13px;width:0;height:0;border:13px solid transparent;border-top:24px solid var(--yellow);filter:drop-shadow(0 0 6px #ffd60a);z-index:2}
+.big-icon{font-size:76px;line-height:1.1;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.big{font-size:30px;font-weight:900;overflow-wrap:anywhere}
+
+/* Ly bia */
+.beer{width:112px;height:150px;margin:0 auto;border:4px solid #fff;border-top:0;border-radius:6px 6px 20px 20px;position:relative;overflow:hidden;background:#ffffff12}
+.beer i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#ffd60a,#f09a00);animation:fill 1.1s .1s ease-out forwards}
+.beer i::before{content:"";position:absolute;left:-4px;right:-4px;top:-13px;height:16px;border-radius:12px;background:#fff}
+@keyframes fill{to{height:86%}}
+
+/* Lưới người chơi */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.pgrid button{min-height:84px;padding:8px 4px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-weight:800;overflow:hidden}
+.pgrid button .e{font-size:30px;display:block;line-height:1.15}
+.pgrid button .n{display:block;font-size:14px;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgrid button.hl,.pgrid button.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 28%,var(--panel));box-shadow:0 0 16px var(--c)}
+.count3{font-size:120px;font-weight:900;color:var(--yellow);text-shadow:0 0 28px var(--yellow);animation:pop .4s}
+.timer{font-size:54px;font-weight:900;color:var(--yellow);text-shadow:0 0 20px #ffd60a99}
+
+/* Toàn màn hình đặc biệt */
+.death{background:radial-gradient(circle,#7a0014,#1c0208);border-radius:24px;padding:20px 14px;box-shadow:0 0 40px var(--red)}
+.death .big{color:#fff;text-shadow:0 0 18px var(--red)}
+textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);background:#0006;padding:12px;min-height:48px;font-size:16px;resize:vertical}
+.glitch{font-size:36px;font-weight:900;color:var(--yellow);animation:glitch .5s steps(2) 4;text-shadow:3px 0 var(--pink),-3px 0 var(--cyan)}
+@keyframes glitch{0%{transform:translate(0)}25%{transform:translate(-4px,2px) skewX(6deg)}50%{transform:translate(3px,-3px)}75%{transform:translate(-2px,3px) skewX(-6deg)}100%{transform:translate(0)}}
+.event-bg{background:radial-gradient(circle,#4b0f6f,#180627);border:1px solid var(--purple);box-shadow:0 0 30px #b026ff88;border-radius:24px;padding:20px 14px}
+.shake{animation:shake .45s}
+@keyframes shake{10%,90%{transform:translateX(-3px)}20%,80%{transform:translateX(6px)}30%,50%,70%{transform:translateX(-9px)}40%,60%{transform:translateX(9px)}}
+#flash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:40}
+#flash.go{animation:flash .6s}
+@keyframes flash{0%,40%{opacity:.75}100%{opacity:0}}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+
+/* Sheet, toast */
+#sheet{position:fixed;inset:0;background:#000a;z-index:30;display:none;align-items:flex-end;justify-content:center}
+#sheet.open{display:flex}
+.sheet{width:100%;max-width:520px;max-height:88vh;max-height:88dvh;overflow-y:auto;background:var(--bg2);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px;animation:slideup .2s ease-out}
+@keyframes slideup{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);max-width:88vw;width:max-content;padding:10px 16px;border-radius:14px;background:#000d;border:1px solid var(--line);font-weight:600;z-index:60;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+.cardline{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);text-align:left}
+.cardline .i{font-size:26px;line-height:1.1}
+.cardline.bonus{border-color:#00f0ff55}.cardline.penalty{border-color:#ff3b3b77}
+.btn.cardbtn{justify-content:flex-start;text-align:left;font-size:16px;min-height:64px}
+.btn.cardbtn .i{font-size:26px}
+
+/* Setup */
+.home-title{font-size:52px;font-weight:900;line-height:1.02;background:linear-gradient(120deg,var(--yellow),var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 16px #ff2e8866)}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sec h3{font-size:18px}
+.addrow{display:flex;gap:8px}.addrow input{flex:1;min-width:0}
+.prow{border:1px solid var(--line);border-radius:14px;padding:8px;background:#0003}
+.prow .head{display:flex;align-items:center;gap:6px}
+.prow .head input{flex:1;min-width:0;font-weight:800;color:var(--c);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;min-height:44px;padding:4px;font-size:17px}
+.opts{display:flex;flex-direction:column;gap:10px;padding-top:10px}
+.emojis{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:4px}
+.emojis button{height:48px;font-size:24px;border-radius:10px;border:1px solid transparent;background:#ffffff0d;padding:0}
+.emojis button.sel{border-color:var(--yellow);background:#ffd60a33}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.swatches button{width:36px;height:36px;border-radius:50%;border:2px solid #0000;padding:0;position:relative}
+.swatches button::before{content:"";position:absolute;inset:-6px}
+.swatches button.sel{border-color:#fff}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:48px;padding:6px 2px;background:none;border:0;text-align:left;font-weight:600}
+.tog .sw{flex:none;width:50px;height:28px;border-radius:99px;background:#fff3;position:relative;transition:background .15s}
+.tog .sw::after{content:"";position:absolute;width:22px;height:22px;top:3px;left:3px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on .sw{background:#0fbf6b}.tog.on .sw::after{left:25px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{min-height:48px;padding:4px 12px;border-radius:99px;border:1px solid var(--line);background:#ffffff0d;font-weight:600;font-size:14px}
+.chips button.sel{background:var(--red);border-color:var(--red)}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;min-width:0;min-height:48px;border-radius:12px;border:1px solid var(--line);background:#ffffff0d;font-weight:800;font-size:14px;padding:4px}
+.seg button.sel{background:var(--purple);border-color:var(--purple)}
+.seg button:disabled{opacity:.35}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:none;margin:0 -16px;padding:0 16px;text-align:left}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;min-height:360px;display:flex;flex-direction:column;gap:10px}
+.slide h2{font-size:26px;color:var(--yellow)}
+.slide p{margin:0}.slide ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+table{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed}
+th,td{padding:7px 2px;text-align:center;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.award{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:left}
+.award .i{font-size:30px}.award b{display:block}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+.btn.timing{font-size:34px;font-weight:900;font-variant-numeric:tabular-nums}
+@media (min-width:900px) and (min-height:560px){
+  #app{max-width:1040px}
+  .topbar .brand{font-size:24px}.chip{font-size:16px;padding:6px 14px}
+  .pbar{justify-content:safe center}
+  .pchip{width:104px;padding:8px 4px}.pchip .e{font-size:36px}.pchip .n{font-size:16px}.pchip .m{font-size:14px;gap:4px}.pchip .m i{min-width:20px}.pchip .mute{font-size:18px}
+  .banner{font-size:17px}.lastlog{font-size:16px;text-align:center}
+  .btn{font-size:22px}
+  .choose{flex-direction:row}.choose .btn{flex:1;min-height:112px;font-size:42px}
+  .spot .ava{font-size:92px}.spot .pass{font-size:24px}.spot .who{font-size:64px}
+  .spot.compact .ava{font-size:64px}.spot.compact .who{font-size:52px}
+  .face .q{font-size:42px}.face .tagline{font-size:20px}.face .cost{font-size:20px}.note{font-size:20px}
+  .stack.after-flip{flex-direction:row}.stack.after-flip .btn{flex:1}
+  .big{font-size:44px}.big-icon{font-size:96px}.muted{font-size:19px}
+  .center [style*="font-size:20px"]{font-size:32px!important}
+  .pgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.pgrid button .e{font-size:42px}.pgrid button .n{font-size:20px}
+  .btn.timing{font-size:44px}
+}
+/* Màn hình đầu */
+.floaters{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.floaters span{position:absolute;bottom:-60px;opacity:.28;animation:floatUp linear infinite}
+@keyframes floatUp{to{transform:translateY(-115vh) rotate(320deg)}}
+.home{position:relative;z-index:1;gap:18px}
+.clink{font-size:84px;line-height:1.1;transform-origin:50% 85%;animation:clink 1.6s ease-in-out infinite}
+@keyframes clink{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg) scale(1.08)}}
+.home .home-title{padding-bottom:.16em;background-size:220% 100%;animation:shimmer 4s linear infinite}
+@keyframes shimmer{to{background-position:220% 0}}
+.home-tease{min-height:52px;font-size:20px;font-weight:800;color:var(--yellow);animation:teaseIn .45s ease-out}
+@keyframes teaseIn{from{opacity:0;transform:translateY(10px)}}
+.home-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.home-chips span{padding:6px 12px;border-radius:99px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:700}
+.home-go{min-height:64px;font-size:22px;font-weight:900;animation:goPulse 1.5s ease-in-out infinite}
+@keyframes goPulse{50%{transform:scale(1.03);box-shadow:0 0 40px #ff2e88aa}}
+/* Vòng quay: trên điện thoại vẫn tiêu đề, vòng, nút từ trên xuống */
+.split .side{display:contents}
+.split .side h2,.split .side>.muted{order:-1}
+/* Bảng xếp hạng */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:8px}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;animation:rise .6s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}}
+.step.r1{animation-delay:.5s}.step.r2{animation-delay:.25s}
+.step .who-e{font-size:40px;line-height:1.15}.step.r1 .who-e{font-size:56px}
+.step .who-n{max-width:100%;font-weight:900;font-size:16px;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step .cnt{font-size:14px;font-weight:800;margin:2px 0 6px}
+.step .block{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px;border-radius:14px 14px 0 0;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 34%,var(--panel)),var(--panel))}
+.step .medal{font-size:30px;line-height:1.1}
+.step.r1 .block{min-height:150px;box-shadow:0 0 26px #ffd60a66}.step.r2 .block{min-height:112px}.step.r3 .block{min-height:88px}
+.ranklist{display:flex;flex-direction:column;gap:2px}
+.rankrow{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rankrow:last-child{border-bottom:0}
+.rankrow .no{width:22px;text-align:center;color:var(--muted)}.rankrow .nm{font-weight:800;flex:1;min-width:90px}
+.awards{display:flex;flex-direction:column;gap:6px}
+.awards .award{padding:8px 12px;justify-content:flex-start}
+.awards .award .i{font-size:24px}.awards .award .who{margin-left:auto;text-align:right;font-weight:800}
+@media (min-width:900px){.m-only{display:none}}
+@media (prefers-reduced-motion:reduce){.floaters span,.clink,.home .home-title,.home-go{animation:none}.floaters{display:none}}
+@media (min-width:900px) and (min-height:560px){
+  .center{gap:24px}
+  .center>.btn,.center>.cardline,.center>.note{width:100%;max-width:580px;margin-inline:auto}
+  .split{display:grid;grid-template-columns:auto minmax(280px,440px);justify-content:center;align-items:center;gap:64px}
+  .split .side{display:flex;flex-direction:column;gap:20px;text-align:left}
+  .split .side h2{font-size:34px;margin:0}.split .side .btn{min-height:72px;font-size:28px;font-weight:900}
+  .wheel-wrap{width:min(calc(100vh - 240px),440px);height:min(calc(100vh - 240px),440px);margin:0}
+  .home{gap:24px}.home .home-title{font-size:96px}.clink{font-size:120px}.home-tease{font-size:30px}
+  .home-chips span{font-size:18px;padding:8px 16px}.home .home-go{max-width:480px;min-height:76px;font-size:28px}
+  .stack:has(>.podium){max-width:820px;width:100%;margin:0 auto}
+  .step .who-e{font-size:60px}.step.r1 .who-e{font-size:84px}.step .who-n{font-size:24px}.step .cnt{font-size:18px}.step .medal{font-size:44px}
+  .step .small{font-size:15px}.step.r1 .block{min-height:190px}.step.r2 .block{min-height:150px}.step.r3 .block{min-height:120px}
+  .awards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+}
+/* Trang Cài đặt, Luật chơi */
+*{scrollbar-width:thin;scrollbar-color:#ffffff33 transparent}
+.page{display:flex;flex-direction:column;gap:14px;width:100%;min-height:100%}
+.page-head{text-align:center;display:flex;flex-direction:column;gap:4px}
+.page-head h1{font-size:30px;color:var(--yellow);text-shadow:0 0 14px #ffd60a55}
+.setup-grid{display:flex;flex-direction:column;gap:14px}
+.plist{display:flex;flex-direction:column;gap:8px}
+.empty{padding:22px 10px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.opt-row{display:flex;flex-direction:column;gap:6px}
+.actionbar{position:sticky;bottom:-18px;margin-top:auto;display:flex;gap:10px;padding:12px 0 6px;background:linear-gradient(transparent,var(--bg2) 34%);z-index:3}
+.actionbar .btn{flex:1;min-width:0}.actionbar .btn.ghost{flex:0 1 38%;background:var(--bg2)}
+.cardgrid,.cardlines{display:flex;flex-direction:column;gap:10px;width:100%}
+.pgrid{display:flex;flex-wrap:wrap;justify-content:center}
+.pgrid button{flex:0 0 calc((100% - 20px) / 3);min-width:0}
+.death .lead,.death .side{display:contents}
+.death-sub{font-weight:800;font-size:18px}
+@media (min-width:900px) and (min-height:560px){
+  .page{max-width:1040px;margin:0 auto}
+  .page-head h1{font-size:40px}
+  .setup-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px;align-items:start}
+  .prow .head .icon-btn{width:40px;height:40px;min-width:40px;min-height:40px;font-size:16px;padding:0}
+  .prow .head input{font-size:15px;min-height:40px}
+  .plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prow.open{grid-column:1/-1}
+  .actionbar{justify-content:center}.actionbar .btn{flex:0 1 300px}.actionbar .btn.ghost{flex:0 1 220px}
+  .swipe-hint{display:none}
+  .slides{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;overflow:visible;margin:0;padding:0}
+  .slide{grid-column:span 2;min-height:0;padding:14px 16px;font-size:15px;gap:8px}
+  .slide ul{gap:4px}
+  .slide:nth-child(n+4){grid-column:span 3}
+  .slide h2{font-size:24px}
+  .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:14px}
+  .btn.cardbtn{flex-direction:column;justify-content:center;text-align:center;min-height:128px;font-size:20px;gap:8px;padding:12px}
+  .btn.cardbtn .i{font-size:40px}.btn.cardbtn .small{font-size:15px}
+  .cardlines{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+  .cardline{font-size:18px;align-items:center}.cardline .i{font-size:32px}
+  .pgrid{display:flex;flex-wrap:wrap;justify-content:center;max-width:860px;margin:0 auto}
+  .pgrid button{flex:0 0 150px;min-height:96px}
+  .event-bg{padding:24px 28px;max-width:960px;margin:auto}
+  .event-bg .pgrid{max-width:none}
+  .event-bg .pgrid button{min-height:76px;flex-basis:100px}.event-bg .pgrid button .e{font-size:28px}.event-bg .pgrid button .n{font-size:15px}
+  .event-bg:has(.pgrid){gap:14px;padding:16px 24px}.event-bg:has(.pgrid) .glitch{font-size:34px!important}.event-bg:has(.pgrid) .note{font-size:24px!important}
+  .event-bg .glitch,.center>.glitch{font-size:44px!important}
+  .center>.note,.event-bg .note{font-size:28px!important;max-width:820px;margin-inline:auto;padding:12px 20px}
+  .event-bg>.btn,.stack>.btn{width:100%;max-width:580px;margin-inline:auto}
+  .event-bg .big-icon{font-size:80px}
+  .death{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center;padding:28px 36px;max-width:1000px;margin:auto}
+  .death .lead,.death .side{display:flex;flex-direction:column;gap:14px}
+  .death .big{font-size:40px}.death .death-sub{font-size:20px}
+  .death .side .note{font-size:24px!important;margin:0;max-width:none}.death .side .btn{max-width:none}
+  .locked{font-size:16px}
+  #sheet{align-items:center}
+  .sheet{max-width:560px;max-height:86vh;border:1px solid var(--line);border-radius:24px;padding:22px;font-size:17px;box-shadow:0 20px 70px #000c}
+  .sheet:has(.plist){max-width:860px}
+  .sheet:has(.pgrid) .pgrid{max-width:none}.sheet:has(.pgrid){max-width:760px}
+  .sheet h2{font-size:26px}
+}
+.center,.page-head,.sheet,.face .q,.banner span{text-wrap:balance}
+.slide,.btn.cardbtn .small{text-wrap:pretty}
+</style>
+</head>
+<body>
+<div id="app"><div id="shell">
+  <div id="chrome"></div>
+  <main id="main"></main>
+</div></div>
+<div id="sheet"></div>
+<div id="toast" role="status"></div>
+<div id="flash"></div>
+<canvas id="fx"></canvas>
+
+<script id="questions-data" type="application/json">{"_meta":{"version":1,"testSet":true,"placeholders":"{A} = người đang chơi, {B} = 1 người được random (tuân theo bộ lọc an toàn)","levels":"1 = Nhẹ/bựa, 2 = Cay/riêng tư, 3 = Siêu cay/sexy","note":"Bộ câu hỏi TẠM chỉ để chơi thử, không dính tới bộ chính thức trong questions.json."},"truth":[{"id":"xt01","level":1,"text":"Món ăn bạn ghét nhất mà vẫn giả vờ khen khi được mời là gì?","tags":[]},{"id":"xt02","level":1,"text":"Lần gần nhất bạn viện cớ để khỏi đi chơi, cái cớ đó là gì?","tags":[]},{"id":"xt03","level":1,"text":"Theo bạn, ai trong bàn nấu ăn dở nhất?","tags":[]},{"id":"xt04","level":1,"text":"Bài nào bạn đi karaoke lần nào cũng lạc tông?","tags":[]},{"id":"xt05","level":1,"text":"Chỗ kỳ cục nhất bạn từng ngủ gật là ở đâu?","tags":[]},{"id":"xt06","level":1,"text":"Hồi đi học, thầy cô hay phàn nàn gì về bạn nhất?","tags":[]},{"id":"xt07","level":1,"text":"Bạn từng vẫy tay nhầm người lạ ngoài đường chưa? Rồi xử lý sao?","tags":[]},{"id":"xt08","level":1,"text":"Nếu được đổi tên ngay hôm nay, bạn sẽ chọn tên gì?","tags":[]},{"id":"xt09","level":2,"text":"App nào trong máy bạn không muốn ai mở ra xem?","tags":["phone"]},{"id":"xt10","level":2,"text":"Tin nhắn nào bạn gửi xong muốn thu hồi ngay lập tức?","tags":["phone"]},{"id":"xt11","level":2,"text":"Món quà nào của người yêu cũ bạn vẫn còn giữ tới giờ?","tags":["ex"]},{"id":"xt12","level":2,"text":"Ai trong bàn bạn sẽ không bao giờ cho mượn tiền? Vì sao?","tags":[]},{"id":"xt13","level":2,"text":"Bạn từng nói xấu ai đang ngồi ở đây chưa? Về chuyện gì?","tags":[]},{"id":"xt14","level":2,"text":"Câu chia tay phũ nhất bạn từng nghe hoặc từng nói là gì?","tags":["ex"]},{"id":"xt15","level":2,"text":"Điểm nào trên người bạn thấy tự tin nhất?","tags":["body"]},{"id":"xt16","level":2,"text":"Bạn từng tán tỉnh hai người cùng một lúc chưa? Kết cục ra sao?","tags":[]},{"id":"xt17","level":3,"text":"Lúc mới gặp, ai trong bàn làm bạn thấy có sức hút nhất?","tags":[]},{"id":"xt18","level":3,"text":"Buổi hẹn hò thảm họa nhất của bạn thảm tới mức nào?","tags":[]},{"id":"xt19","level":3,"text":"Bí mật nào của bạn suýt bị lộ vào phút chót?","tags":[]},{"id":"xt20","level":3,"text":"Bạn từng đi xa bao nhiêu cây số chỉ để gặp một người?","tags":[]},{"id":"xt21","level":3,"text":"Tấm ảnh nào trong máy bạn sợ cả bàn nhìn thấy nhất?","tags":["phone"]},{"id":"xt22","level":3,"text":"Bạn từng giả vờ không nhớ ai đó dù nhớ rất rõ chưa?","tags":[]},{"id":"xt23","level":3,"text":"Mẫu người nào khiến bạn mất hết lý trí?","tags":[]},{"id":"xt24","level":3,"text":"Có cuộc tình chóng vánh nào bạn muốn xóa khỏi ký ức không?","tags":[]}],"dare":[{"id":"xd01","level":1,"text":"Đọc tên mọi người trong bàn theo thứ tự ngược lại trong 15 giây.","tags":[]},{"id":"xd02","level":1,"text":"Làm MC thời sự, đọc bản tin về cái ly trước mặt trong 20 giây.","tags":[]},{"id":"xd03","level":1,"text":"Đứng lên xoay 3 vòng rồi đi thẳng một đường cho cả bàn xem.","tags":[]},{"id":"xd04","level":1,"text":"Đứng một chân, tay giơ cao như tượng và giữ 10 giây.","tags":[]},{"id":"xd05","level":1,"text":"Đọc bài chúc mừng sinh nhật theo kiểu rap.","tags":[]},{"id":"xd06","level":1,"text":"Khen {B} ba câu thật sến, không được cười.","tags":[]},{"id":"xd07","level":1,"text":"Nói chuyện như robot cho tới khi hết lượt này.","tags":[]},{"id":"xd08","level":1,"text":"Để {B} chọn cho bạn một dáng người mẫu, giữ yên 10 giây.","tags":[]},{"id":"xd09","level":2,"text":"Đọc to tin nhắn gần nhất bạn gửi đi, được giấu tên người nhận.","tags":["phone"]},{"id":"xd10","level":2,"text":"Đăng một icon bất kỳ lên story, không giải thích gì.","tags":["outside"]},{"id":"xd11","level":2,"text":"Cho {B} xem tấm ảnh gần nhất trong máy bạn.","tags":["phone"]},{"id":"xd12","level":2,"text":"Nhắn cho một người bạn ngoài bàn đúng một chữ ‘Ừ’ và không giải thích.","tags":["outside"]},{"id":"xd13","level":2,"text":"Làm hướng dẫn viên du lịch, giới thiệu căn phòng này trong 30 giây.","tags":[]},{"id":"xd14","level":2,"text":"Đăng tin tìm người yêu cho chính mình bằng lời, nói liền 30 giây.","tags":[]},{"id":"xd15","level":2,"text":"Nhảy một điệu tự chế không cần nhạc trong 20 giây. Không ai vỗ tay thì uống.","tags":[]},{"id":"xd16","level":2,"text":"Dùng mông viết tên mối tình đầu lên không trung.","tags":["ex","body"]},{"id":"xd17","level":3,"text":"Ngồi đối diện {B}, cùng đếm tới 20 bằng giọng ngọt ngào. Ai vấp thì uống.","tags":["couple"]},{"id":"xd18","level":3,"text":"Đút cho {B} một miếng đồ ăn mà không dùng tay.","tags":["couple"]},{"id":"xd19","level":3,"text":"Tặng {B} một bài thơ tình bốn câu do bạn tự nghĩ ra tại chỗ.","tags":["couple"]},{"id":"xd20","level":3,"text":"Để {B} dùng ngón tay vẽ trái tim lên tay bạn trong 15 giây.","tags":["couple"]},{"id":"xd21","level":3,"text":"Catwalk thật quyến rũ từ đầu bàn tới cuối bàn.","tags":[]},{"id":"xd22","level":3,"text":"Diễn cảnh tỏ tình sướt mướt với cái ghế trong 30 giây.","tags":[]},{"id":"xd23","level":3,"text":"Kể một chuyện tình tưởng tượng bằng giọng thì thầm trong 20 giây.","tags":[]},{"id":"xd24","level":3,"text":"Nhảy tình tứ với không khí trong 15 giây. Cả bàn chấm điểm, dưới 5 thì uống.","tags":[]}],"never":[{"id":"xn01","level":1,"text":"Tôi chưa từng đi nhầm vào nhà vệ sinh khác giới."},{"id":"xn02","level":1,"text":"Tôi chưa từng gửi nhầm tin nhắn vào nhóm chat công ty."},{"id":"xn03","level":1,"text":"Tôi chưa từng giả vờ đang nghe điện thoại để né người quen."},{"id":"xn04","level":1,"text":"Tôi chưa từng đổ lỗi cho thú cưng về mùi lạ trong phòng."},{"id":"xn05","level":2,"text":"Tôi chưa từng lập tài khoản phụ để xem trộm ai đó."},{"id":"xn06","level":2,"text":"Tôi chưa từng hẹn hò với người mà bạn thân tôi ghét."},{"id":"xn07","level":2,"text":"Tôi chưa từng ngủ quên trong rạp chiếu phim."},{"id":"xn08","level":3,"text":"Tôi chưa từng đi hẹn hò với người chỉ quen qua mạng."},{"id":"xn09","level":3,"text":"Tôi chưa từng viết thư tình rồi không dám đưa."},{"id":"xn10","level":3,"text":"Tôi chưa từng giả vờ độc thân khi đi chơi."}],"mostlikely":[{"id":"xm01","level":1,"text":"Ai dễ đi lạc ngay trong trung tâm thương mại nhất?"},{"id":"xm02","level":1,"text":"Ai dễ quên ví ở nhà khi đến lượt trả tiền nhất?"},{"id":"xm03","level":1,"text":"Ai dễ mua đồ vô dụng trên mạng lúc 2 giờ sáng nhất?"},{"id":"xm04","level":2,"text":"Ai dễ khóc trong đám cưới của người khác nhất?"},{"id":"xm05","level":2,"text":"Ai dễ bị lừa chuyển tiền qua mạng nhất?"},{"id":"xm06","level":2,"text":"Ai dễ bỏ việc chỉ sau một đêm suy nghĩ nhất?"},{"id":"xm07","level":3,"text":"Ai dễ cưới người mới quen 1 tuần nhất?"},{"id":"xm08","level":3,"text":"Ai dễ có nhiều mối tình bí mật nhất?"}],"events":[{"id":"xe01","name":"Chạm Mũi","text":"Tất cả lấy tay chạm mũi NGAY! Ai chậm nhất phải uống.","effect":"manual_pick_loser"},{"id":"xe02","name":"Cả Bàn Bình Chọn","text":"Đếm ngược xong, cả bàn cùng giơ tay chỉ một người. Trúng ai người đó nâng ly.","effect":"mostlikely_vote"},{"id":"xe03","name":"Thú Tội Tập Thể","text":"Một câu thú tội sắp được đọc lên. Ai dính thì tự giác nâng ly.","effect":"never_round"},{"id":"xe04","name":"Nâng Ly Chung","text":"Vì tình bạn của chúng ta! Nâng ly hết đi, không ai được né.","effect":"all_drink"},{"id":"xe05","name":"Ân Xá","text":"Trời thương kẻ khổ: ai ôm nhiều vận đen nhất được gỡ bớt một lá.","effect":"heal_most_penalized"},{"id":"xe06","name":"Phát Thẻ Bừa","text":"Chia bài! Ai cũng được một lá, hên thì lời, xui thì lỗ.","effect":"random_card_each"}]}</script>
+<script>
+'use strict';
+/* ===== CONFIG: mọi tỉ lệ & con số chỉnh ở đây ===== */
+const CONFIG = {
+  wheel: [
+    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 10, color: '#7c3aed' },
+    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 10, color: '#2563eb' },
+    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 6,  color: '#db2777' },
+    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 56, color: '#57534e' },
+    { id: 'bad',      icon: '💀', label: 'Xui',         w: 7,  color: '#b91c1c' },
+    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 7,  color: '#c2710c' },
+    { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 4,  color: '#ca8a04' },
+  ],
+  rescueMissesPer8: 5,                                   // Quay Đổi Vận: bàn 8 người, cứ 5 lần hụt thì lần kế tiếp thoát (bàn khác tính theo tỉ lệ)
+  penaltyWeights: { debt: 50, forcedare: 30, silence: 20 },
+  levelPreferChance: 0.7,                                // ưu tiên thẻ đúng mức hiện tại
+  eventEveryRounds: 2,                                   // cứ hết 2 vòng có 1 sự kiện
+  earlyRounds: 2,                                        // số vòng đầu vòng quay được chia theo earlySpecials
+  earlySpecials: ['mirror', 'swap', 'bad'],              // mỗi vòng đầu, mỗi ô này ra đúng 1 người, còn lại Không có gì
+  nothingShare: [0.5, 0.625],                            // từ sau đó: phần người Không có gì mỗi vòng (8 người: 4–5)
+  enabledEffects: ['all_drink', 'never_round', 'mostlikely_vote', 'manual_pick_loser', 'heal_most_penalized', 'random_card_each'], // v1
+  randomCardBonusChance: 0.6,                            // Mưa Thẻ: 60% thưởng / 40% phạt
+  levelUpRounds: 2,
+  maxBonus: 3,
+  deathAt: 3,
+  noTimerCards: ['d025'],                                 // có ghi thời gian nhưng không cần bấm giờ (để story 10 phút)
+  maxBounces: 4,
+  spinMs: 3600,
+  rescueSpinMs: 2600,
+  homeTeaseMs: 3200,                                     // đổi câu đùa ở màn hình đầu
+  rescueResultMs: 1000,                                  // dừng lại xem kết quả Quay Đổi Vận
+  coupleWholeTable: ['d069'],                            // thẻ couple đụng tới cả bàn: cần mọi người đã bật OK cặp
+};
+const DATA = JSON.parse(document.getElementById('questions-data').textContent);
+const KEY = 'sayhayso.v1';
+const LEVELS = { 1: { icon: '🟢', name: 'Nhẹ' }, 2: { icon: '🟡', name: 'Cay' }, 3: { icon: '🔴', name: 'Siêu cay' } };
+const CARDS = {
+  mirror:    { icon: '🪞', name: 'Gương Phản Chiếu', desc: 'Đẩy toàn bộ phạt sang người khác.' },
+  swap:      { icon: '🔄', name: 'Đổi Câu',          desc: 'Rút lại thẻ khác cùng loại, cùng mức.' },
+  ally:      { icon: '🤝', name: 'Đồng Minh',        desc: 'Kéo 1 người uống cùng mình.' },
+  king:      { icon: '👑', name: 'Vua 1 Phút',       desc: 'Đầu lượt mình: ra 1 luật đến lượt sau của mình.' },
+  debt:      { icon: '💀', name: 'Nợ Ly',            desc: 'Lần uống tiếp theo phải cạn ly, dùng xong thì mất.' },
+  forcedare: { icon: '⛓️', name: 'Bắt Buộc Thách',   desc: 'Lượt kế tiếp không được chọn Thật.' },
+  silence:   { icon: '🤐', name: 'Câm Lặng',         desc: 'Không được nói đến lượt kế tiếp của mình.' },
+};
+const BONUS_IDS = ['mirror', 'swap', 'ally', 'king'];
+const EMOJIS = ['😎','🤪','😈','🥴','🤠','👻','🐷','🐶','🐱','🦊','🐸','🐵','🦄','🐔','🐙','🦖','🍺','🍻','🔥','💀','👑','🌶️','🍑','🤡'];
+const COLORS = ['#ff2e88','#00f0ff','#ffd60a','#2bff88','#c77dff','#ff8c42','#5ea2ff','#ff6b6b','#a8e063','#f9a8d4','#5eead4','#e2c275'];
+const TAGS = { phone: '📱 Điện thoại', outside: '🌐 Người ngoài', ex: '💔 Người cũ', body: '👙 Cơ thể' };
+const REFUSE_LINES = [
+  'Không dám thì uống đi cho đỡ quê!',
+  'Sợ rồi hả? Nâng ly lên đi bạn ơi!',
+  'Né được thẻ này, chứ né sao được cái ly.',
+  'Từ chối cũng được, cái ly không phán xét đâu.',
+  'Trốn thì uống, không ai cười đâu… chắc vậy.',
+  'Cái ly đang nhìn bạn đó, liệu hồn nha!',
+];
+const HOME_TEASES = [
+  'Tối nay ai gục trước?',
+  'Nói thật thì mất bạn. Nói dối thì mất ly.',
+  'Không dám thì uống. Dám rồi cũng uống.',
+  'Bí mật của bạn sắp được chia đều cho cả bàn.',
+  'Đừng lo, mai không ai nhớ đâu… chắc vậy.',
+  'Luật chỉ có một: ai sợ thì uống.',
+];
+const HOME_FLOATERS = ['🍺', '🔥', '🌶️', '😈', '🍻', '🃏', '💀', '🥴', '👑', '🎡', '🍑', '🐔'];
+const TEASES = ['Hên xui thôi…', 'Trắng tay, về chỗ ngồi đi.', 'Ông trời không thương bạn hôm nay.', 'Quay cho vui thôi mà.', 'Thôi uống miếng nước cho đỡ buồn.'];
+
+/* ===== Tiện ích ===== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const rand = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pickOne = arr => arr[Math.floor(Math.random() * arr.length)];
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function weighted(items, w) {
+  const total = items.reduce((s, x) => s + w(x), 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < items.length; i++) { r -= w(items[i]); if (r < 0) return i; }
+  return items.length - 1;
+}
+
+/* ===== State ===== */
+const newDraft = () => ({
+  players: [],
+  settings: { startLevel: 1, maxLevel: 3, autoEscalate: true, order: 'circle', events: true, outsideOff: false, sound: true },
+});
+let S = { version: 1, view: 'home', draft: newDraft(), game: null };
+let state = null; // ván hiện tại (S.game)
+const ui = { sheet: null, openId: null, resumePrompt: false, timers: [], sheetData: null };
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* trình duyệt chặn lưu trữ */ } }
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY));
+    if (d && d.version === 1) {
+      S = d; state = S.game;
+      if (state) state.players.forEach(p => { p.bonus = p.bonus.filter(id => CARDS[id]); }); // ván cũ còn giữ thẻ đã bỏ
+    }
+  } catch (e) { /* dữ liệu hỏng thì bắt đầu lại */ }
+}
+const settings = () => (state ? state.settings : S.draft.settings);
+const P = id => state.players.find(p => p.id === id);
+const cur = () => P(state.turn.currentPlayerId);
+const others = id => state.players.filter(p => p.id !== id);
+const has = (p, c) => p.bonus.includes(c);
+function take(p, c) { const i = p.bonus.indexOf(c); if (i >= 0) { p.bonus.splice(i, 1); p.stats.cardsUsed++; } }
+// Số giây cần bấm giờ của thẻ Thách, 0 nếu thẻ không ghi thời gian. "Mỗi người N giây" nhân với số người còn lại.
+function dareSeconds(c) {
+  if (c.type !== 'dare' || CONFIG.noTimerCards.includes(c.id)) return 0;
+  const each = c.text.match(/mỗi người (\d+) giây/i);
+  if (each) return +each[1] * Math.max(1, state.players.length - 1);
+  const m = c.text.match(/(\d+)\s*(giây|phút)/i);
+  return m ? +m[1] * (m[2].toLowerCase() === 'phút' ? 60 : 1) : 0;
+}
+const secsWord = n => (n >= 60 ? `${Math.floor(n / 60)} phút${n % 60 ? ` ${n % 60} giây` : ''}` : `${n} giây`);
+const clock = n => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}`;
+const refuseLine = (c, p) => REFUSE_LINES[[...c.id].reduce((a, ch) => a + ch.charCodeAt(0), 0) % REFUSE_LINES.length] + (p.noAlcohol ? ' (nước lọc nha)' : '');
+const pName = p => `<span class="pn" style="--c:${p.color}">${esc(p.name)}</span>`;
+function log(t) { state.log.push(t); if (state.log.length > 60) state.log.shift(); }
+function addDrink(p) { p.stats.sips += 1; } // stats.sips đếm số lần uống, mỗi lần tính 1 dù uống ít hay cạn ly
+const freshStats = () => ({ sips: 0, truths: 0, dares: 0, refusals: 0, dodges: 0, pushes: 0, deathSentences: 0, cardsUsed: 0 });
+
+function makePlayer(list) {
+  const usedC = new Set(list.map(p => p.color)), usedE = new Set(list.map(p => p.emoji));
+  return {
+    id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name: '', emoji: EMOJIS.find(e => !usedE.has(e)) || EMOJIS[0], color: COLORS.find(c => !usedC.has(c)) || COLORS[0],
+    coupleOk: false, bannedTags: [], noAlcohol: false, bonus: [], penalty: [], stats: freshStats(),
+  };
+}
+
+/* ===== Âm thanh & rung ===== */
+let actx = null;
+function tone(f, d, type = 'sine', v = 0.15, at = 0, to = null) {
+  const t = actx.currentTime + at, o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t);
+  if (to) o.frequency.exponentialRampToValueAtTime(to, t + d);
+  g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d);
+}
+const SOUNDS = {
+  click: () => tone(620, 0.04, 'triangle', 0.08),
+  flip: () => tone(280, 0.22, 'sine', 0.16, 0, 1300),
+  tick: () => tone(1500, 0.025, 'square', 0.05),
+  reward: () => { tone(880, 0.14, 'sine', 0.16); tone(1320, 0.28, 'sine', 0.16, 0.12); },
+  buzz: () => tone(110, 0.38, 'sawtooth', 0.2),
+  siren: () => { tone(600, 0.3, 'square', 0.1, 0, 1200); tone(1200, 0.3, 'square', 0.1, 0.3, 600); },
+  drum: () => { [0, 0.28, 0.56].forEach(a => tone(70, 0.26, 'sine', 0.5, a, 38)); },
+};
+function sfx(name) {
+  if (!settings().sound) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    SOUNDS[name]();
+  } catch (e) { /* không có Web Audio */ }
+}
+const vibrate = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* bỏ qua */ } };
+
+/* ===== Hiệu ứng ===== */
+function toast(t) {
+  const el = $('toast'); el.textContent = t; el.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2400);
+}
+function shake() { const m = $('shell'); m.classList.remove('shake'); void m.offsetWidth; m.classList.add('shake'); }
+function flash() { const f = $('flash'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
+function confetti() {
+  if (reduced()) return;
+  const cv = $('fx'), c = cv.getContext('2d'), W = cv.width = innerWidth, H = cv.height = innerHeight;
+  const cols = ['#b026ff', '#ff2e88', '#ffd60a', '#00f0ff', '#2bff88'];
+  const parts = Array.from({ length: 110 }, () => ({
+    x: W / 2, y: H * 0.42, vx: (Math.random() - 0.5) * 13, vy: -Math.random() * 13 - 3,
+    s: 5 + Math.random() * 6, r: Math.random() * 6, vr: Math.random() - 0.5, col: pickOne(cols),
+  }));
+  const start = performance.now();
+  (function frame(now) {
+    const t = now - start;
+    c.clearRect(0, 0, W, H);
+    if (t > 1900) return;
+    c.globalAlpha = Math.max(0, 1 - t / 1900);
+    parts.forEach(p => {
+      p.vy += 0.34; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      c.save(); c.translate(p.x, p.y); c.rotate(p.r); c.fillStyle = p.col; c.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * 0.6); c.restore();
+    });
+    requestAnimationFrame(frame);
+  })(start);
+}
+function flyTo(icon, pid) {
+  if (reduced()) return;
+  const target = document.querySelector(`.pchip[data-id="${pid}"]`);
+  if (!target || !target.animate) return;
+  const r = target.getBoundingClientRect(), el = document.createElement('div');
+  el.textContent = icon;
+  el.style.cssText = 'position:fixed;left:50%;top:45%;font-size:52px;z-index:55;pointer-events:none';
+  document.body.appendChild(el);
+  const dx = r.left + r.width / 2 - innerWidth / 2 - 20, dy = r.top + r.height / 2 - innerHeight * 0.45 - 30;
+  el.animate([{ transform: 'scale(1.3)' }, { transform: `translate(${dx}px,${dy}px) scale(.3)`, opacity: 0.4 }], { duration: 800, easing: 'cubic-bezier(.5,0,.3,1)' }).onfinish = () => el.remove();
+}
+
+/* ===== Rút thẻ (mục 7) ===== */
+const hasB = c => c.text.includes('{B}');
+function partnersFor(c, A) {
+  const tags = c.tags || [];
+  return others(A.id).filter(p => !tags.some(t => p.bannedTags.includes(t)) && (!tags.includes('couple') || p.coupleOk));
+}
+function eligible(c, A) {
+  const tags = c.tags || [];
+  if (state.settings.outsideOff && tags.includes('outside')) return false;
+  if (!A) return true;
+  if (tags.some(t => A.bannedTags.includes(t))) return false;
+  if (tags.includes('couple') && !A.coupleOk) return false;
+  if (hasB(c) || tags.includes('couple')) {
+    const n = partnersFor(c, A).length;
+    if (!n) return false;
+    if (CONFIG.coupleWholeTable.includes(c.id) && n < others(A.id).length) return false;
+  }
+  return true;
+}
+// opts.level: mức trần thay cho mức hiện tại · opts.exact: chỉ lấy đúng mức đó · opts.notId: tránh thẻ đang hiện
+function drawCard(type, A, opts = {}) {
+  const L = opts.level || state.turn.level;
+  const pool = (DATA[type] || []).concat(state.customCards.filter(c => c.type === type));
+  const all = pool.filter(c => (opts.exact ? c.level === L : c.level <= L) && eligible(c, A) && c.id !== opts.notId);
+  if (!all.length) return null;
+  let avail = all.filter(c => !state.usedCardIds.includes(c.id));
+  if (!avail.length) { // hết pool thì xáo lại
+    const ids = new Set(all.map(c => c.id));
+    state.usedCardIds = state.usedCardIds.filter(id => !ids.has(id));
+    avail = all;
+  }
+  const same = avail.filter(c => c.level === L), low = avail.filter(c => c.level < L);
+  const useSame = same.length && (!low.length || Math.random() < CONFIG.levelPreferChance);
+  const c = pickOne(useSame ? same : low);
+  state.usedCardIds.push(c.id);
+  const out = { ...c, type, bId: null };
+  if (A && (hasB(c) || (c.tags || []).includes('couple'))) out.bId = pickOne(partnersFor(c, A)).id;
+  return out;
+}
+function cardHtml(c, A) {
+  let t = esc(c.text);
+  if (A && A.noAlcohol) t = t.replace(/uống(?=[.,!?…]|$)/g, 'uống nước lọc');
+  if (A) t = t.replace(/\{A\}/g, () => pName(A));
+  if (c.bId && P(c.bId)) t = t.replace(/\{B\}/g, () => pName(P(c.bId)));
+  return t;
+}
+// Thẻ couple không ghi {B} ("người bên phải", "chọn 1 người"): chỉ định người đã đồng ý để không rơi vào người chưa bật OK cặp.
+function partnerNote(c) {
+  if (!c.bId || hasB(c) || CONFIG.coupleWholeTable.includes(c.id)) return '';
+  return `<div class="note">🤝 Làm cùng ${pName(P(c.bId))} (đã bật OK thử thách cặp).</div>`;
+}
+
+/* ===== Luồng: mỗi bước là dữ liệu trong queue nên tải lại trang vẫn tiếp tục được ===== */
+function go(name, data = {}) { if (name !== 'card') ui.dareTimer = null; state.turn.phase = name; state.screen = { ...data, name }; save(); render(); }
+function flow(...items) { state.queue.unshift(...items); next(); }
+function next() {
+  const doomed = state.players.find(p => p.penalty.length >= CONFIG.deathAt);
+  if (doomed) return go('death', { pid: doomed.id, dare: null }); // Án Tử chen ngang mọi bước
+  const it = state.queue.shift();
+  if (it) return LOGIC[it.name] ? LOGIC[it.name](it) : go(it.name, it);
+  if (!state.turn.ending) return endTurn();
+  startNextTurn();
+}
+function newGame(d) {
+  const players = JSON.parse(JSON.stringify(d.players));
+  players.forEach((p, i) => { p.name = p.name.trim() || `Người ${i + 1}`; p.bonus = []; p.penalty = []; p.stats = freshStats(); });
+  const s = { ...d.settings, startLevel: Math.min(d.settings.startLevel, d.settings.maxLevel) };
+  return {
+    version: 1, players, settings: s,
+    turn: { index: 0, currentPlayerId: null, round: 1, level: s.startLevel, phase: '', card: null, targetB: null, ending: false, expiring: {}, turnsInRound: 0, turnsAtLevel: 0 },
+    effects: [], usedCardIds: [], customCards: [],
+    lastEventId: null, log: [], queue: [], screen: null, ended: false,
+  };
+}
+function beginTurn(id) {
+  const t = state.turn, p = P(id);
+  t.currentPlayerId = id; t.card = null; t.targetB = null; t.ending = false;
+  // Chỉ thẻ đang giữ từ trước lượt này mới có hiệu lực và hết hạn cuối lượt; thẻ nhận trong lượt để dành lượt sau.
+  t.expiring = { forcedare: p.penalty.filter(x => x === 'forcedare').length, silence: p.penalty.filter(x => x === 'silence').length };
+  state.effects = state.effects.filter(e => !(e.type === 'king' && e.playerIds.includes(id)));
+  state.queue = [];
+  go('turn');
+}
+function nextPlayerId() {
+  const ps = state.players, id = state.turn.currentPlayerId;
+  if (state.settings.order === 'random') return pickOne(ps.filter(p => p.id !== id)).id;
+  return ps[(ps.findIndex(p => p.id === id) + 1) % ps.length].id;
+}
+function startNextTurn() { state.turn.index++; beginTurn(nextPlayerId()); }
+function endTurn() {
+  const t = state.turn, p = cur(), n = state.players.length;
+  t.ending = true;
+  for (const k of ['forcedare', 'silence']) {
+    for (let i = 0; i < (t.expiring[k] || 0); i++) { const at = p.penalty.indexOf(k); if (at >= 0) p.penalty.splice(at, 1); }
+  }
+  t.expiring = {};
+  const roundEnded = ++t.turnsInRound >= n;
+  if (roundEnded) { t.turnsInRound = 0; t.round++; }
+  if (state.settings.autoEscalate && ++t.turnsAtLevel >= CONFIG.levelUpRounds * n && t.level < state.settings.maxLevel) {
+    t.level++; t.turnsAtLevel = 0;
+    toast(`${LEVELS[t.level].icon} Lên mức ${LEVELS[t.level].name}!`); sfx('siren');
+    log(`Độ cay tăng lên mức ${LEVELS[t.level].name}`);
+  }
+  if (state.settings.events && roundEnded && (t.round - 1) % CONFIG.eventEveryRounds === 0) {
+    const ev = chooseEvent();
+    if (ev) {
+      state.lastEventId = ev.id;
+      state.queue.unshift({ name: 'event', ev });
+    }
+  }
+  next();
+}
+
+/* ----- Phạt (mục 5.4) ----- */
+const debtsOf = p => p.penalty.filter(x => x === 'debt').length;
+// Có Nợ Ly thì lần này phải cạn ly. Tính xong là Nợ Ly mất luôn, kể cả khi lần uống sau đó được thoát hoặc bị đẩy đi.
+function makePenalty(p) {
+  const debt = debtsOf(p);
+  const pen = { victim: p.id, debt, bottoms: debt > 0, chain: [], bounces: 0, from: null };
+  p.penalty = p.penalty.filter(x => x !== 'debt');
+  return pen;
+}
+function randomPenalty() {
+  const ids = Object.keys(CONFIG.penaltyWeights);
+  return ids[weighted(ids, id => CONFIG.penaltyWeights[id])];
+}
+function penText(pen) {
+  const p = P(pen.victim);
+  return pen.bottoms ? `uống cạn ly${p.noAlcohol ? ' nước lọc' : ''}` : `uống${p.noAlcohol ? ' nước lọc' : ''}`;
+}
+function creditDodges(pen, drinkerId) {
+  [...new Set(pen.chain)].filter(id => id !== drinkerId).forEach(id => { if (P(id)) P(id).stats.dodges++; });
+}
+const canMirror = (pen, X) => !pen.noBounce && has(X, 'mirror') && pen.bounces < CONFIG.maxBounces && !!pen.from;
+const LOGIC = {
+  react(it) {
+    const pen = it.pen, X = P(pen.victim);
+    if (canMirror(pen, X)) return go('reaction', { pen });
+    LOGIC.drink({ pen });
+  },
+  drink(it) {
+    const pen = it.pen, p = P(pen.victim);
+    creditDodges(pen, p.id);
+    addDrink(p);
+    log(`${p.name} ${penText(pen)}`);
+    go('drink', { pen });
+  },
+  useCards(it) {
+    const p = P(it.pen.victim);
+    if (['mirror', 'ally'].some(c => has(p, c))) return go('useCards', { pen: it.pen });
+    LOGIC.drink({ pen: it.pen });
+  },
+};
+function addBonus(p, id) {
+  if (p.bonus.length < CONFIG.maxBonus) { p.bonus.push(id); return true; }
+  state.queue.unshift({ name: 'bagFull', pid: p.id, card: id });
+  return false;
+}
+
+/* ----- Vòng quay ----- */
+function drawWheel(cv, segs) {
+  // Vẽ theo kích thước hiển thị thật, dư gấp đôi để chữ vẫn nét khi quay và khi phóng to
+  const size = 300, shown = cv.clientWidth || size, px = Math.ceil(shown * Math.max(devicePixelRatio || 1, 1) * 2), c = cv.getContext('2d');
+  cv.width = cv.height = px; c.scale(px / size, px / size);
+  const total = segs.reduce((s, x) => s + x.w, 0), R = size / 2;
+  let a = -Math.PI / 2;
+  segs.forEach(s => {
+    const sweep = s.w / total * Math.PI * 2;
+    c.beginPath(); c.moveTo(R, R); c.arc(R, R, R - 2, a, a + sweep); c.closePath();
+    c.fillStyle = s.color; c.fill(); c.strokeStyle = '#0b0714'; c.lineWidth = 2; c.stroke();
+    c.save(); c.translate(R, R); c.rotate(a + sweep / 2); c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillStyle = '#fff';
+    c.font = '20px system-ui,"Segoe UI Emoji","Apple Color Emoji"'; c.fillText(s.icon, R - 8, 1);
+    c.font = '800 13px "Be Vietnam Pro",system-ui,sans-serif'; c.lineJoin = 'round'; c.lineWidth = 3; c.strokeStyle = '#0b0714aa';
+    c.strokeText(s.label, R - 38, 1); c.fillText(s.label, R - 38, 1);
+    c.restore();
+    a += sweep;
+  });
+  c.beginPath(); c.arc(R, R, 22, 0, Math.PI * 2); c.fillStyle = '#0b0714'; c.fill(); c.strokeStyle = '#ffd60a'; c.lineWidth = 3; c.stroke();
+}
+function spinTo(cv, segs, idx, ms, done) {
+  const total = segs.reduce((s, x) => s + x.w, 0);
+  const edges = []; let acc = 0;
+  segs.forEach(s => { edges.push(acc); acc += s.w / total * 360; });
+  const a0 = edges[idx], a1 = idx + 1 < segs.length ? edges[idx + 1] : 360;
+  const target = 360 * 5 - (a0 + (a1 - a0) * (0.15 + Math.random() * 0.7));
+  const dur = reduced() ? Math.min(ms, 500) : ms, start = performance.now();
+  let last = -1;
+  (function frame(now) {
+    const t = Math.min(1, Math.max(0, (now - start) / dur)), r = target * (1 - Math.pow(1 - t, 3.4));
+    cv.style.transform = `rotate(${r}deg)`;
+    const at = (360 - (r % 360)) % 360;
+    let i = edges.length - 1; while (i > 0 && edges[i] > at) i--;
+    if (i !== last) { if (last >= 0) sfx('tick'); last = i; }
+    if (t < 1) requestAnimationFrame(frame);
+    else if (S.view === 'game') done(); // bấm kết thúc ván lúc đang quay thì bỏ kết quả
+  })(start);
+}
+function applySpin(seg) {
+  const p = cur();
+  let res = { icon: seg.icon, title: seg.label, desc: '' };
+  if (['mirror', 'swap', 'mystery'].includes(seg.id)) {
+    const id = seg.id === 'mystery' ? pickOne(['ally', 'king']) : seg.id;
+    const fit = addBonus(p, id);
+    res = { icon: CARDS[id].icon, title: `Nhận ${CARDS[id].name}!`, desc: fit ? CARDS[id].desc : 'Túi đầy rồi, chọn bỏ thẻ ở bước sau.', good: true, fly: fit ? id : null };
+    log(`${p.name} quay trúng ${CARDS[id].name}`);
+  } else if (seg.id === 'nothing') {
+    res.desc = pickOne(TEASES);
+    log(`${p.name} quay trúng ô trống`);
+  } else if (seg.id === 'bad') {
+    const id = randomPenalty(); p.penalty.push(id);
+    res = { icon: CARDS[id].icon, title: `Xui! Dính ${CARDS[id].name}`, desc: CARDS[id].desc, bad: true, fly: id };
+    log(`${p.name} quay trúng ô Xui: ${CARDS[id].name}`);
+  } else if (seg.id === 'alldrink') {
+    others(p.id).forEach(addDrink);
+    res.title = 'Cả bàn uống!'; res.desc = `Mọi người trừ ${p.name} uống đi!`; res.good = true;
+    log(`Cả bàn trừ ${p.name} uống`);
+  } else if (seg.id === 'jackpot') {
+    res.title = 'JACKPOT!'; res.desc = `${p.name} được chọn 1 người uống cạn ly.`; res.good = true;
+    state.queue.unshift({ name: 'pick', mode: 'jackpot', title: '💰 Chọn 1 người uống cạn ly', candidates: others(p.id).map(o => o.id), random: true });
+  }
+  go('spinResult', { res });
+}
+
+/* ----- Sự kiện (v1: 6 effect) ----- */
+function chooseEvent() {
+  const penalized = state.players.some(p => p.penalty.length);
+  const list = DATA.events.filter(e => CONFIG.enabledEffects.includes(e.effect) && (e.effect !== 'heal_most_penalized' || penalized));
+  const fresh = list.filter(e => e.id !== state.lastEventId);
+  return fresh.length ? pickOne(fresh) : (list[0] || null);
+}
+function runEvent(ev) {
+  const all = state.players.map(p => p.id);
+  switch (ev.effect) {
+    case 'manual_pick_loser':
+      return go('pick', { mode: 'loser', ev, title: 'Ai thua?', candidates: all });
+    case 'mostlikely_vote':
+      return go('pick', { mode: 'loser', ev, title: 'Ai bị chỉ nhiều nhất?', candidates: all, countdown: true, q: drawCard('mostlikely', null).text });
+    case 'never_round':
+      return go('eventNever', { ev, q: drawCard('never', null).text, ticks: [] });
+    case 'all_drink':
+      state.players.forEach(addDrink);
+      log(`Cả bàn uống (${ev.name})`);
+      return go('eventResult', { ev, icon: '🍻', desc: 'Cả bàn cùng uống. Không thẻ nào cứu được.' });
+    case 'heal_most_penalized': {
+      const most = Math.max(...state.players.map(p => p.penalty.length));
+      const p = pickOne(state.players.filter(x => x.penalty.length === most));
+      const c = p.penalty.splice(Math.floor(Math.random() * p.penalty.length), 1)[0];
+      log(`${p.name} được xóa thẻ ${CARDS[c].name}`);
+      return go('eventResult', { ev, icon: '😇', desc: `${p.name} được xóa ${CARDS[c].icon} ${CARDS[c].name}.` });
+    }
+    case 'random_card_each': {
+      const lines = state.players.map(p => {
+        const isBonus = Math.random() < CONFIG.randomCardBonusChance;
+        const id = isBonus ? pickOne(BONUS_IDS) : randomPenalty();
+        if (isBonus) addBonus(p, id); else p.penalty.push(id);
+        return { pid: p.id, id, isBonus };
+      });
+      log('Mưa Thẻ: mỗi người nhận 1 thẻ');
+      return go('eventResult', { ev, icon: '🌧️', lines });
+    }
+    default: next();
+  }
+}
+
+/* ===== Giao diện: chrome ===== */
+function renderChrome() {
+  const el = $('chrome');
+  if (S.view !== 'game') { el.innerHTML = ''; return; }
+  const t = state.turn, lv = LEVELS[t.level], last = state.log[state.log.length - 1], focus = state.screen.name === 'reaction';
+  const chips = state.players.map(p => `
+    <button class="pchip ${p.id === t.currentPlayerId ? 'on' : ''}" style="--c:${p.color}" data-a="openBag" data-id="${p.id}" aria-label="Xem túi thẻ của ${esc(p.name)}">
+      ${p.penalty.includes('silence') ? '<span class="mute">🤐</span>' : ''}
+      <span class="e">${p.emoji}</span><span class="n">${esc(p.name)}</span>
+      <span class="m">${p.bonus.length ? `<i class="b">${p.bonus.length}</i>` : ''}${p.penalty.length ? `<i class="r">${p.penalty.length}</i>` : ''}<span>🍺${p.stats.sips}</span></span>
+    </button>`).join('');
+  const banners = state.effects.filter(e => e.type === 'king').map(e => {
+    const k = P(e.playerIds[0]);
+    return `<div class="banner"><span>👑 ${k ? esc(k.name) : 'Vua'}: ${esc(e.text)}</span><button data-a="openViolator">🍺 Phạt</button></div>`;
+  });
+  // Câm Lặng hết tác dụng khi tới lượt người đó (được nói để làm thẻ), thẻ mất ở cuối lượt.
+  state.players.filter(p => p.penalty.includes('silence') && !(p.id === t.currentPlayerId && t.expiring.silence)).forEach(p => {
+    banners.push(`<div class="banner"><span>🤐 ${esc(p.name)} đang Câm Lặng</span><button data-a="plusOne" data-id="${p.id}">🍺 Phạt</button></div>`);
+  });
+  el.innerHTML = `
+    <div class="topbar">
+      <span class="brand">SAY HAY SỢ</span>
+      <span class="chip">${lv.icon} ${lv.name}</span><span class="chip">Vòng ${t.round}</span>
+      <button class="icon-btn" data-a="openMenu" aria-label="Menu">☰</button>
+    </div>
+    <div class="pbar">${chips}</div>
+    ${banners.length && !focus ? `<div class="banners">${banners.join('')}</div>` : ''}
+    ${last && !focus ? `<div class="lastlog">Vừa rồi: ${esc(last)}</div>` : ''}`;
+  const on = el.querySelector('.pchip.on');
+  if (on) { const bar = el.querySelector('.pbar'); bar.scrollLeft = on.offsetLeft - bar.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2; }
+}
+const pgrid = (ids, act, sel = []) => `<div class="pgrid">${ids.map(id => { const p = P(id); return `<button style="--c:${p.color}" class="${sel.includes(id) ? 'sel' : ''}" data-a="${act}" data-id="${id}"><span class="e">${p.emoji}</span><span class="n">${esc(p.name)}</span></button>`; }).join('')}</div>`;
+
+/* ===== Giao diện: màn hình trong ván ===== */
+const SC = {
+  turn() {
+    const p = cur(), t = state.turn, s = state.screen;
+    const noT = (s.noPool || []).includes('truth'), noD = (s.noPool || []).includes('dare');
+    const forced = t.expiring.forcedare > 0 && !noD;
+    return `<div class="center">
+      <div class="spot" style="--c:${p.color}">
+        <div class="ava">${p.emoji}</div>
+        <div class="pass">Tới lượt</div>
+        <div class="who">${esc(p.name)}</div>
+        <div class="muted small">🎒 ${p.bonus.length} thẻ thưởng · ${p.penalty.length} thẻ phạt</div>
+      </div>
+      <div class="choose">
+        <button class="btn truth" data-a="choose" data-v="truth" ${forced || noT ? 'disabled' : ''}>
+          <span>${forced ? '🔒' : '🗣️'} THẬT${forced ? '<span class="locked">⛓️ Đang dính Bắt Buộc Thách</span>' : ''}</span></button>
+        <button class="btn dare" data-a="choose" data-v="dare" ${noD ? 'disabled' : ''}>🔥 THÁCH</button>
+      </div>
+      ${has(p, 'king') ? '<button class="btn warn" data-a="openKing">👑 Dùng Vua 1 Phút</button>' : ''}
+    </div>`;
+  },
+  card() {
+    const p = cur(), c = state.turn.card, lv = LEVELS[c.level];
+    return `<div class="center">
+      <div class="scene"><div class="card3d lv${c.level}">
+        <div class="face back">SAY HAY SỢ</div>
+        <div class="face">
+          <div class="tagline"><span>${c.type === 'truth' ? '🗣️ THẬT' : '🔥 THÁCH'}</span><span>${lv.icon} ${lv.name}</span></div>
+          <div class="q"><div>${cardHtml(c, p)}</div></div>
+          ${partnerNote(c)}
+          <div class="cost">${esc(refuseLine(c, p))}</div>
+        </div>
+      </div></div>
+      <div class="stack after-flip">
+        ${dareSeconds(c) ? '<button class="btn cyan" id="dareTimer" data-a="dareTimer"></button>' : ''}
+        <button class="btn ok" data-a="done">✅ Xong rồi</button>
+        <button class="btn warn" data-a="refuse">🍺 Uống thay</button>
+        ${has(p, 'swap') ? '<button class="btn" data-a="useSwap">🔄 Dùng thẻ Đổi Câu</button>' : ''}
+      </div>
+    </div>`;
+  },
+  approve() {
+    return `<div class="center">
+      <div class="big-icon">👀</div>
+      <div class="big">${pName(cur())} làm được chưa?</div>
+      <button class="btn ok" data-a="approve">👍 Cả bàn duyệt</button>
+      <button class="btn ghost" data-a="refuse">👎 Chưa đạt, uống thay</button>
+    </div>`;
+  },
+  spin() {
+    return `<div class="center split">
+      <div class="wheel-wrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>
+      <div class="side">
+        <h2>🎡 Vòng Quay May Mắn</h2>
+        <button class="btn pri" id="spinBtn" data-a="spin">QUAY!</button>
+      </div>
+    </div>`;
+  },
+  spinResult() {
+    const r = state.screen.res;
+    return `<div class="center">
+      <div class="big-icon">${r.icon}</div>
+      <div class="big">${esc(r.title)}</div>
+      ${r.desc ? `<div class="muted">${esc(r.desc)}</div>` : ''}
+      <button class="btn pri" data-a="next">Tiếp ➜</button>
+    </div>`;
+  },
+  penIntro() {
+    const { pen, got } = state.screen, p = P(pen.victim);
+    return `<div class="center">
+      <div class="big-icon">🍺</div>
+      <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
+      ${pen.debt ? `<div class="muted">${CARDS.debt.icon} Tới hạn trả Nợ Ly rồi nha!</div>` : ''}
+      ${got ? `<div class="cardline penalty"><span class="i">${CARDS[got].icon}</span><div><b>Nhận thêm ${CARDS[got].name}</b><br><span class="small muted">${CARDS[got].desc}</span></div></div>` : ''}
+      <button class="btn pri" data-a="toRescue">🎰 Quay Đổi Vận</button>
+    </div>`;
+  },
+  rescue() {
+    const p = P(state.screen.pen.victim);
+    return `<div class="center split">
+      <div class="wheel-wrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>
+      <div class="side">
+        <h2>🎰 Quay Đổi Vận</h2>
+        <div class="muted">${esc(p.name)}: vào Thoát là khỏi uống, vào Uống thì nâng ly.</div>
+        <div id="rescueMsg" class="big" style="min-height:40px"></div>
+        <button class="btn pri" id="spinBtn" data-a="spinRescue">QUAY!</button>
+      </div>
+    </div>`;
+  },
+  useCards() {
+    const { pen } = state.screen, p = P(pen.victim);
+    const line = c => (has(p, c) ? `<button class="btn cardbtn" data-a="useCard" data-v="${c}"><span class="i">${CARDS[c].icon}</span><span>${CARDS[c].name}<br><span class="small muted">${CARDS[c].desc}</span></span></button>` : '');
+    return `<div class="center">
+      <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
+      <h3>Dùng thẻ?</h3>
+      <div class="cardgrid">${line('mirror')}${line('ally')}</div>
+      <button class="btn warn" data-a="takeDrink">🍺 Chịu uống</button>
+    </div>`;
+  },
+  pick() {
+    const s = state.screen;
+    return `<div class="center">
+      ${s.ev ? `<div class="glitch" style="font-size:26px">${esc(s.ev.name)}</div>` : ''}
+      ${s.q ? `<div class="note" style="font-size:20px;font-weight:800">${esc(s.q)}</div>` : ''}
+      <div id="cd3" class="count3" ${s.countdown ? '' : 'hidden'}>3</div>
+      <div id="pickArea" class="stack" ${s.countdown ? 'hidden' : ''}>
+        <h2>${esc(s.title)}</h2>
+        ${pgrid(s.candidates, 'pickPlayer')}
+        ${s.random ? '<button class="btn" data-a="pickRandom">🎲 Random</button>' : ''}
+      </div>
+    </div>`;
+  },
+  reaction() {
+    const { pen } = state.screen, X = P(pen.victim), from = pen.from && P(pen.from);
+    return `<div class="center" style="gap:8px">
+      <div class="spot compact" style="--c:${X.color}"><div class="ava">${X.emoji}</div>
+        <div class="pass">Tới lượt</div><div class="who">${esc(X.name)}</div></div>
+      <div style="font-size:20px;font-weight:800">${from ? esc(from.name) + ' bắt ' + esc(X.name) + ' ' : esc(X.name) + ' sắp '}${esc(penText(pen))}!</div>
+      ${canMirror(pen, X) ? `<button class="btn pri" data-a="reactMirror">🪞 Bật ngược (lần ${pen.bounces + 1}/${CONFIG.maxBounces})</button>` : ''}
+      <button class="btn warn" data-a="reactDrink">🍺 Chịu uống</button>
+    </div>`;
+  },
+  blocked() {
+    return `<div class="center"><div class="big-icon">🍀</div>
+      <div class="big">${pName(P(state.screen.pen.victim))} né được ly!</div>
+      <div class="muted">Lần uống này bị hủy.</div>
+      <button class="btn pri" data-a="next">Tiếp ➜</button></div>`;
+  },
+  drink() {
+    const { pen } = state.screen;
+    return `<div class="center"><div class="beer"><i></i></div>
+      <div class="big">${pName(P(pen.victim))} ${esc(penText(pen))} đi! 🍺</div>
+      <button class="btn pri" data-a="next">Uống rồi ➜</button></div>`;
+  },
+  bagFull() {
+    const s = state.screen, p = P(s.pid), c = CARDS[s.card];
+    return `<div class="center">
+      <div class="big-icon">${c.icon}</div>
+      <div class="big">${pName(p)}: túi đầy!</div>
+      <div class="muted">Muốn nhận ${c.name} thì bỏ một thẻ:</div>
+      <div class="cardgrid">${p.bonus.map((b, i) => `<button class="btn cardbtn" data-a="bagDrop" data-v="${i}"><span class="i">${CARDS[b].icon}</span><span>Bỏ ${CARDS[b].name}</span></button>`).join('')}</div>
+      <button class="btn ghost" data-a="next">Không nhận ${c.name}</button>
+    </div>`;
+  },
+  death() {
+    const s = state.screen, p = P(s.pid);
+    return `<div class="center death">
+      <div class="lead">
+      <div class="big-icon">💥</div>
+      <div class="big">${esc(p.name)} dính ÁN TỬ!</div>
+      <div class="death-sub">Uống cạn ly${p.noAlcohol ? ' nước lọc' : ''} và làm 1 thử thách. Thẻ nào cũng vô dụng.</div>
+      </div>
+      <div class="side">
+      ${s.dare ? `<div class="note" style="font-size:20px;font-weight:800">${cardHtml(s.dare, p)}</div>${partnerNote(s.dare)}`
+               : '<textarea id="deathTask" rows="2" maxlength="140" placeholder="Cả bàn nhập thử thách…"></textarea>'}
+      <button class="btn" data-a="deathDraw">🎲 ${s.dare ? 'Rút thẻ khác' : 'Rút thẻ Thách ngẫu nhiên'}</button>
+      <button class="btn ok" data-a="deathDone" data-v="done">✅ Xử xong</button>
+      <button class="btn warn" data-a="deathDone" data-v="refuse">🍺 Uống thay thử thách</button>
+      </div>
+    </div>`;
+  },
+  event() {
+    const { ev } = state.screen;
+    return `<div class="center event-bg">
+      <div class="small muted">⚡ SỰ KIỆN</div>
+      <div class="glitch">${esc(ev.name)}</div>
+      <div style="font-size:20px;font-weight:600">${esc(ev.text)}</div>
+      <button class="btn pri" data-a="eventGo">Tiếp ➜</button>
+    </div>`;
+  },
+  eventNever() {
+    const s = state.screen;
+    return `<div class="center event-bg">
+      <div class="glitch" style="font-size:26px">${esc(s.ev.name)}</div>
+      <div class="note" style="font-size:22px;font-weight:800">${esc(s.q)}</div>
+      <div class="muted">Ai đã từng thì uống đi! Bấm tên để ghi vào thống kê.</div>
+      ${pgrid(state.players.map(p => p.id), 'neverTick', s.ticks)}
+      <button class="btn pri" style="position:sticky;bottom:8px;z-index:2" data-a="neverDone">Xong ➜</button>
+    </div>`;
+  },
+  eventResult() {
+    const s = state.screen;
+    return `<div class="center event-bg">
+      <div class="glitch" style="font-size:26px">${esc(s.ev.name)}</div>
+      ${s.lines ? '' : `<div class="big-icon">${s.icon}</div>`}
+      ${s.desc ? `<div style="font-size:20px;font-weight:600">${esc(s.desc)}</div>` : ''}
+      ${s.lines ? `<div class="cardlines">${s.lines.map(l => { const c = CARDS[l.id]; return `<div class="cardline ${l.isBonus ? 'bonus' : 'penalty'}"><span class="i">${c.icon}</span><div>${pName(P(l.pid))} nhận <b>${c.name}</b></div></div>`; }).join('')}</div>` : ''}
+      <button class="btn pri" data-a="next">Tiếp ➜</button>
+    </div>`;
+  },
+};
+
+/* Việc cần chạy sau khi vẽ màn hình */
+const MOUNT = {
+  card() {
+    const t = ui.dareTimer;
+    if (t && (t.id !== state.turn.card.id)) ui.dareTimer = null;
+    if (ui.dareTimer && ui.dareTimer.running) runDareTimer();
+    paintDareTimer();
+  },
+  spin() { drawWheel($('wheel'), CONFIG.wheel); },
+  rescue() { drawWheel($('wheel'), rescueSegs()); },
+  reaction() { sfx('buzz'); vibrate(200); },
+  drink() { sfx('buzz'); shake(); vibrate(120); },
+  penIntro() { sfx('buzz'); shake(); vibrate(160); if (state.screen.got) flyTo(CARDS[state.screen.got].icon, state.screen.pen.victim); },
+  death() { sfx('drum'); flash(); shake(); vibrate([300, 100, 300, 100, 500]); },
+  event() { sfx('siren'); vibrate(200); },
+  spinResult() {
+    const r = state.screen.res;
+    if (r.good) { sfx('reward'); confetti(); }
+    if (r.bad) { sfx('buzz'); flash(); shake(); vibrate(300); }
+    if (r.fly) flyTo(CARDS[r.fly].icon, state.turn.currentPlayerId);
+  },
+  eventResult() { sfx('reward'); },
+  pick() {
+    if (!state.screen.countdown) return;
+    let n = 3; sfx('tick');
+    const el = $('cd3');
+    const iv = setInterval(() => {
+      if (ui.sheet) return;
+      n--;
+      if (n > 0) { el.textContent = n; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; sfx('tick'); return; }
+      clearInterval(iv); el.hidden = true; $('pickArea').hidden = false; sfx('siren');
+    }, 1000);
+    ui.timers.push(iv);
+  },
+};
+function paintDareTimer() {
+  const b = $('dareTimer'); if (!b) return;
+  const t = ui.dareTimer, full = dareSeconds(state.turn.card);
+  b.classList.toggle('timing', !!(t && t.running));
+  b.textContent = t && t.running ? `⏱️ ${clock(t.left)}` : t && t.over ? '⏰ Hết giờ! Bấm để đếm lại' : `⏱️ Bắt đầu đếm ${secsWord(full)}`;
+}
+function runDareTimer() {
+  const iv = setInterval(() => {
+    if (ui.sheet) return; // đang mở menu thì đồng hồ dừng
+    const t = ui.dareTimer; if (!t) return clearInterval(iv);
+    t.left--;
+    if (t.left <= 3 && t.left > 0) sfx('tick');
+    if (t.left <= 0) { clearInterval(iv); t.running = false; t.over = true; sfx('siren'); vibrate(300); }
+    paintDareTimer();
+  }, 1000);
+  ui.dareIv = iv;
+  ui.timers.push(iv);
+}
+// Kế hoạch vòng quay của vòng bàn hiện tại. Lưu trong state nên tải lại trang vẫn giữ đúng số đã chia.
+function wheelPlan() {
+  const t = state.turn, n = state.players.length;
+  if (!t.wheelPlan || t.wheelPlan.round !== t.round) {
+    const [lo, hi] = CONFIG.nothingShare, min = Math.floor(n * lo), max = Math.round(n * hi);
+    t.wheelPlan = t.round <= CONFIG.earlyRounds
+      ? { round: t.round, specials: [...CONFIG.earlySpecials] }
+      : { round: t.round, nothing: rand(min, Math.max(min, max)) };
+  }
+  return t.wheelPlan;
+}
+// Xác suất tính theo số lượt còn lại, nên người cuối vòng vẫn nhận đủ phần còn thiếu dù có người từ chối thẻ và không quay.
+function chooseWheelSeg() {
+  const plan = wheelPlan(), left = Math.max(1, state.players.length - state.turn.turnsInRound);
+  if (plan.specials) return Math.random() < plan.specials.length / left ? pickOne(plan.specials) : 'nothing';
+  if (Math.random() < plan.nothing / left) return 'nothing';
+  const rest = CONFIG.wheel.filter(s => s.id !== 'nothing');
+  return rest[weighted(rest, s => s.w)].id;
+}
+function commitWheelSeg(id) {
+  const plan = wheelPlan();
+  if (plan.specials) plan.specials = plan.specials.filter(s => s !== id);
+  else if (id === 'nothing' && plan.nothing > 0) plan.nothing--;
+}
+const rescueMissLimit = () => Math.max(1, Math.round(CONFIG.rescueMissesPer8 * state.players.length / 8));
+const rescuePct = () => Math.round(100 / (rescueMissLimit() + 1)); // độ rộng ô Thoát trên vòng
+const rescueSegs = () => [
+  { id: 'win', icon: '🍀', label: 'Thoát', w: rescuePct(), color: '#059669' },
+  { id: 'lose', icon: '🍺', label: 'Uống', w: 100 - rescuePct(), color: '#7f1d1d' },
+];
+
+/* ===== Giao diện: ngoài ván ===== */
+function playerEditor(list) {
+  const row = p => {
+    const open = ui.openId === p.id;
+    return `<div class="prow ${open ? 'open' : ''}" style="--c:${p.color}">
+      <div class="head">
+        <button class="icon-btn" data-a="toggleOpts" data-id="${p.id}" aria-label="Đổi avatar">${p.emoji}</button>
+        <input data-in="name" data-id="${p.id}" value="${esc(p.name)}" maxlength="14" placeholder="Tên" aria-label="Tên người chơi">
+        <button class="icon-btn" data-a="toggleOpts" data-id="${p.id}" aria-label="Tùy chọn">${open ? '▲' : '⚙️'}</button>
+        <button class="icon-btn" data-a="delPlayer" data-id="${p.id}" aria-label="Xóa ${esc(p.name)}">✕</button>
+      </div>
+      ${open ? `<div class="opts">
+        <button class="tog ${p.coupleOk ? 'on' : ''}" data-a="togPlayer" data-id="${p.id}" data-v="coupleOk"><span>💞 OK thử thách cặp</span><span class="sw"></span></button>
+        <button class="tog ${p.noAlcohol ? 'on' : ''}" data-a="togPlayer" data-id="${p.id}" data-v="noAlcohol"><span>🚗 Không uống (lái xe / nước lọc)</span><span class="sw"></span></button>
+        <div><div class="small muted" style="margin-bottom:6px">🚫 Vùng cấm</div><div class="chips">${Object.entries(TAGS).map(([k, v]) => `<button class="${p.bannedTags.includes(k) ? 'sel' : ''}" data-a="togTag" data-id="${p.id}" data-v="${k}">${v}</button>`).join('')}</div></div>
+        <div class="emojis">${EMOJIS.map(e => `<button class="${p.emoji === e ? 'sel' : ''}" data-a="setEmoji" data-id="${p.id}" data-v="${e}">${e}</button>`).join('')}</div>
+        <div class="swatches">${COLORS.map(c => `<button class="${p.color === c ? 'sel' : ''}" style="background:${c}" data-a="setColor" data-id="${p.id}" data-v="${c}" aria-label="Màu ${c}"></button>`).join('')}</div>
+      </div>` : ''}
+    </div>`;
+  };
+  return `<div class="addrow">
+      <input id="newName" class="field" maxlength="14" placeholder="Tên rồi bấm Enter" enterkeyhint="done" ${list.length >= 12 ? 'disabled' : ''}>
+      <button class="btn pri" style="width:auto" data-a="addPlayer" ${list.length >= 12 ? 'disabled' : ''}>Thêm</button>
+    </div>
+    ${list.length ? `<div class="plist">${list.map(row).join('')}</div>` : '<div class="empty">Bàn còn trống. Gõ tên người đầu tiên đi!</div>'}`;
+}
+const V = {
+  home() {
+    if (ui.resumePrompt) return `<div class="center">
+      <div class="big-icon">🍻</div>
+      <div class="big">Chơi tiếp ván cũ?</div>
+      <div class="muted">${state.players.length} người · vòng ${state.turn.round} · ${esc(state.players.map(p => p.name).join(', '))}</div>
+      <button class="btn pri" data-a="resume">▶️ Chơi tiếp</button>
+      <button class="btn ghost" data-a="discard">Bỏ ván cũ</button>
+    </div>`;
+    return `<div class="floaters" aria-hidden="true">${HOME_FLOATERS.map((e, i) => `<span style="left:${(i * 37 + 6) % 94}%;animation-delay:-${(i * 2.3).toFixed(1)}s;animation-duration:${11 + (i * 3) % 8}s;font-size:${24 + (i * 7) % 26}px">${e}</span>`).join('')}</div>
+    <div class="center home">
+      <div class="clink">🍻</div>
+      <div class="home-title">SAY <br class="m-only">HAY SỢ</div>
+      <div class="home-tease" id="homeTease">${esc(HOME_TEASES[0])}</div>
+      <div class="home-chips"><span>🗣️ Khai thật</span><span>🔥 Dám làm</span><span>🎡 Quay vận</span><span>💥 Án Tử</span></div>
+      <button class="btn pri home-go" data-a="toSetup">🍻 Vô ly thôi!</button>
+      ${DATA._meta && DATA._meta.testSet ? '<div class="small" style="color:var(--yellow)">🧪 Bản chơi thử: câu hỏi tạm, chưa phải bộ chính thức.</div>' : ''}
+      <div class="small muted">Dành cho người từ 18 tuổi trở lên. Uống có trách nhiệm, đã uống thì không lái xe.</div>
+    </div>`;
+  },
+  setup() {
+    const d = S.draft, s = d.settings, n = d.players.length;
+    const seg = (key, opts) => `<div class="seg">${opts.map(([v, l, dis]) => `<button class="${s[key] === v ? 'sel' : ''}" data-a="setSetting" data-v="${key}" data-id="${v}" ${dis ? 'disabled' : ''}>${l}</button>`).join('')}</div>`;
+    const tog = (key, l) => `<button class="tog ${s[key] ? 'on' : ''}" data-a="togSetting" data-v="${key}"><span>${l}</span><span class="sw"></span></button>`;
+    return `<div class="page">
+      <div class="page-head"><h1>🍻 Tối nay ai chơi?</h1><div class="muted">Thêm từ 2 đến 12 người, rồi chỉnh luật theo ý cả bàn.</div></div>
+      <div class="setup-grid">
+      <div class="sec"><h3>👥 Người chơi (${n}/12)</h3>${playerEditor(d.players)}</div>
+      <div class="sec"><h3>⚙️ Cài đặt ván</h3>
+        <div class="opt-row"><div class="small muted">Mức khởi đầu</div>
+        ${seg('startLevel', [[1, '🟢 Nhẹ'], [2, '🟡 Cay'], [3, '🔴 Siêu cay', s.maxLevel < 3]])}</div>
+        <div class="opt-row"><div class="small muted">Mức tối đa</div>
+        ${seg('maxLevel', [[2, '🟡 Cay'], [3, '🔴 Siêu cay']])}</div>
+        <div class="opt-row"><div class="small muted">Thứ tự lượt</div>
+        ${seg('order', [['circle', '🔁 Vòng tròn'], ['random', '🎲 Ngẫu nhiên']])}</div>
+        ${tog('autoEscalate', '🌶️ Tự tăng độ cay mỗi 2 vòng')}
+        ${tog('events', '⚡ Sự kiện ngẫu nhiên')}
+        ${tog('outsideOff', '🌐 Tắt hẳn thẻ dính tới người ngoài')}
+        ${tog('sound', '🔊 Âm thanh')}
+      </div>
+      </div>
+      <div class="actionbar">
+        <button class="btn ghost" data-a="toHome">⬅ Về đầu</button>
+        <button class="btn pri" data-a="toRules" ${n < 2 ? 'disabled' : ''}>${n < 2 ? 'Cần ít nhất 2 người' : 'Tiếp ➜ Luật chơi'}</button>
+      </div>
+    </div>`;
+  },
+  rules() {
+    const slides = [
+      ['🎯 Cách chơi', `<p>Đặt laptop chỗ cả bàn cùng nhìn thấy. Một người làm quản trò và bấm cho mọi người.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
+      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng.</p><ul>${BONUS_IDS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}</ul>`],
+      ['💀 Thẻ phạt', `<ul>${['debt', 'forcedare', 'silence'].map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
+      ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: vào Thoát là khỏi uống. Bàn 8 người cứ ${CONFIG.rescueMissesPer8} lần hụt sẽ có 1 lần thoát.</li><li>Bị đẩy sang? Người đó được bật ngược bằng Gương, cứ thong thả, không tính giờ.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
+      ['🤝 An toàn', `<ul><li>Không ai bị ép: luôn có nút <b>Uống thay</b>.</li><li>Thử thách đụng chạm chỉ dành cho người bật <b>OK thử thách cặp</b>.</li><li>Có chế độ <b>nước lọc</b> cho người lái xe.</li><li>Câu ở lại bàn nhậu: chuyện trong game không mang ra ngoài 🤫</li></ul>`],
+    ];
+    return `<div class="page">
+      <div class="page-head"><h1>📖 Luật chơi</h1><div class="muted swipe-hint">Vuốt ngang để xem ${slides.length} trang luật</div></div>
+      <div class="slides">${slides.map(([t, b]) => `<section class="slide"><h2>${t}</h2>${b}</section>`).join('')}</div>
+      <div class="actionbar">
+        <button class="btn ghost" data-a="toSetup">⬅ Sửa cài đặt</button>
+        <button class="btn pri" data-a="startGame">🍻 Vào chơi</button>
+      </div>
+    </div>`;
+  },
+  game() { const f = SC[state.screen.name]; return f ? f() : ''; },
+  end() {
+    const ps = state.players;
+    const award = (key, icon, name, what) => {
+      const best = Math.max(...ps.map(p => p.stats[key]));
+      const who = best > 0 ? ps.filter(p => p.stats[key] === best).map(pName).join(', ') : '<span class="muted">Chưa ai xứng đáng</span>';
+      return `<div class="award"><span class="i">${icon}</span><div><b>${name}</b><span class="small muted">${what}${best > 0 ? ` · ${best}` : ''}</span></div><div class="who">${who}</div></div>`;
+    };
+    // Xếp theo số lần uống, bằng nhau thì ai từ chối nhiều hơn đứng trên
+    const ranked = [...ps].sort((a, b) => b.stats.sips - a.stats.sips || b.stats.refusals - a.stats.refusals);
+    const line = p => `🍺 ${p.stats.sips} · 🗣️ ${p.stats.truths} · 🔥 ${p.stats.dares} · 🐔 ${p.stats.refusals} · 🃏 ${p.stats.cardsUsed}`;
+    const step = (p, r) => (p ? `<div class="step r${r}" style="--c:${p.color}"><div class="who-e">${p.emoji}</div><div class="who-n">${esc(p.name)}</div><div class="cnt">🍺 ${p.stats.sips} lần</div><div class="block"><span class="medal">${['🥇', '🥈', '🥉'][r - 1]}</span><span class="small">🗣️ ${p.stats.truths} · 🔥 ${p.stats.dares}<br>🐔 ${p.stats.refusals} · 🃏 ${p.stats.cardsUsed}</span></div></div>` : '');
+    return `<div class="stack">
+      <h1 style="text-align:center;color:var(--yellow)">🏆 Bảng xếp hạng</h1>
+      <div class="podium">${step(ranked[1], 2)}${step(ranked[0], 1)}${step(ranked[2], 3)}</div>
+      ${ranked.length > 3 ? `<div class="sec ranklist">${ranked.slice(3).map((p, i) => `<div class="rankrow"><b class="no">${i + 4}</b><span>${p.emoji}</span><span class="nm">${esc(p.name)}</span><span class="small muted">${line(p)}</span></div>`).join('')}</div>` : ''}
+      <div class="small muted" style="text-align:center">🍺 số lần uống · 🗣️ Thật · 🔥 Thách · 🐔 từ chối · 🃏 thẻ đã dùng</div>
+      <h3 style="text-align:center">Danh hiệu</h3>
+      <div class="awards">
+      ${award('sips', '🍺', 'Bợm Nhậu', 'Uống nhiều lần nhất')}
+      ${award('dodges', '🍀', 'Vua Né Ly', 'Né được nhiều lần nhất')}
+      ${award('pushes', '😈', 'Kẻ Gieo Rắc', 'Đẩy phạt nhiều nhất')}
+      ${award('dares', '🔥', 'Liều Mạng', 'Hoàn thành nhiều thẻ Thách nhất')}
+      ${award('refusals', '🐔', 'Gà Con', 'Từ chối nhiều nhất')}
+      ${award('deathSentences', '💥', 'Tử Tù', 'Dính Án Tử nhiều nhất')}
+      </div>
+      <button class="btn pri" data-a="againKeep">🔁 Chơi ván mới (giữ người chơi)</button>
+      <button class="btn ghost" data-a="toHomeClear">Về màn hình đầu</button>
+    </div>`;
+  },
+};
+function render() {
+  ui.timers.forEach(t => clearInterval(t)); ui.timers = [];
+  renderChrome();
+  const main = $('main'), keep = S.view === 'setup', top = main.scrollTop;
+  main.innerHTML = V[S.view]();
+  main.scrollTop = keep ? top : 0;
+  if (S.view === 'game' && MOUNT[state.screen.name]) MOUNT[state.screen.name]();
+  if (S.view === 'home' && $('homeTease')) {
+    let i = 0;
+    ui.timers.push(setInterval(() => {
+      const el = $('homeTease'); if (!el) return;
+      i = (i + 1) % HOME_TEASES.length;
+      el.textContent = HOME_TEASES[i];
+      el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+    }, CONFIG.homeTeaseMs));
+  }
+  if (S.view === 'end') confetti();
+}
+
+/* ===== Sheet ===== */
+const SH = {
+  menu: () => `<h2>Menu</h2>
+    <button class="btn" data-a="openSheet" data-v="pause">⏸️ Tạm dừng</button>
+    <button class="btn" data-a="openPlayers">👥 Sửa người chơi</button>
+    <button class="btn" data-a="openSheet" data-v="level">🌶️ Đổi mức độ</button>
+    <button class="btn" data-a="toggleSound">${state.settings.sound ? '🔊 Âm thanh: bật' : '🔇 Âm thanh: tắt'}</button>
+    <button class="btn bad" data-a="openSheet" data-v="confirmEnd">🏁 Kết thúc ván</button>
+    <button class="btn ghost" data-a="closeSheet">Đóng</button>`,
+  pause: () => `<div class="center"><div class="big-icon">⏸️</div><div class="big">Đang tạm dừng</div><button class="btn pri" data-a="closeSheet">▶️ Chơi tiếp</button></div>`,
+  level: () => `<h2>Đổi mức độ</h2>
+    ${[1, 2, 3].map(l => `<button class="btn ${state.turn.level === l ? 'pri' : ''}" data-a="setLevel" data-v="${l}" ${l > state.settings.maxLevel ? 'disabled' : ''}>${LEVELS[l].icon} ${LEVELS[l].name}</button>`).join('')}
+    <button class="btn ghost" data-a="closeSheet">Đóng</button>`,
+  confirmEnd: () => `<h2>Kết thúc ván này?</h2><button class="btn bad" data-a="endGame">🏁 Kết thúc, xem tổng kết</button><button class="btn ghost" data-a="closeSheet">Chơi tiếp</button>`,
+  bag: () => {
+    const p = P(ui.sheetData), line = (c, cls) => `<div class="cardline ${cls}"><span class="i">${CARDS[c].icon}</span><div><b>${CARDS[c].name}</b><br><span class="small muted">${CARDS[c].desc}</span></div></div>`;
+    return `<h2 style="color:${p.color}">${p.emoji} ${esc(p.name)}</h2>
+      <div class="small muted">🍺 Đã uống ${p.stats.sips} lần${p.noAlcohol ? ' (nước lọc)' : ''}</div>
+      <h3>🎁 Thẻ thưởng (${p.bonus.length}/${CONFIG.maxBonus})</h3>${p.bonus.map(c => line(c, 'bonus')).join('') || '<div class="muted">Trống</div>'}
+      <h3>💀 Thẻ phạt (${p.penalty.length}/${CONFIG.deathAt})</h3>${p.penalty.map(c => line(c, 'penalty')).join('') || '<div class="muted">Trống</div>'}
+      <button class="btn ghost" data-a="closeSheet">Đóng</button>`;
+  },
+  king: () => `<h2>👑 Vua 1 Phút</h2><div class="muted">Luật có hiệu lực đến lượt sau của bạn. Ai vi phạm thì uống.</div>
+    <textarea id="kingText" rows="3" maxlength="90" placeholder="Ví dụ: cấm nói từ “uống”"></textarea>
+    <button class="btn warn" data-a="kingConfirm">👑 Ban luật</button><button class="btn ghost" data-a="closeSheet">Thôi</button>`,
+  violator: () => `<h2>Ai vi phạm luật?</h2>${pgrid(state.players.map(p => p.id), 'plusOne')}<button class="btn ghost" data-a="closeSheet">Đóng</button>`,
+  players: () => `<h2>👥 Sửa người chơi</h2>${playerEditor(state.players)}<button class="btn pri" data-a="closePlayers">Xong</button>`,
+};
+function renderSheet() {
+  const el = $('sheet');
+  el.classList.toggle('open', !!ui.sheet);
+  if (!ui.sheet) { el.innerHTML = ''; return; }
+  const old = el.querySelector('.sheet'), top = old ? old.scrollTop : 0;
+  el.innerHTML = `<div class="sheet">${SH[ui.sheet]()}</div>`;
+  const now = el.querySelector('.sheet');
+  now.scrollTop = top;
+  if (old) now.style.animation = 'none';
+}
+function refreshEditor() { save(); if (S.view === 'game') renderSheet(); else render(); }
+const plist = () => (S.view === 'game' ? state.players : S.draft.players);
+const pOf = id => plist().find(p => p.id === id);
+
+/* ===== Hành động ===== */
+const A = {
+  /* Setup */
+  toSetup() { S.view = 'setup'; save(); render(); },
+  toHome() { S.view = 'home'; save(); render(); },
+  toRules() { S.view = 'rules'; save(); render(); },
+  addPlayer() {
+    const input = $('newName'), list = plist(), name = (input.value || '').trim();
+    if (!name) { input.focus(); return toast('Nhập tên trước đã'); }
+    if (list.length >= 12) return toast('Tối đa 12 người');
+    const p = makePlayer(list); p.name = name; list.push(p);
+    refreshEditor();
+    const again = $('newName'); if (again && !again.disabled) again.focus();
+  },
+  delPlayer(d) {
+    const list = plist();
+    if (S.view !== 'game') { S.draft.players = list.filter(p => p.id !== d.id); return refreshEditor(); }
+    if (list.length <= 2) return toast('Cần ít nhất 2 người');
+    const wasCurrent = state.turn.currentPlayerId === d.id, after = wasCurrent ? nextPlayerId() : null;
+    state.players = list.filter(p => p.id !== d.id);
+    state.effects = state.effects.filter(e => !e.playerIds.includes(d.id));
+    if (wasCurrent) beginTurn(after); // chỉ sửa được ở đầu lượt nên không kẹt luồng nào
+    save(); renderChrome(); renderSheet();
+  },
+  toggleOpts(d) { ui.openId = ui.openId === d.id ? null : d.id; refreshEditor(); },
+  togPlayer(d) { const p = pOf(d.id); p[d.v] = !p[d.v]; refreshEditor(); },
+  togTag(d) {
+    const p = pOf(d.id), i = p.bannedTags.indexOf(d.v);
+    if (i >= 0) p.bannedTags.splice(i, 1); else p.bannedTags.push(d.v);
+    refreshEditor();
+  },
+  setEmoji(d) { pOf(d.id).emoji = d.v; refreshEditor(); },
+  setColor(d) { pOf(d.id).color = d.v; refreshEditor(); },
+  setSetting(d) {
+    const s = S.draft.settings;
+    s[d.v] = d.v === 'order' ? d.id : Number(d.id);
+    if (s.startLevel > s.maxLevel) s.startLevel = s.maxLevel;
+    save(); render();
+  },
+  togSetting(d) { S.draft.settings[d.v] = !S.draft.settings[d.v]; save(); render(); },
+  startGame() {
+    S.game = state = newGame(S.draft);
+    S.view = 'game';
+    beginTurn(state.players[0].id);
+  },
+  resume() { ui.resumePrompt = false; S.view = 'game'; save(); render(); },
+  discard() { ui.resumePrompt = false; S.game = state = null; S.view = 'home'; save(); render(); },
+
+  /* Lượt chơi */
+  choose(d) {
+    const c = drawCard(d.v, cur());
+    if (!c) {
+      state.screen.noPool = [...(state.screen.noPool || []), d.v];
+      toast('Hết thẻ phù hợp, chọn loại còn lại nhé');
+      if (state.screen.noPool.length >= 2) return next();
+      save(); return render();
+    }
+    state.turn.card = c; state.turn.targetB = c.bId;
+    sfx('flip');
+    go('card');
+  },
+  useSwap() {
+    const p = cur(), old = state.turn.card;
+    const c = drawCard(old.type, p, { level: old.level, exact: true, notId: old.id });
+    if (!c) return toast('Không còn thẻ cùng mức để đổi');
+    take(p, 'swap');
+    state.turn.card = c; state.turn.targetB = c.bId;
+    log(`${p.name} dùng Đổi Câu`);
+    sfx('flip');
+    go('card');
+  },
+  // Bấm khi đang chạy thì dừng hẳn; bấm khi chưa chạy hoặc đã hết giờ thì đếm từ đầu
+  dareTimer() {
+    if (ui.dareTimer && ui.dareTimer.running) { clearInterval(ui.dareIv); ui.dareTimer = null; return paintDareTimer(); }
+    ui.dareTimer = { id: state.turn.card.id, left: dareSeconds(state.turn.card), running: true, over: false };
+    sfx('tick'); runDareTimer(); paintDareTimer();
+  },
+  done() { go('approve'); },
+  approve() {
+    const p = cur(), isTruth = state.turn.card.type === 'truth';
+    if (isTruth) p.stats.truths++; else p.stats.dares++;
+    log(`${p.name} hoàn thành thẻ ${isTruth ? 'Thật' : 'Thách'}`);
+    go('spin');
+  },
+  refuse() {
+    const p = cur(), pen = makePenalty(p), got = randomPenalty();
+    p.stats.refusals++;
+    p.penalty.push(got);
+    log(`${p.name} từ chối, nhận ${CARDS[got].name}`);
+    go('penIntro', { pen, got });
+  },
+  next() { next(); },
+  spin() {
+    $('spinBtn').disabled = true;
+    const segs = CONFIG.wheel, picked = chooseWheelSeg(), idx = segs.findIndex(s => s.id === picked);
+    spinTo($('wheel'), segs, idx, CONFIG.spinMs, () => { commitWheelSeg(segs[idx].id); applySpin(segs[idx]); });
+  },
+  toRescue() { flow({ name: 'rescue', pen: state.screen.pen }); },
+  spinRescue() {
+    const { pen } = state.screen, segs = rescueSegs();
+    $('spinBtn').disabled = true;
+    const win = (state.rescueMisses || 0) >= rescueMissLimit();
+    spinTo($('wheel'), segs, win ? 0 : 1, CONFIG.rescueSpinMs, () => {
+      state.rescueMisses = win ? 0 : (state.rescueMisses || 0) + 1;
+      $('rescueMsg').textContent = win ? '🍀 Thoát rồi!' : '🍺 Uống đi!';
+      sfx(win ? 'reward' : 'buzz');
+      if (win) confetti();
+      ui.timers.push(setTimeout(() => {
+        if (win) {
+          const p = P(pen.victim);
+          p.stats.dodges++; creditDodges(pen, p.id);
+          log(`${p.name} thoát nhờ Quay Đổi Vận`);
+          return go('blocked', { pen });
+        }
+        LOGIC.useCards({ pen });
+      }, CONFIG.rescueResultMs));
+    });
+  },
+  useCard(d) {
+    const { pen } = state.screen, p = P(pen.victim);
+    take(p, d.v);
+    const candidates = others(p.id).map(o => o.id);
+    if (d.v === 'mirror') return go('pick', { mode: 'push', pen, title: '🪞 Đẩy phạt sang ai?', candidates, random: true });
+    go('pick', { mode: 'ally', pen, title: '🤝 Kéo ai uống cùng?', candidates, random: true });
+  },
+  takeDrink() { LOGIC.drink({ pen: state.screen.pen }); },
+  pickPlayer(d) { resolvePick(d.id); },
+  pickRandom() {
+    const btns = [...document.querySelectorAll('#pickArea .pgrid button')], final = pickOne(state.screen.candidates);
+    document.querySelectorAll('#pickArea button').forEach(b => { b.disabled = true; });
+    let n = reduced() ? 0 : 14 + Math.floor(Math.random() * 6);
+    const iv = setInterval(() => {
+      btns.forEach(b => b.classList.remove('hl'));
+      if (n-- <= 0) {
+        clearInterval(iv);
+        btns.find(x => x.dataset.id === final).classList.add('hl');
+        ui.timers.push(setTimeout(() => resolvePick(final), 500));
+        return;
+      }
+      pickOne(btns).classList.add('hl'); sfx('tick');
+    }, 90);
+    ui.timers.push(iv);
+  },
+  reactMirror() {
+    const { pen } = state.screen, X = P(pen.victim);
+    take(X, 'mirror'); X.stats.pushes++;
+    log(`${X.name} bật ngược bằng Gương`);
+    LOGIC.react({ pen: { ...pen, victim: pen.from, from: X.id, chain: [...pen.chain, X.id], bounces: pen.bounces + 1 } });
+  },
+  reactDrink() { LOGIC.drink({ pen: state.screen.pen }); },
+  bagDrop(d) {
+    const s = state.screen, p = P(s.pid), icon = CARDS[s.card].icon;
+    p.bonus[Number(d.v)] = s.card;
+    next();
+    flyTo(icon, p.id);
+  },
+  deathDraw() {
+    const s = state.screen, p = P(s.pid), L = state.settings.maxLevel, notId = s.dare ? s.dare.id : undefined;
+    const c = drawCard('dare', p, { level: L, exact: true, notId }) || drawCard('dare', p, { level: L, notId });
+    if (!c) return toast('Không rút được thẻ phù hợp, cả bàn tự ra đề nhé');
+    s.dare = c; save(); render();
+  },
+  deathDone(d) {
+    const p = P(state.screen.pid);
+    addDrink(p);
+    if (d.v === 'refuse') addDrink(p); // bỏ thử thách thì uống thêm 1 lần
+    p.stats.deathSentences++;
+    p.penalty = [];
+    log(`${p.name} đã thi hành Án Tử`);
+    next();
+  },
+
+  /* Sự kiện */
+  eventGo() { runEvent(state.screen.ev); },
+  neverTick(d) {
+    const s = state.screen, i = s.ticks.indexOf(d.id);
+    if (i >= 0) s.ticks.splice(i, 1); else s.ticks.push(d.id);
+    save(); render();
+  },
+  neverDone() {
+    const s = state.screen;
+    s.ticks.forEach(id => addDrink(P(id)));
+    next();
+  },
+
+  /* Thanh trên, menu */
+  openBag(d) { ui.sheetData = d.id; ui.sheet = 'bag'; renderSheet(); },
+  openMenu() { ui.sheet = 'menu'; renderSheet(); },
+  openSheet(d) { ui.sheet = d.v; renderSheet(); },
+  closeSheet() { ui.sheet = null; renderSheet(); },
+  openPlayers() {
+    if (state.screen.name !== 'turn') return toast('Đợi tới đầu lượt sau rồi sửa nhé');
+    ui.openId = null; ui.sheet = 'players'; renderSheet();
+  },
+  closePlayers() {
+    state.players.forEach((p, i) => { p.name = p.name.trim() || `Người ${i + 1}`; });
+    ui.sheet = null; renderSheet(); save(); render();
+  },
+  toggleSound() { state.settings.sound = !state.settings.sound; save(); renderSheet(); },
+  setLevel(d) {
+    state.turn.level = Number(d.v); state.turn.turnsAtLevel = 0;
+    ui.sheet = null; renderSheet(); save(); renderChrome();
+    toast(`${LEVELS[state.turn.level].icon} Mức ${LEVELS[state.turn.level].name}`);
+  },
+  openKing() { ui.sheet = 'king'; renderSheet(); },
+  kingConfirm() {
+    const text = $('kingText').value.trim(), p = cur();
+    if (!text) return toast('Nhập luật trước đã');
+    take(p, 'king');
+    state.effects.push({ type: 'king', playerIds: [p.id], text, turnsLeft: null });
+    log(`${p.name} ra luật: ${text}`);
+    ui.sheet = null; renderSheet(); sfx('reward'); save(); render();
+  },
+  openViolator() { ui.sheet = 'violator'; renderSheet(); },
+  plusOne(d) {
+    const p = P(d.id); addDrink(p);
+    log(`${p.name} bị bắt lỗi, phải uống`);
+    if (ui.sheet) { ui.sheet = null; renderSheet(); }
+    toast(`${p.name} uống${p.noAlcohol ? ' nước lọc' : ''} đi! 🍺`);
+    sfx('buzz'); save(); renderChrome();
+  },
+  endGame() {
+    ui.sheet = null; renderSheet();
+    state.ended = true; S.view = 'end'; save(); render();
+    sfx('reward'); confetti();
+  },
+  againKeep() {
+    S.draft = { players: state.players, settings: state.settings };
+    S.game = state = newGame(S.draft);
+    S.view = 'game';
+    beginTurn(state.players[0].id);
+  },
+  toHomeClear() {
+    S.draft = { players: state.players, settings: state.settings };
+    S.game = state = null; S.view = 'home'; save(); render();
+  },
+};
+function resolvePick(id) {
+  const s = state.screen;
+  if (s.mode === 'push') {
+    const actor = P(s.pen.victim);
+    actor.stats.pushes++;
+    log(`${actor.name} đẩy phạt sang ${P(id).name}`);
+    return LOGIC.react({ pen: { ...s.pen, victim: id, from: actor.id, chain: [...s.pen.chain, actor.id] } });
+  }
+  if (s.mode === 'ally') {
+    const actor = s.pen.victim;
+    log(`${P(actor).name} kéo ${P(id).name} uống cùng`);
+    state.queue.unshift({ name: 'drink', pen: { victim: actor, bottoms: s.pen.bottoms, chain: [] } });
+    return LOGIC.react({ pen: { victim: id, from: actor, chain: [], bounces: 0, noBounce: true } });
+  }
+  if (s.mode === 'jackpot') {
+    return LOGIC.react({ pen: { victim: id, bottoms: true, from: state.turn.currentPlayerId, chain: [], bounces: 0 } });
+  }
+  if (s.mode === 'loser') {
+    return go('penIntro', { pen: makePenalty(P(id)), got: null });
+  }
+}
+
+/* ===== Sự kiện DOM ===== */
+document.addEventListener('click', e => {
+  if (e.target === $('sheet') && ui.sheet && ui.sheet !== 'pause') { A.closeSheet(); return; }
+  const el = e.target.closest('[data-a]');
+  if (!el || el.disabled) return;
+  if (!['spin', 'spinRescue'].includes(el.dataset.a)) sfx('click');
+  A[el.dataset.a](el.dataset, el);
+});
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.dataset.in === 'name') { pOf(el.dataset.id).name = el.value; save(); if (S.view === 'game') renderChrome(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.id === 'newName') { e.preventDefault(); A.addPlayer(); }
+});
+
+/* ===== Khởi động ===== */
+load();
+if (state && !state.ended) { S.view = 'home'; ui.resumePrompt = true; }
+else if (state && state.ended) { S.view = 'end'; }
+else if (S.view === 'game' || S.view === 'end') { S.view = 'home'; }
+render();
+</script>
+</body>
+</html>
