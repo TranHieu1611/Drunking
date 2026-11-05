@@ -1,4 +1,4 @@
-// Inline câu hỏi vào game.
+// Inline câu hỏi và voice của thẻ (voices/<id thẻ>.mp3) vào game.
 //   node build.js        nhúng questions.json vào index.html (bản chính thức, KHÔNG gửi cho người ngoài)
 //   node build.js test   nhúng questions.test.json, xuất dist/say-hay-so-choi-thu.html để gửi chơi thử
 const fs = require('fs');
@@ -7,10 +7,15 @@ const path = require('path');
 const at = f => path.join(__dirname, f);
 const read = f => fs.readFileSync(at(f), 'utf8');
 const re = /(<script id="questions-data" type="application\/json">)[\s\S]*?(<\/script>)/;
+const voiceRe = /(<script id="voice-data" type="application\/json">)[\s\S]*?(<\/script>)/;
+const voices = () => Object.fromEntries(fs.readdirSync(at('voices')).filter(f => f.endsWith('.mp3'))
+  .map(f => [path.basename(f, '.mp3'), fs.readFileSync(at('voices/' + f)).toString('base64')]));
 const inline = (html, jsonText) => {
   if (!re.test(html)) throw new Error('Không tìm thấy thẻ questions-data trong index.html');
+  if (!voiceRe.test(html)) throw new Error('Không tìm thấy thẻ voice-data trong index.html');
   const safe = JSON.stringify(JSON.parse(jsonText)).replace(/</g, '\\u003c'); // tránh câu hỏi nào đó chứa "</script>"
-  return html.replace(re, (_, open, close) => open + safe + close);
+  return html.replace(re, (_, open, close) => open + safe + close)
+    .replace(voiceRe, (_, open, close) => open + JSON.stringify(voices()) + close);
 };
 
 if (process.argv[2] === 'test') {
