@@ -279,8 +279,9 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .slides{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;overflow:visible;margin:0;padding:0}
   .slide{grid-column:span 2;min-height:0;padding:14px 16px;font-size:15px;gap:8px}
   .slide ul{gap:4px}
-  .slide:nth-child(n+4){grid-column:span 3}
   .slide h2{font-size:24px}
+  .slide:nth-child(4),.slide:nth-child(5){grid-column:span 3}
+  .slide:nth-child(6){grid-column:1/-1}
   .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:14px}
   .btn.cardbtn{flex-direction:column;justify-content:center;text-align:center;min-height:128px;font-size:20px;gap:8px;padding:12px}
   .btn.cardbtn .i{font-size:40px}.btn.cardbtn .small{font-size:15px}
@@ -309,6 +310,14 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 }
 .center,.page-head,.sheet,.face .q,.banner span{text-wrap:balance}
 .slide,.btn.cardbtn .small{text-wrap:pretty}
+.slide h3{font-size:16px;margin-top:4px}
+.rate-groups,.rate-group{display:flex;flex-direction:column;gap:8px;min-width:0}
+.rate-groups{gap:14px}
+.slide .muted.small{font-size:13px}
+.rates{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:14px}
+.rates b{text-align:right;color:var(--yellow);font-variant-numeric:tabular-nums}
+.src{display:block;font-size:13px;font-weight:700;color:var(--yellow)}
+@media (min-width:900px) and (min-height:560px){.rate-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
 </style>
 </head>
 <body>
@@ -336,7 +345,13 @@ const CONFIG = {
     { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 4,  color: '#ca8a04' },
   ],
   rescueMissesPer8: 5,                                   // Quay Đổi Vận: bàn 8 người, cứ 5 lần hụt thì lần kế tiếp thoát (bàn khác tính theo tỉ lệ)
-  penaltyWeights: { debt: 50, forcedare: 30, silence: 20 },
+  penaltyWeights: { debt: 40, forcedare: 25, blame: 15, silence: 20 },   // thẻ phạt khi từ chối và Mưa Thẻ
+  xuiWeights: { debt: 30, forcedare: 18, blame: 14, potato: 14, cover: 10, silence: 14 },  // ô Xui, có thêm thẻ tác dụng ngay
+  mysteryWeights: { split: 30, king: 25, beauty: 30, goodkid: 10, magic: 5 },              // ô Bí ẩn, Bé ngoan và Túi thần kỳ chỉ có ở đây
+  cardLifeRounds: 2,                                     // thẻ giữ quá số vòng này thì hết hạn
+  magicRounds: 5,                                        // thời hạn Túi thần kỳ
+  blameDrinks: 2,                                        // số ly của Tất cả là tại tao!!
+  coverMax: 3,                                           // Để đó cho chuỵ uống hộ tối đa
   levelPreferChance: 0.7,                                // ưu tiên thẻ đúng mức hiện tại
   eventEveryRounds: 2,                                   // cứ hết 2 vòng có 1 sự kiện
   earlyRounds: 2,                                        // số vòng đầu vòng quay được chia theo earlySpecials
@@ -361,13 +376,20 @@ const LEVELS = { 1: { icon: '🟢', name: 'Nhẹ' }, 2: { icon: '🟡', name: 'C
 const CARDS = {
   mirror:    { icon: '🪞', name: 'Gương Phản Chiếu', desc: 'Đẩy toàn bộ phạt sang người khác.' },
   swap:      { icon: '🔄', name: 'Đổi Câu',          desc: 'Rút lại thẻ khác cùng loại, cùng mức.' },
-  ally:      { icon: '🤝', name: 'Đồng Minh',        desc: 'Kéo 1 người uống cùng mình.' },
+  split:     { icon: '✂️', name: 'Split',            desc: 'Khi sắp uống: chọn 1 người chia đôi, mỗi người nửa ly.' },
+  goodkid:   { icon: '🎀', name: 'Phiếu bé ngoan',   desc: 'Khi sắp uống: miễn rượu bia, nhưng làm 1 hình phạt vui do cả bàn chọn.' },
+  beauty:    { icon: '💅', name: 'Đẹp thì có quyền', desc: 'Bất cứ lúc nào: chỉ định 1 người uống 1 ly, vì bạn đẹp bạn có quyền!' },
+  magic:     { icon: '🎒', name: 'Túi thần kỳ',      desc: 'Trong 5 vòng giữ bao nhiêu thẻ cũng được. Hết 5 vòng, mọi thẻ còn lại đều mất.' },
   king:      { icon: '👑', name: 'Vua 1 Phút',       desc: 'Đầu lượt mình: ra 1 luật đến lượt sau của mình.' },
   debt:      { icon: '💀', name: 'Nợ Ly',            desc: 'Lần uống tiếp theo phải cạn ly, dùng xong thì mất.' },
   forcedare: { icon: '⛓️', name: 'Bắt Buộc Thách',   desc: 'Lượt kế tiếp không được chọn Thật.' },
   silence:   { icon: '🤐', name: 'Câm Lặng',         desc: 'Không được nói đến lượt kế tiếp của mình.' },
+  blame:     { icon: '🫵', name: 'Tất cả là tại tao!!', desc: 'Giữ đủ 2 vòng là tự động dứt 2 ly, vô điều kiện.' },
+  potato:    { icon: '🔥', name: 'Gắp lửa bỏ tay người', desc: 'Ném ngay sang người bên trái hoặc phải, người đó uống 1 ly.' },
+  cover:     { icon: '🙋', name: 'Để đó cho chuỵ',   desc: 'Uống hộ những ai đang giữ Nợ Ly, tối đa 3 ly, và xóa các thẻ đó.' },
 };
-const BONUS_IDS = ['mirror', 'swap', 'ally', 'king'];
+const BONUS_IDS = ['mirror', 'swap', 'split', 'king', 'beauty'];  // thẻ thưởng phát trong Mưa Thẻ
+const RULE_BONUS = [...BONUS_IDS, 'goodkid', 'magic'], RULE_PENALTY = ['debt', 'forcedare', 'silence', 'blame', 'potato', 'cover'];
 const EMOJIS = ['😎','🤪','😈','🥴','🤠','👻','🐷','🐶','🐱','🦊','🐸','🐵','🦄','🐔','🐙','🦖','🍺','🍻','🔥','💀','👑','🌶️','🍑','🤡'];
 const COLORS = ['#ff2e88','#00f0ff','#ffd60a','#2bff88','#c77dff','#ff8c42','#5ea2ff','#ff6b6b','#a8e063','#f9a8d4','#5eead4','#e2c275'];
 const TAGS = { phone: '📱 Điện thoại', outside: '🌐 Người ngoài', ex: '💔 Người cũ', body: '👙 Cơ thể' };
@@ -418,7 +440,7 @@ function load() {
     const d = JSON.parse(localStorage.getItem(KEY));
     if (d && d.version === 1) {
       S = d; state = S.game;
-      if (state) state.players.forEach(p => { p.bonus = p.bonus.filter(id => CARDS[id]); }); // ván cũ còn giữ thẻ đã bỏ
+      if (state) state.players.forEach(p => { p.bonus = p.bonus.map(id => (id === 'ally' ? 'split' : id)).filter(id => CARDS[id]); }); // ván cũ còn giữ thẻ đã đổi hoặc đã bỏ
     }
   } catch (e) { /* dữ liệu hỏng thì bắt đầu lại */ }
 }
@@ -631,6 +653,7 @@ function endTurn() {
       state.queue.unshift({ name: 'event', ev });
     }
   }
+  expireCards();
   next();
 }
 
@@ -649,16 +672,24 @@ function randomPenalty() {
 }
 function penText(pen) {
   const p = P(pen.victim);
-  return pen.bottoms ? `uống cạn ly${p.noAlcohol ? ' nước lọc' : ''}` : `uống${p.noAlcohol ? ' nước lọc' : ''}`;
+  const w = p.noAlcohol ? ' nước lọc' : '';
+  return pen.bottoms ? `uống cạn ly${w}` : pen.half ? `uống nửa ly${w}` : `uống${w}`;
+}
+function useGoodKid(pen, p) {
+  take(p, 'goodkid'); p.stats.dodges++; creditDodges(pen, p.id);
+  log(`${p.name} dùng Phiếu bé ngoan`);
+  sfx('reward'); confetti();
+  go('goodkid', { pen });
 }
 function creditDodges(pen, drinkerId) {
   [...new Set(pen.chain)].filter(id => id !== drinkerId).forEach(id => { if (P(id)) P(id).stats.dodges++; });
 }
+const canReact = (pen, X) => canMirror(pen, X) || has(X, 'goodkid');
 const canMirror = (pen, X) => !pen.noBounce && has(X, 'mirror') && pen.bounces < CONFIG.maxBounces && !!pen.from;
 const LOGIC = {
   react(it) {
     const pen = it.pen, X = P(pen.victim);
-    if (canMirror(pen, X)) return go('reaction', { pen });
+    if (canReact(pen, X)) return go('reaction', { pen });
     LOGIC.drink({ pen });
   },
   drink(it) {
@@ -668,14 +699,86 @@ const LOGIC = {
     log(`${p.name} ${penText(pen)}`);
     go('drink', { pen });
   },
+  blameFire(it) {
+    const p = P(it.pid);
+    if (!p) return next();
+    for (let i = 0; i < CONFIG.blameDrinks; i++) addDrink(p);
+    log(`${p.name} dính Tất cả là tại tao!!, dứt ${CONFIG.blameDrinks} ly`);
+    go('blameFire', { pid: it.pid });
+  },
   useCards(it) {
     const p = P(it.pen.victim);
-    if (['mirror', 'ally'].some(c => has(p, c))) return go('useCards', { pen: it.pen });
+    if (['mirror', 'split', 'goodkid'].some(c => has(p, c))) return go('useCards', { pen: it.pen });
     LOGIC.drink({ pen: it.pen });
   },
 };
+const magicOn = p => (p.magicUntil || 0) > state.turn.index;
+const cardLife = (p, id) => (id !== 'blame' && magicOn(p) ? p.magicUntil : state.turn.index + CONFIG.cardLifeRounds * state.players.length);
+// Hạn dùng lưu riêng trong p.exp và đối chiếu với túi: thẻ dùng rồi thì bỏ bản ghi cũ nhất, thẻ mới thì thêm bản ghi.
+function syncExp(p) {
+  p.exp = p.exp || [];
+  const held = {};
+  [...p.bonus, ...p.penalty].forEach(id => { held[id] = (held[id] || 0) + 1; });
+  const ids = new Set([...Object.keys(held), ...p.exp.map(r => r.id)]);
+  ids.forEach(id => {
+    let recs = p.exp.filter(r => r.id === id).length;
+    while (recs > (held[id] || 0)) { p.exp.splice(p.exp.findIndex(r => r.id === id), 1); recs--; }
+    while (recs < (held[id] || 0)) { p.exp.push({ id, at: cardLife(p, id) }); recs++; }
+  });
+}
+function removeCard(p, id) {
+  for (const list of [p.bonus, p.penalty]) { const i = list.indexOf(id); if (i >= 0) { list.splice(i, 1); return; } }
+}
+// Chạy cuối mỗi lượt. Tất cả là tại tao!! tới hạn thì nổ thành 2 ly, thẻ khác hết hạn thì mất.
+function expireCards() {
+  const t = state.turn, gone = [];
+  state.players.forEach(p => {
+    syncExp(p);
+    if (p.magicUntil && t.index >= p.magicUntil) {
+      p.magicUntil = 0;
+      p.bonus = [];
+      p.penalty = p.penalty.filter(id => id === 'blame');
+      syncExp(p);
+      log(`${p.name} hết hạn Túi thần kỳ, mất toàn bộ thẻ`);
+      gone.push(`${p.name} hết Túi thần kỳ`);
+    }
+    p.exp.filter(r => r.at <= t.index).forEach(r => {
+      p.exp.splice(p.exp.indexOf(r), 1);
+      removeCard(p, r.id);
+      if (r.id === 'blame') state.queue.unshift({ name: 'blameFire', pid: p.id });
+      else if (BONUS_IDS.includes(r.id) || RULE_BONUS.includes(r.id) || r.id === 'debt') {
+        log(`${p.name} để hết hạn thẻ ${CARDS[r.id].name}`);
+        gone.push(`${p.name} mất ${CARDS[r.id].name}`);
+      }
+    });
+  });
+  if (gone.length) toast(`⏳ ${gone.join(', ')}`);
+}
+function activateMagic(p) {
+  const t = state.turn;
+  syncExp(p);
+  p.magicUntil = t.index + CONFIG.magicRounds * state.players.length;
+  p.exp.forEach(r => { if (r.id !== 'blame') r.at = p.magicUntil; });
+}
+const neighbors = p => {
+  const ps = state.players, i = ps.findIndex(x => x.id === p.id), n = ps.length;
+  return [...new Set([ps[(i - 1 + n) % n].id, ps[(i + 1) % n].id])];
+};
+// Để đó cho chuỵ: gom Nợ Ly của người khác, tối đa coverMax thẻ
+function coverDebts(p) {
+  const who = {}; let left = CONFIG.coverMax;
+  others(p.id).forEach(o => {
+    while (left > 0 && o.penalty.includes('debt')) {
+      o.penalty.splice(o.penalty.indexOf('debt'), 1);
+      who[o.name] = (who[o.name] || 0) + 1; left--;
+    }
+  });
+  const n = CONFIG.coverMax - left;
+  for (let i = 0; i < n; i++) addDrink(p);
+  return { n, names: Object.keys(who) };
+}
 function addBonus(p, id) {
-  if (p.bonus.length < CONFIG.maxBonus) { p.bonus.push(id); return true; }
+  if (p.bonus.length < CONFIG.maxBonus || magicOn(p)) { p.bonus.push(id); return true; }
   state.queue.unshift({ name: 'bagFull', pid: p.id, card: id });
   return false;
 }
@@ -722,7 +825,13 @@ function applySpin(seg) {
   const p = cur();
   let res = { icon: seg.icon, title: seg.label, desc: '' };
   if (['mirror', 'swap', 'mystery'].includes(seg.id)) {
-    const id = seg.id === 'mystery' ? pickOne(['ally', 'king']) : seg.id;
+    const mw = CONFIG.mysteryWeights, mk = Object.keys(mw);
+    const id = seg.id === 'mystery' ? mk[weighted(mk, x => mw[x])] : seg.id;
+    if (id === 'magic') {
+      activateMagic(p);
+      log(`${p.name} quay trúng Túi thần kỳ`);
+      return go('spinResult', { res: { icon: CARDS.magic.icon, title: 'Nhận Túi thần kỳ!', desc: CARDS.magic.desc, good: true, fly: 'magic' } });
+    }
     const fit = addBonus(p, id);
     res = { icon: CARDS[id].icon, title: `Nhận ${CARDS[id].name}!`, desc: fit ? CARDS[id].desc : 'Túi đầy rồi, chọn bỏ thẻ ở bước sau.', good: true, fly: fit ? id : null };
     log(`${p.name} quay trúng ${CARDS[id].name}`);
@@ -730,8 +839,17 @@ function applySpin(seg) {
     res.desc = pickOne(TEASES);
     log(`${p.name} quay trúng ô trống`);
   } else if (seg.id === 'bad') {
-    const id = randomPenalty(); p.penalty.push(id);
+    const xw = CONFIG.xuiWeights, xk = Object.keys(xw), id = xk[weighted(xk, x => xw[x])];
     res = { icon: CARDS[id].icon, title: `Xui! Dính ${CARDS[id].name}`, desc: CARDS[id].desc, bad: true, fly: id };
+    if (id === 'potato') {
+      state.queue.unshift({ name: 'pick', mode: 'potato', title: '🔥 Ném lửa sang ai?', candidates: neighbors(p) });
+      res.fly = null;
+    } else if (id === 'cover') {
+      const c = coverDebts(p);
+      res.fly = null;
+      res.desc = c.n ? `${p.name} uống hộ ${c.names.join(', ')}: dứt ${c.n} ly!` : 'Hôm nay chưa ai nợ ly, chuỵ thoát nạn.';
+      if (c.n) log(`${p.name} uống hộ ${c.names.join(', ')}, ${c.n} ly`);
+    } else p.penalty.push(id);
     log(`${p.name} quay trúng ô Xui: ${CARDS[id].name}`);
   } else if (seg.id === 'alldrink') {
     others(p.id).forEach(addDrink);
@@ -793,6 +911,7 @@ function renderChrome() {
   const chips = state.players.map(p => `
     <button class="pchip ${p.id === t.currentPlayerId ? 'on' : ''}" style="--c:${p.color}" data-a="openBag" data-id="${p.id}" aria-label="Xem túi thẻ của ${esc(p.name)}">
       ${p.penalty.includes('silence') ? '<span class="mute">🤐</span>' : ''}
+      ${magicOn(p) ? `<span class="mute" style="right:auto;left:0">${CARDS.magic.icon}</span>` : ''}
       <span class="e">${p.emoji}</span><span class="n">${esc(p.name)}</span>
       <span class="m">${p.bonus.length ? `<i class="b">${p.bonus.length}</i>` : ''}${p.penalty.length ? `<i class="r">${p.penalty.length}</i>` : ''}<span>🍺${p.stats.sips}</span></span>
     </button>`).join('');
@@ -837,6 +956,7 @@ const SC = {
         <button class="btn dare" data-a="choose" data-v="dare" ${noD ? 'disabled' : ''}>🔥 THÁCH</button>
       </div>
       ${has(p, 'king') ? '<button class="btn warn" data-a="openKing">👑 Dùng Vua 1 Phút</button>' : ''}
+      ${has(p, 'beauty') ? `<button class="btn warn" data-a="useBeauty" data-id="${p.id}">${CARDS.beauty.icon} Dùng ${CARDS.beauty.name}</button>` : ''}
     </div>`;
   },
   card() {
@@ -913,7 +1033,7 @@ const SC = {
     return `<div class="center">
       <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
       <h3>Dùng thẻ?</h3>
-      <div class="cardgrid">${line('mirror')}${line('ally')}</div>
+      <div class="cardgrid">${line('mirror')}${line('split')}${line('goodkid')}</div>
       <button class="btn warn" data-a="takeDrink">🍺 Chịu uống</button>
     </div>`;
   },
@@ -936,9 +1056,24 @@ const SC = {
       <div class="spot compact" style="--c:${X.color}"><div class="ava">${X.emoji}</div>
         <div class="pass">Tới lượt</div><div class="who">${esc(X.name)}</div></div>
       <div style="font-size:20px;font-weight:800">${from ? esc(from.name) + ' bắt ' + esc(X.name) + ' ' : esc(X.name) + ' sắp '}${esc(penText(pen))}!</div>
+      ${has(X, 'goodkid') ? `<button class="btn cyan" data-a="reactGoodKid">${CARDS.goodkid.icon} Dùng ${CARDS.goodkid.name}</button>` : ''}
       ${canMirror(pen, X) ? `<button class="btn pri" data-a="reactMirror">🪞 Bật ngược (lần ${pen.bounces + 1}/${CONFIG.maxBounces})</button>` : ''}
       <button class="btn warn" data-a="reactDrink">🍺 Chịu uống</button>
     </div>`;
+  },
+  goodkid() {
+    const p = P(state.screen.pen.victim);
+    return `<div class="center"><div class="big-icon">${CARDS.goodkid.icon}</div>
+      <div class="big">${pName(p)} là bé ngoan, miễn uống!</div>
+      <div class="muted">Cả bàn chọn cho ${esc(p.name)} một hình phạt vui nhé.</div>
+      <button class="btn pri" data-a="next">Làm xong ➜</button></div>`;
+  },
+  blameFire() {
+    const p = P(state.screen.pid);
+    return `<div class="center"><div class="big-icon">${CARDS.blame.icon}</div>
+      <div class="big">Tất cả là tại ${pName(p)}!</div>
+      <div class="muted">Giữ thẻ đủ ${CONFIG.cardLifeRounds} vòng, tự động dứt ${CONFIG.blameDrinks} ly.</div>
+      <button class="btn pri" data-a="next">Uống rồi ➜</button></div>`;
   },
   blocked() {
     return `<div class="center"><div class="big-icon">🍀</div>
@@ -1168,12 +1303,29 @@ const V = {
     </div>`;
   },
   rules() {
+    const mw = CONFIG.mysteryWeights, pctOf = (w, id) => Math.round(w[id] / Object.values(w).reduce((a, b) => a + b, 0) * 100);
+    // Thẻ từ ô Bí ẩn: Bé ngoan và Túi thần kỳ chỉ có ở đây, các thẻ khác còn có trong Mưa Thẻ
+    const mysteryNote = id => (mw[id] ? ` <span class="src">🎁 ${BONUS_IDS.includes(id) ? 'Từ' : 'Chỉ có ở'} ô Bí ẩn, ${pctOf(mw, id)}%</span>` : '');
+    const rateRows = rows => `<div class="rates">${rows.map(([l, v]) => `<span>${l}</span><b>${v}%</b>`).join('')}</div>`;
+    const cardRows = w => rateRows(Object.keys(w).map(id => [`${CARDS[id].icon} ${CARDS[id].name}`, pctOf(w, id)]));
+    const wheelW = Object.fromEntries(CONFIG.wheel.map(s => [s.id, s.w]));
+    const wheelSeg = id => CONFIG.wheel.find(s => s.id === id);
+    const [lo, hi] = CONFIG.nothingShare;
     const slides = [
       ['🎯 Cách chơi', `<p>Đặt laptop chỗ cả bàn cùng nhìn thấy. Một người làm quản trò và bấm cho mọi người.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
-      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng.</p><ul>${BONUS_IDS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}</ul>`],
-      ['💀 Thẻ phạt', `<ul>${['debt', 'forcedare', 'silence'].map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
+      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng, dùng 1 lần là mất. Giữ quá ${CONFIG.cardLifeRounds} vòng thì hết hạn.</p><ul>${RULE_BONUS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}${mysteryNote(id)}</li>`).join('')}</ul>`],
+      ['💀 Thẻ phạt', `<ul>${RULE_PENALTY.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
       ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: vào Thoát là khỏi uống. Bàn 8 người cứ ${CONFIG.rescueMissesPer8} lần hụt sẽ có 1 lần thoát.</li><li>Bị đẩy sang? Người đó được bật ngược bằng Gương, cứ thong thả, không tính giờ.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
       ['🤝 An toàn', `<ul><li>Không ai bị ép: luôn có nút <b>Uống thay</b>.</li><li>Thử thách đụng chạm chỉ dành cho người bật <b>OK thử thách cặp</b>.</li><li>Có chế độ <b>nước lọc</b> cho người lái xe.</li><li>Câu ở lại bàn nhậu: chuyện trong game không mang ra ngoài 🤫</li></ul>`],
+      ['🎲 Tỉ lệ ra thẻ', `<div class="rate-groups"><div class="rate-group"><h3>Vòng ${CONFIG.earlyRounds > 1 ? `1–${CONFIG.earlyRounds}` : 1}</h3>
+        <p>Mỗi vòng đúng 1 người ra mỗi ô: ${CONFIG.earlySpecials.map(id => `${wheelSeg(id).icon} ${wheelSeg(id).label}`).join(', ')}. Còn lại là ${wheelSeg('nothing').icon} ${wheelSeg('nothing').label}.</p>
+        <h3>Từ vòng ${CONFIG.earlyRounds + 1}: Vòng Quay May Mắn</h3>
+        ${rateRows(CONFIG.wheel.map(s => [`${s.icon} ${s.label}`, pctOf(wheelW, s.id)]))}
+        <p class="small muted">Bàn 8 người: mỗi vòng ${Math.floor(8 * lo)}–${Math.round(8 * hi)} người ra ${wheelSeg('nothing').label}.</p></div>
+        <div class="rate-group"><h3>🎁 Trúng ô Bí ẩn: nhận ngẫu nhiên 1 thẻ</h3>${cardRows(mw)}</div>
+        <div class="rate-group"><h3>💀 Trúng ô Xui: dính ngẫu nhiên 1 thẻ</h3>${cardRows(CONFIG.xuiWeights)}</div>
+        <div class="rate-group"><h3>🐔 Từ chối thẻ: nhận ngẫu nhiên 1 thẻ phạt</h3>${cardRows(CONFIG.penaltyWeights)}
+        <p class="small muted">Sự kiện Mưa Thẻ: mỗi người nhận 1 thẻ, ${Math.round(CONFIG.randomCardBonusChance * 100)}% là thẻ thưởng, không có thẻ chỉ thuộc ô Bí ẩn hay ô Xui.</p></div></div>`],
     ];
     return `<div class="page">
       <div class="page-head"><h1>📖 Luật chơi</h1><div class="muted swipe-hint">Vuốt ngang để xem ${slides.length} trang luật</div></div>
@@ -1249,16 +1401,27 @@ const SH = {
     <button class="btn ghost" data-a="closeSheet">Đóng</button>`,
   confirmEnd: () => `<h2>Kết thúc ván này?</h2><button class="btn bad" data-a="endGame">🏁 Kết thúc, xem tổng kết</button><button class="btn ghost" data-a="closeSheet">Chơi tiếp</button>`,
   bag: () => {
-    const p = P(ui.sheetData), line = (c, cls) => `<div class="cardline ${cls}"><span class="i">${CARDS[c].icon}</span><div><b>${CARDS[c].name}</b><br><span class="small muted">${CARDS[c].desc}</span></div></div>`;
+    const p = P(ui.sheetData), n = state.players.length, t = state.turn;
+    syncExp(p);
+    const seen = {};
+    const leftOf = c => {
+      seen[c] = (seen[c] || 0) + 1;
+      const r = p.exp.filter(x => x.id === c)[seen[c] - 1];
+      return r ? Math.max(1, Math.ceil((r.at - t.index) / n)) : CONFIG.cardLifeRounds;
+    };
+    const line = (c, cls) => `<div class="cardline ${cls}"><span class="i">${CARDS[c].icon}</span><div><b>${CARDS[c].name}</b> <span class="small" style="color:var(--yellow)">⏳ còn ${leftOf(c)} vòng</span><br><span class="small muted">${CARDS[c].desc}</span></div></div>`;
     return `<h2 style="color:${p.color}">${p.emoji} ${esc(p.name)}</h2>
       <div class="small muted">🍺 Đã uống ${p.stats.sips} lần${p.noAlcohol ? ' (nước lọc)' : ''}</div>
-      <h3>🎁 Thẻ thưởng (${p.bonus.length}/${CONFIG.maxBonus})</h3>${p.bonus.map(c => line(c, 'bonus')).join('') || '<div class="muted">Trống</div>'}
+      ${magicOn(p) ? `<div class="cardline bonus"><span class="i">${CARDS.magic.icon}</span><div><b>${CARDS.magic.name}</b> <span class="small" style="color:var(--yellow)">⏳ còn ${Math.max(1, Math.ceil((p.magicUntil - t.index) / n))} vòng</span><br><span class="small muted">${CARDS.magic.desc}</span></div></div>` : ''}
+      <h3>🎁 Thẻ thưởng (${p.bonus.length}${magicOn(p) ? '' : `/${CONFIG.maxBonus}`})</h3>${p.bonus.map(c => line(c, 'bonus')).join('') || '<div class="muted">Trống</div>'}
+      ${has(p, 'beauty') ? `<button class="btn warn" data-a="useBeauty" data-id="${p.id}">${CARDS.beauty.icon} Dùng ${CARDS.beauty.name}</button>` : ''}
       <h3>💀 Thẻ phạt (${p.penalty.length}/${CONFIG.deathAt})</h3>${p.penalty.map(c => line(c, 'penalty')).join('') || '<div class="muted">Trống</div>'}
       <button class="btn ghost" data-a="closeSheet">Đóng</button>`;
   },
   king: () => `<h2>👑 Vua 1 Phút</h2><div class="muted">Luật có hiệu lực đến lượt sau của bạn. Ai vi phạm thì uống.</div>
     <textarea id="kingText" rows="3" maxlength="90" placeholder="Ví dụ: cấm nói từ “uống”"></textarea>
     <button class="btn warn" data-a="kingConfirm">👑 Ban luật</button><button class="btn ghost" data-a="closeSheet">Thôi</button>`,
+  beauty: () => `<h2>${CARDS.beauty.icon} Ai phải uống 1 ly?</h2>${pgrid(others(ui.sheetData).map(p => p.id), 'beautyPick')}<button class="btn ghost" data-a="closeSheet">Thôi</button>`,
   violator: () => `<h2>Ai vi phạm luật?</h2>${pgrid(state.players.map(p => p.id), 'plusOne')}<button class="btn ghost" data-a="closeSheet">Đóng</button>`,
   players: () => `<h2>👥 Sửa người chơi</h2>${playerEditor(state.players)}<button class="btn pri" data-a="closePlayers">Xong</button>`,
 };
@@ -1396,10 +1559,11 @@ const A = {
   },
   useCard(d) {
     const { pen } = state.screen, p = P(pen.victim);
+    if (d.v === 'goodkid') return useGoodKid(pen, p);
     take(p, d.v);
     const candidates = others(p.id).map(o => o.id);
     if (d.v === 'mirror') return go('pick', { mode: 'push', pen, title: '🪞 Đẩy phạt sang ai?', candidates, random: true });
-    go('pick', { mode: 'ally', pen, title: '🤝 Kéo ai uống cùng?', candidates, random: true });
+    go('pick', { mode: 'split', pen, title: '✂️ Chia đôi ly với ai?', candidates, random: true });
   },
   takeDrink() { LOGIC.drink({ pen: state.screen.pen }); },
   pickPlayer(d) { resolvePick(d.id); },
@@ -1419,6 +1583,7 @@ const A = {
     }, 90);
     ui.timers.push(iv);
   },
+  reactGoodKid() { const { pen } = state.screen; useGoodKid(pen, P(pen.victim)); },
   reactMirror() {
     const { pen } = state.screen, X = P(pen.victim);
     take(X, 'mirror'); X.stats.pushes++;
@@ -1489,6 +1654,16 @@ const A = {
     log(`${p.name} ra luật: ${text}`);
     ui.sheet = null; renderSheet(); sfx('reward'); save(); render();
   },
+  useBeauty(d) { ui.sheetData = d.id; ui.sheet = 'beauty'; renderSheet(); },
+  beautyPick(d) {
+    const owner = P(ui.sheetData), p = P(d.id);
+    take(owner, 'beauty'); addDrink(p);
+    log(`${owner.name} dùng quyền của người đẹp: ${p.name} uống 1 ly`);
+    ui.sheet = null; renderSheet();
+    toast(`${CARDS.beauty.icon} ${p.name} uống${p.noAlcohol ? ' nước lọc' : ''} đi!`);
+    sfx('buzz'); save();
+    if (state.screen.name === 'turn') render(); else renderChrome();
+  },
   openViolator() { ui.sheet = 'violator'; renderSheet(); },
   plusOne(d) {
     const p = P(d.id); addDrink(p);
@@ -1521,11 +1696,15 @@ function resolvePick(id) {
     log(`${actor.name} đẩy phạt sang ${P(id).name}`);
     return LOGIC.react({ pen: { ...s.pen, victim: id, from: actor.id, chain: [...s.pen.chain, actor.id] } });
   }
-  if (s.mode === 'ally') {
+  if (s.mode === 'split' || s.mode === 'ally') {
     const actor = s.pen.victim;
-    log(`${P(actor).name} kéo ${P(id).name} uống cùng`);
-    state.queue.unshift({ name: 'drink', pen: { victim: actor, bottoms: s.pen.bottoms, chain: [] } });
-    return LOGIC.react({ pen: { victim: id, from: actor, chain: [], bounces: 0, noBounce: true } });
+    log(`${P(actor).name} chia đôi ly với ${P(id).name}`);
+    state.queue.unshift({ name: 'drink', pen: { victim: actor, half: true, chain: [] } });
+    return LOGIC.react({ pen: { victim: id, from: actor, half: true, chain: [], bounces: 0, noBounce: true } });
+  }
+  if (s.mode === 'potato') {
+    log(`${cur().name} ném lửa sang ${P(id).name}`);
+    return LOGIC.react({ pen: { victim: id, from: state.turn.currentPlayerId, chain: [], bounces: 0 } });
   }
   if (s.mode === 'jackpot') {
     return LOGIC.react({ pen: { victim: id, bottoms: true, from: state.turn.currentPlayerId, chain: [], bounces: 0 } });
