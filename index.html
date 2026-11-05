@@ -279,8 +279,9 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .slides{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;overflow:visible;margin:0;padding:0}
   .slide{grid-column:span 2;min-height:0;padding:14px 16px;font-size:15px;gap:8px}
   .slide ul{gap:4px}
-  .slide:nth-child(n+4){grid-column:span 3}
   .slide h2{font-size:24px}
+  .slide:nth-child(4),.slide:nth-child(5){grid-column:span 3}
+  .slide:nth-child(6){grid-column:1/-1}
   .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:14px}
   .btn.cardbtn{flex-direction:column;justify-content:center;text-align:center;min-height:128px;font-size:20px;gap:8px;padding:12px}
   .btn.cardbtn .i{font-size:40px}.btn.cardbtn .small{font-size:15px}
@@ -309,6 +310,14 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 }
 .center,.page-head,.sheet,.face .q,.banner span{text-wrap:balance}
 .slide,.btn.cardbtn .small{text-wrap:pretty}
+.slide h3{font-size:16px;margin-top:4px}
+.rate-groups,.rate-group{display:flex;flex-direction:column;gap:8px;min-width:0}
+.rate-groups{gap:14px}
+.slide .muted.small{font-size:13px}
+.rates{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:14px}
+.rates b{text-align:right;color:var(--yellow);font-variant-numeric:tabular-nums}
+.src{display:block;font-size:13px;font-weight:700;color:var(--yellow)}
+@media (min-width:900px) and (min-height:560px){.rate-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
 </style>
 </head>
 <body>
@@ -1294,12 +1303,29 @@ const V = {
     </div>`;
   },
   rules() {
+    const mw = CONFIG.mysteryWeights, pctOf = (w, id) => Math.round(w[id] / Object.values(w).reduce((a, b) => a + b, 0) * 100);
+    // Thẻ từ ô Bí ẩn: Bé ngoan và Túi thần kỳ chỉ có ở đây, các thẻ khác còn có trong Mưa Thẻ
+    const mysteryNote = id => (mw[id] ? ` <span class="src">🎁 ${BONUS_IDS.includes(id) ? 'Từ' : 'Chỉ có ở'} ô Bí ẩn, ${pctOf(mw, id)}%</span>` : '');
+    const rateRows = rows => `<div class="rates">${rows.map(([l, v]) => `<span>${l}</span><b>${v}%</b>`).join('')}</div>`;
+    const cardRows = w => rateRows(Object.keys(w).map(id => [`${CARDS[id].icon} ${CARDS[id].name}`, pctOf(w, id)]));
+    const wheelW = Object.fromEntries(CONFIG.wheel.map(s => [s.id, s.w]));
+    const wheelSeg = id => CONFIG.wheel.find(s => s.id === id);
+    const [lo, hi] = CONFIG.nothingShare;
     const slides = [
       ['🎯 Cách chơi', `<p>Đặt laptop chỗ cả bàn cùng nhìn thấy. Một người làm quản trò và bấm cho mọi người.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
-      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng, dùng 1 lần là mất. Giữ quá ${CONFIG.cardLifeRounds} vòng thì hết hạn.</p><ul>${RULE_BONUS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}</ul>`],
+      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng, dùng 1 lần là mất. Giữ quá ${CONFIG.cardLifeRounds} vòng thì hết hạn.</p><ul>${RULE_BONUS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}${mysteryNote(id)}</li>`).join('')}</ul>`],
       ['💀 Thẻ phạt', `<ul>${RULE_PENALTY.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
       ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: vào Thoát là khỏi uống. Bàn 8 người cứ ${CONFIG.rescueMissesPer8} lần hụt sẽ có 1 lần thoát.</li><li>Bị đẩy sang? Người đó được bật ngược bằng Gương, cứ thong thả, không tính giờ.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
       ['🤝 An toàn', `<ul><li>Không ai bị ép: luôn có nút <b>Uống thay</b>.</li><li>Thử thách đụng chạm chỉ dành cho người bật <b>OK thử thách cặp</b>.</li><li>Có chế độ <b>nước lọc</b> cho người lái xe.</li><li>Câu ở lại bàn nhậu: chuyện trong game không mang ra ngoài 🤫</li></ul>`],
+      ['🎲 Tỉ lệ ra thẻ', `<div class="rate-groups"><div class="rate-group"><h3>Vòng ${CONFIG.earlyRounds > 1 ? `1–${CONFIG.earlyRounds}` : 1}</h3>
+        <p>Mỗi vòng đúng 1 người ra mỗi ô: ${CONFIG.earlySpecials.map(id => `${wheelSeg(id).icon} ${wheelSeg(id).label}`).join(', ')}. Còn lại là ${wheelSeg('nothing').icon} ${wheelSeg('nothing').label}.</p>
+        <h3>Từ vòng ${CONFIG.earlyRounds + 1}: Vòng Quay May Mắn</h3>
+        ${rateRows(CONFIG.wheel.map(s => [`${s.icon} ${s.label}`, pctOf(wheelW, s.id)]))}
+        <p class="small muted">Bàn 8 người: mỗi vòng ${Math.floor(8 * lo)}–${Math.round(8 * hi)} người ra ${wheelSeg('nothing').label}.</p></div>
+        <div class="rate-group"><h3>🎁 Trúng ô Bí ẩn: nhận ngẫu nhiên 1 thẻ</h3>${cardRows(mw)}</div>
+        <div class="rate-group"><h3>💀 Trúng ô Xui: dính ngẫu nhiên 1 thẻ</h3>${cardRows(CONFIG.xuiWeights)}</div>
+        <div class="rate-group"><h3>🐔 Từ chối thẻ: nhận ngẫu nhiên 1 thẻ phạt</h3>${cardRows(CONFIG.penaltyWeights)}
+        <p class="small muted">Sự kiện Mưa Thẻ: mỗi người nhận 1 thẻ, ${Math.round(CONFIG.randomCardBonusChance * 100)}% là thẻ thưởng, không có thẻ chỉ thuộc ô Bí ẩn hay ô Xui.</p></div></div>`],
     ];
     return `<div class="page">
       <div class="page-head"><h1>📖 Luật chơi</h1><div class="muted swipe-hint">Vuốt ngang để xem ${slides.length} trang luật</div></div>
