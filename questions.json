@@ -9,8 +9,7 @@
       "ex": "liên quan người yêu cũ",
       "couple": "có tương tác/đụng chạm với {B} — chỉ random {B} trong những người bật 'OK thử thách cặp'",
       "body": "liên quan cơ thể/trang phục"
-    },
-    "refuse_sips_default": { "1": 1, "2": 2, "3": 3 }
+    }
   },
   "truth": [
     { "id": "t001", "level": 1, "text": "Kể lần quê nhất của bạn trước mặt crush.", "tags": [] },
@@ -99,8 +98,8 @@
     { "id": "d010", "level": 1, "text": "Hít đất 10 cái, mỗi cái kêu một tiếng con vật khác nhau.", "tags": [] },
     { "id": "d011", "level": 1, "text": "Ôm cái ly của bạn 10 giây và xin lỗi nó thật chân thành.", "tags": [] },
     { "id": "d012", "level": 1, "text": "Diễn lại lần say nhất của {B} mà bạn từng chứng kiến.", "tags": [] },
-    { "id": "d013", "level": 1, "text": "Kể một chuyện cười. Không ai cười thì uống 2 ngụm.", "tags": [] },
-    { "id": "d014", "level": 1, "text": "Không được nói chữ ‘không’ đến lượt sau. Lỡ miệng mỗi lần = 1 ngụm.", "tags": [] },
+    { "id": "d013", "level": 1, "text": "Kể một chuyện cười. Không ai cười thì uống.", "tags": [] },
+    { "id": "d014", "level": 1, "text": "Không được nói chữ ‘không’ đến lượt sau. Lỡ miệng lần nào uống lần đó.", "tags": [] },
     { "id": "d015", "level": 1, "text": "Cho cả bàn xem ảnh thứ 13 trong album, không được lướt.", "tags": ["phone"] },
     { "id": "d016", "level": 1, "text": "Đi catwalk một vòng quanh bàn, kết thúc bằng một pose ‘thần thánh’.", "tags": [] },
     { "id": "d017", "level": 1, "text": "Nhại giọng một người trong bàn, cả bàn đoán là ai. Sai thì bạn uống.", "tags": [] },
@@ -135,7 +134,7 @@
 
     { "id": "d045", "level": 3, "text": "Nhảy sexy 30 giây theo bài do cả bàn chọn.", "tags": [] },
     { "id": "d046", "level": 3, "text": "Ngồi lên đùi người bên phải cho tới lượt sau của bạn.", "tags": ["couple"] },
-    { "id": "d047", "level": 3, "text": "Cởi 1 món đồ (phụ kiện cũng tính) hoặc uống 2 ngụm.", "tags": ["body"] },
+    { "id": "d047", "level": 3, "text": "Cởi 1 món đồ (phụ kiện cũng tính) hoặc uống.", "tags": ["body"] },
     { "id": "d048", "level": 3, "text": "Massage vai cho {B} 1 phút. {B} chấm điểm, dưới 7 thì uống.", "tags": ["couple"] },
     { "id": "d049", "level": 3, "text": "Đút {B} ăn mồi bằng đũa, thật tình cảm, kèm câu ‘Ăn đi cưng’.", "tags": ["couple"] },
     { "id": "d050", "level": 3, "text": "Tạo dáng chụp ảnh ‘nóng bỏng’ (mặc đủ đồ) cùng {B}, xem xong xóa.", "tags": ["couple"] },
@@ -155,7 +154,7 @@
     { "id": "d064", "level": 3, "text": "Để {B} viết 1 chữ lên cổ hoặc tay bạn bằng son, giữ đến hết buổi.", "tags": ["couple", "body"] },
     { "id": "d065", "level": 3, "text": "Ôm {B} từ phía sau 15 giây và nói ‘Đừng đi…’", "tags": ["couple"] },
     { "id": "d066", "level": 3, "text": "Gọi video cho crush và khen họ quyến rũ trong 10 giây.", "tags": ["outside"] },
-    { "id": "d067", "level": 3, "text": "Cho cả bàn đọc đoạn chat đêm khuya gần nhất của bạn, hoặc uống 3 ngụm.", "tags": ["phone"] },
+    { "id": "d067", "level": 3, "text": "Cho cả bàn đọc đoạn chat đêm khuya gần nhất của bạn, hoặc uống.", "tags": ["phone"] },
     { "id": "d068", "level": 3, "text": "Làm ‘lap dance’ (mặc đủ đồ) cho một cái ghế trống trong 20 giây.", "tags": [] },
     { "id": "d069", "level": 3, "text": "Bịt mắt, đoán người trong bàn chỉ bằng cách chạm tay. Sai thì uống.", "tags": ["couple"] },
     { "id": "d070", "level": 3, "text": "Nói câu ‘Tối nay về nhà anh/em không?’ với {B} bằng giọng nghiêm túc nhất.", "tags": ["couple"] }
@@ -215,20 +214,20 @@
     { "id": "m020", "level": 3, "text": "Ai có khả năng đang crush một người trong bàn này?" }
   ],
   "events": [
-    { "id": "e001", "name": "Ai Chậm Nhất", "text": "Tất cả đặt tay lên bàn NGAY! Người cuối cùng uống 1 ngụm.", "effect": "manual_pick_loser", "sips": 1 },
-    { "id": "e002", "name": "Ai Có Khả Năng Nhất", "text": "Rút 1 câu ‘Ai có khả năng nhất’. Đếm 3-2-1 cả bàn chỉ tay. Người bị chỉ nhiều nhất uống.", "effect": "mostlikely_vote", "sips": 2 },
-    { "id": "e003", "name": "Tôi Chưa Từng", "text": "Rút 1 câu ‘Tôi chưa từng’. Ai đã từng thì uống.", "effect": "never_round", "sips": 1 },
+    { "id": "e001", "name": "Ai Chậm Nhất", "text": "Tất cả đặt tay lên bàn NGAY! Người cuối cùng uống.", "effect": "manual_pick_loser" },
+    { "id": "e002", "name": "Ai Có Khả Năng Nhất", "text": "Rút 1 câu ‘Ai có khả năng nhất’. Đếm 3-2-1 cả bàn chỉ tay. Người bị chỉ nhiều nhất uống.", "effect": "mostlikely_vote" },
+    { "id": "e003", "name": "Tôi Chưa Từng", "text": "Rút 1 câu ‘Tôi chưa từng’. Ai đã từng thì uống.", "effect": "never_round" },
     { "id": "e004", "name": "Đảo Ngược", "text": "Mọi thẻ trong túi của tất cả mọi người bị xáo trộn và chia lại ngẫu nhiên!", "effect": "shuffle_all_cards" },
     { "id": "e005", "name": "Thuế Thẻ", "text": "Người giữ nhiều thẻ thưởng nhất phải nộp 1 thẻ cho người ít nhất.", "effect": "card_tax" },
-    { "id": "e006", "name": "Cả Bàn Cạn", "text": "Không ai thoát! Cả bàn uống 1 ngụm. Khiên không có tác dụng.", "effect": "all_drink", "sips": 1 },
+    { "id": "e006", "name": "Cả Bàn Cạn", "text": "Không ai thoát! Cả bàn uống. Không thẻ nào cứu được.", "effect": "all_drink" },
     { "id": "e007", "name": "Thiên Thần Hộ Mệnh", "text": "Người đang có nhiều thẻ phạt nhất được xóa 1 thẻ phạt.", "effect": "heal_most_penalized" },
     { "id": "e008", "name": "Song Sinh Định Mệnh", "text": "Random 2 người thành ‘song sinh’: 1 người uống thì người kia uống theo, đến hết 1 vòng.", "effect": "link_two_players", "duration_turns": 8 },
     { "id": "e009", "name": "Vua Tạm Thời", "text": "Random 1 người làm Vua: được ra 1 luật cho cả bàn đến hết 1 vòng.", "effect": "random_king", "duration_turns": 8 },
     { "id": "e010", "name": "Mưa Thẻ", "text": "Mỗi người nhận ngẫu nhiên 1 thẻ (có thể là thưởng, có thể là phạt)!", "effect": "random_card_each" },
-    { "id": "e011", "name": "Cấm Tên", "text": "Không ai được gọi tên thật của nhau đến hết vòng. Lỡ miệng = 1 ngụm.", "effect": "manual_rule", "duration_turns": 8 },
-    { "id": "e012", "name": "Kẻ Phản Bội", "text": "Người đang ít ly nhất phải chọn 1 người uống thay mình… 2 ngụm.", "effect": "least_drinker_assign", "sips": 2 },
-    { "id": "e013", "name": "Bom Hẹn Giờ", "text": "Chuyền điện thoại vòng tròn, bom nổ ngẫu nhiên trong 10–25 giây. Đang cầm lúc nổ thì uống 2 ngụm.", "effect": "hot_potato", "sips": 2 },
-    { "id": "e014", "name": "Đấu Mắt", "text": "Random 2 người nhìn nhau, ai cười/chớp mắt trước thì uống.", "effect": "duel_two_players", "sips": 1 },
+    { "id": "e011", "name": "Cấm Tên", "text": "Không ai được gọi tên thật của nhau đến hết vòng. Lỡ miệng thì uống.", "effect": "manual_rule", "duration_turns": 8 },
+    { "id": "e012", "name": "Kẻ Phản Bội", "text": "Người đang ít ly nhất phải chọn 1 người uống thay mình.", "effect": "least_drinker_assign" },
+    { "id": "e013", "name": "Bom Hẹn Giờ", "text": "Chuyền điện thoại vòng tròn, bom nổ ngẫu nhiên trong 10–25 giây. Đang cầm lúc nổ thì uống.", "effect": "hot_potato" },
+    { "id": "e014", "name": "Đấu Mắt", "text": "Random 2 người nhìn nhau, ai cười/chớp mắt trước thì uống.", "effect": "duel_two_players" },
     { "id": "e015", "name": "Hoán Đổi Số Phận", "text": "Người nhiều thẻ phạt nhất và người nhiều thẻ thưởng nhất đổi túi thẻ cho nhau!", "effect": "swap_bags" }
   ]
 }

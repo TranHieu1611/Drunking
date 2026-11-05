@@ -95,7 +95,7 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 
 /* Vòng quay */
 .wheel-wrap{position:relative;width:min(84vw,300px);height:min(84vw,300px);margin:6px auto 0}
-.wheel-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 28px #b026ff88;will-change:transform}
+.wheel-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 28px #b026ff88}
 .wheel-wrap .ptr{position:absolute;left:50%;top:-8px;margin-left:-13px;width:0;height:0;border:13px solid transparent;border-top:24px solid var(--yellow);filter:drop-shadow(0 0 6px #ffd60a);z-index:2}
 .big-icon{font-size:76px;line-height:1.1;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
 .big{font-size:30px;font-weight:900;overflow-wrap:anywhere}
@@ -180,6 +180,135 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .award{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:left}
 .award .i{font-size:30px}.award b{display:block}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+.btn.timing{font-size:34px;font-weight:900;font-variant-numeric:tabular-nums}
+@media (min-width:900px) and (min-height:560px){
+  #app{max-width:1040px}
+  .topbar .brand{font-size:24px}.chip{font-size:16px;padding:6px 14px}
+  .pbar{justify-content:safe center}
+  .pchip{width:104px;padding:8px 4px}.pchip .e{font-size:36px}.pchip .n{font-size:16px}.pchip .m{font-size:14px;gap:4px}.pchip .m i{min-width:20px}.pchip .mute{font-size:18px}
+  .banner{font-size:17px}.lastlog{font-size:16px;text-align:center}
+  .btn{font-size:22px}
+  .choose{flex-direction:row}.choose .btn{flex:1;min-height:112px;font-size:42px}
+  .spot .ava{font-size:92px}.spot .pass{font-size:24px}.spot .who{font-size:64px}
+  .spot.compact .ava{font-size:64px}.spot.compact .who{font-size:52px}
+  .face .q{font-size:42px}.face .tagline{font-size:20px}.face .cost{font-size:20px}.note{font-size:20px}
+  .stack.after-flip{flex-direction:row}.stack.after-flip .btn{flex:1}
+  .big{font-size:44px}.big-icon{font-size:96px}.muted{font-size:19px}
+  .center [style*="font-size:20px"]{font-size:32px!important}
+  .pgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.pgrid button .e{font-size:42px}.pgrid button .n{font-size:20px}
+  .btn.timing{font-size:44px}
+}
+/* Màn hình đầu */
+.floaters{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.floaters span{position:absolute;bottom:-60px;opacity:.28;animation:floatUp linear infinite}
+@keyframes floatUp{to{transform:translateY(-115vh) rotate(320deg)}}
+.home{position:relative;z-index:1;gap:18px}
+.clink{font-size:84px;line-height:1.1;transform-origin:50% 85%;animation:clink 1.6s ease-in-out infinite}
+@keyframes clink{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg) scale(1.08)}}
+.home .home-title{padding-bottom:.16em;background-size:220% 100%;animation:shimmer 4s linear infinite}
+@keyframes shimmer{to{background-position:220% 0}}
+.home-tease{min-height:52px;font-size:20px;font-weight:800;color:var(--yellow);animation:teaseIn .45s ease-out}
+@keyframes teaseIn{from{opacity:0;transform:translateY(10px)}}
+.home-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.home-chips span{padding:6px 12px;border-radius:99px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:700}
+.home-go{min-height:64px;font-size:22px;font-weight:900;animation:goPulse 1.5s ease-in-out infinite}
+@keyframes goPulse{50%{transform:scale(1.03);box-shadow:0 0 40px #ff2e88aa}}
+/* Vòng quay: trên điện thoại vẫn tiêu đề, vòng, nút từ trên xuống */
+.split .side{display:contents}
+.split .side h2,.split .side>.muted{order:-1}
+/* Bảng xếp hạng */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:8px}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;animation:rise .6s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}}
+.step.r1{animation-delay:.5s}.step.r2{animation-delay:.25s}
+.step .who-e{font-size:40px;line-height:1.15}.step.r1 .who-e{font-size:56px}
+.step .who-n{max-width:100%;font-weight:900;font-size:16px;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step .cnt{font-size:14px;font-weight:800;margin:2px 0 6px}
+.step .block{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px;border-radius:14px 14px 0 0;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 34%,var(--panel)),var(--panel))}
+.step .medal{font-size:30px;line-height:1.1}
+.step.r1 .block{min-height:150px;box-shadow:0 0 26px #ffd60a66}.step.r2 .block{min-height:112px}.step.r3 .block{min-height:88px}
+.ranklist{display:flex;flex-direction:column;gap:2px}
+.rankrow{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rankrow:last-child{border-bottom:0}
+.rankrow .no{width:22px;text-align:center;color:var(--muted)}.rankrow .nm{font-weight:800;flex:1;min-width:90px}
+.awards{display:flex;flex-direction:column;gap:6px}
+.awards .award{padding:8px 12px;justify-content:flex-start}
+.awards .award .i{font-size:24px}.awards .award .who{margin-left:auto;text-align:right;font-weight:800}
+@media (min-width:900px){.m-only{display:none}}
+@media (prefers-reduced-motion:reduce){.floaters span,.clink,.home .home-title,.home-go{animation:none}.floaters{display:none}}
+@media (min-width:900px) and (min-height:560px){
+  .center{gap:24px}
+  .center>.btn,.center>.cardline,.center>.note{width:100%;max-width:580px;margin-inline:auto}
+  .split{display:grid;grid-template-columns:auto minmax(280px,440px);justify-content:center;align-items:center;gap:64px}
+  .split .side{display:flex;flex-direction:column;gap:20px;text-align:left}
+  .split .side h2{font-size:34px;margin:0}.split .side .btn{min-height:72px;font-size:28px;font-weight:900}
+  .wheel-wrap{width:min(calc(100vh - 240px),440px);height:min(calc(100vh - 240px),440px);margin:0}
+  .home{gap:24px}.home .home-title{font-size:96px}.clink{font-size:120px}.home-tease{font-size:30px}
+  .home-chips span{font-size:18px;padding:8px 16px}.home .home-go{max-width:480px;min-height:76px;font-size:28px}
+  .stack:has(>.podium){max-width:820px;width:100%;margin:0 auto}
+  .step .who-e{font-size:60px}.step.r1 .who-e{font-size:84px}.step .who-n{font-size:24px}.step .cnt{font-size:18px}.step .medal{font-size:44px}
+  .step .small{font-size:15px}.step.r1 .block{min-height:190px}.step.r2 .block{min-height:150px}.step.r3 .block{min-height:120px}
+  .awards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+}
+/* Trang Cài đặt, Luật chơi */
+*{scrollbar-width:thin;scrollbar-color:#ffffff33 transparent}
+.page{display:flex;flex-direction:column;gap:14px;width:100%;min-height:100%}
+.page-head{text-align:center;display:flex;flex-direction:column;gap:4px}
+.page-head h1{font-size:30px;color:var(--yellow);text-shadow:0 0 14px #ffd60a55}
+.setup-grid{display:flex;flex-direction:column;gap:14px}
+.plist{display:flex;flex-direction:column;gap:8px}
+.empty{padding:22px 10px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.opt-row{display:flex;flex-direction:column;gap:6px}
+.actionbar{position:sticky;bottom:-18px;margin-top:auto;display:flex;gap:10px;padding:12px 0 6px;background:linear-gradient(transparent,var(--bg2) 34%);z-index:3}
+.actionbar .btn{flex:1;min-width:0}.actionbar .btn.ghost{flex:0 1 38%;background:var(--bg2)}
+.cardgrid,.cardlines{display:flex;flex-direction:column;gap:10px;width:100%}
+.pgrid{display:flex;flex-wrap:wrap;justify-content:center}
+.pgrid button{flex:0 0 calc((100% - 20px) / 3);min-width:0}
+.death .lead,.death .side{display:contents}
+.death-sub{font-weight:800;font-size:18px}
+@media (min-width:900px) and (min-height:560px){
+  .page{max-width:1040px;margin:0 auto}
+  .page-head h1{font-size:40px}
+  .setup-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px;align-items:start}
+  .prow .head .icon-btn{width:40px;height:40px;min-width:40px;min-height:40px;font-size:16px;padding:0}
+  .prow .head input{font-size:15px;min-height:40px}
+  .plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prow.open{grid-column:1/-1}
+  .actionbar{justify-content:center}.actionbar .btn{flex:0 1 300px}.actionbar .btn.ghost{flex:0 1 220px}
+  .swipe-hint{display:none}
+  .slides{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;overflow:visible;margin:0;padding:0}
+  .slide{grid-column:span 2;min-height:0;padding:14px 16px;font-size:15px;gap:8px}
+  .slide ul{gap:4px}
+  .slide:nth-child(n+4){grid-column:span 3}
+  .slide h2{font-size:24px}
+  .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:14px}
+  .btn.cardbtn{flex-direction:column;justify-content:center;text-align:center;min-height:128px;font-size:20px;gap:8px;padding:12px}
+  .btn.cardbtn .i{font-size:40px}.btn.cardbtn .small{font-size:15px}
+  .cardlines{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+  .cardline{font-size:18px;align-items:center}.cardline .i{font-size:32px}
+  .pgrid{display:flex;flex-wrap:wrap;justify-content:center;max-width:860px;margin:0 auto}
+  .pgrid button{flex:0 0 150px;min-height:96px}
+  .event-bg{padding:24px 28px;max-width:960px;margin:auto}
+  .event-bg .pgrid{max-width:none}
+  .event-bg .pgrid button{min-height:76px;flex-basis:100px}.event-bg .pgrid button .e{font-size:28px}.event-bg .pgrid button .n{font-size:15px}
+  .event-bg:has(.pgrid){gap:14px;padding:16px 24px}.event-bg:has(.pgrid) .glitch{font-size:34px!important}.event-bg:has(.pgrid) .note{font-size:24px!important}
+  .event-bg .glitch,.center>.glitch{font-size:44px!important}
+  .center>.note,.event-bg .note{font-size:28px!important;max-width:820px;margin-inline:auto;padding:12px 20px}
+  .event-bg>.btn,.stack>.btn{width:100%;max-width:580px;margin-inline:auto}
+  .event-bg .big-icon{font-size:80px}
+  .death{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center;padding:28px 36px;max-width:1000px;margin:auto}
+  .death .lead,.death .side{display:flex;flex-direction:column;gap:14px}
+  .death .big{font-size:40px}.death .death-sub{font-size:20px}
+  .death .side .note{font-size:24px!important;margin:0;max-width:none}.death .side .btn{max-width:none}
+  .locked{font-size:16px}
+  #sheet{align-items:center}
+  .sheet{max-width:560px;max-height:86vh;border:1px solid var(--line);border-radius:24px;padding:22px;font-size:17px;box-shadow:0 20px 70px #000c}
+  .sheet:has(.plist){max-width:860px}
+  .sheet:has(.pgrid) .pgrid{max-width:none}.sheet:has(.pgrid){max-width:760px}
+  .sheet h2{font-size:26px}
+}
+.center,.page-head,.sheet,.face .q,.banner span{text-wrap:balance}
+.slide,.btn.cardbtn .small{text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -192,57 +321,73 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 <div id="flash"></div>
 <canvas id="fx"></canvas>
 
-<script id="questions-data" type="application/json">{"_meta":{"version":1,"placeholders":"{A} = người đang chơi, {B} = 1 người được random (tuân theo bộ lọc an toàn)","levels":"1 = Nhẹ/bựa, 2 = Cay/riêng tư, 3 = Siêu cay/sexy","tags":{"phone":"liên quan điện thoại/tin nhắn riêng tư","outside":"liên quan người ngoài bàn (gọi, nhắn, đăng mạng xã hội)","ex":"liên quan người yêu cũ","couple":"có tương tác/đụng chạm với {B} — chỉ random {B} trong những người bật 'OK thử thách cặp'","body":"liên quan cơ thể/trang phục"},"refuse_sips_default":{"1":1,"2":2,"3":3}},"truth":[{"id":"t001","level":1,"text":"Kể lần quê nhất của bạn trước mặt crush.","tags":[]},{"id":"t002","level":1,"text":"Bạn từng ‘xả hơi’ ở chỗ đông người chưa? Kể chi tiết, càng chi tiết càng tốt.","tags":[]},{"id":"t003","level":1,"text":"Biệt danh xấu hổ nhất bạn từng bị gọi là gì? Ai đặt?","tags":[]},{"id":"t004","level":1,"text":"Ở nhà một mình thì bạn mấy ngày mới tắm? Nói thật.","tags":[]},{"id":"t005","level":1,"text":"Thói quen kỳ quặc nhất của bạn khi ở một mình là gì?","tags":[]},{"id":"t006","level":1,"text":"Bạn từng ăn vụng đồ của ai trong bàn này chưa?","tags":[]},{"id":"t007","level":1,"text":"Lần gần nhất bạn ‘đào mộ’ Facebook ai đó tới tận ảnh 10 năm trước là ai?","tags":[]},{"id":"t008","level":1,"text":"Ai trong bàn bạn thấy ăn mặc tệ nhất? Góp ý luôn đi.","tags":[]},{"id":"t009","level":1,"text":"Lý do bịa bạn hay dùng nhất để trốn đi làm hoặc trốn một cuộc hẹn?","tags":[]},{"id":"t010","level":1,"text":"Bộ phim/truyện nào làm bạn khóc mà giờ nghĩ lại thấy xấu hổ?","tags":[]},{"id":"t011","level":1,"text":"App nào trong điện thoại bạn sợ người khác mở nhất? Vì sao?","tags":["phone"]},{"id":"t012","level":1,"text":"Bạn từng giả vờ có điện thoại để trốn khỏi cuộc nói chuyện với ai?","tags":[]},{"id":"t013","level":1,"text":"Nếu {B} là một món nhậu, {B} là món gì? Giải thích.","tags":[]},{"id":"t014","level":1,"text":"Bạn từng nhặt đồ ăn rơi dưới đất lên ăn tiếp chưa? Món gì?","tags":[]},{"id":"t015","level":1,"text":"Lần say nhất đời bạn kết thúc ở đâu, nằm cạnh ai/cái gì?","tags":[]},{"id":"t016","level":1,"text":"Bài hát ‘sến’ nhất trong playlist của bạn là bài gì? Hát 1 câu.","tags":[]},{"id":"t017","level":1,"text":"Bạn từng soi gương tập biểu cảm ‘đẹp trai/xinh gái’ chưa? Làm lại cho cả bàn xem.","tags":[]},{"id":"t018","level":1,"text":"Điều trẻ con nhất bạn vẫn còn làm đến giờ?","tags":[]},{"id":"t019","level":2,"text":"Ai trong bàn này bạn từng nói xấu sau lưng nhiều nhất? Nói gì?","tags":[]},{"id":"t020","level":2,"text":"Chọn 3 người trong bàn: 1 người để cưới, 1 người để hẹn hò, 1 người để block.","tags":[]},{"id":"t021","level":2,"text":"Người yêu cũ nào bạn vẫn lén xem story? Lần cuối xem là khi nào?","tags":["ex"]},{"id":"t022","level":2,"text":"Tin nhắn ngại nhất trong điện thoại bạn hiện giờ là gì? Đọc to.","tags":["phone"]},{"id":"t023","level":2,"text":"Bạn từng say nắng người yêu của bạn bè chưa? Người đó có trong bàn không?","tags":[]},{"id":"t024","level":2,"text":"Lời nói dối lớn nhất bạn từng nói với bố mẹ?","tags":[]},{"id":"t025","level":2,"text":"Bạn từng tỏ tình bị từ chối chưa? Kể lại nguyên văn câu bị từ chối.","tags":[]},{"id":"t026","level":2,"text":"Chấm điểm nhan sắc từng người trong bàn từ 1 đến 10. Không được ai cũng 10.","tags":[]},{"id":"t027","level":2,"text":"Bạn từng lén xem điện thoại người yêu chưa? Phát hiện ra gì?","tags":["phone"]},{"id":"t028","level":2,"text":"Điều bạn ghen tị nhất ở {B} là gì?","tags":[]},{"id":"t029","level":2,"text":"Nếu được đọc suy nghĩ của 1 người trong bàn trong 1 phút, bạn chọn ai? Muốn biết gì?","tags":[]},{"id":"t030","level":2,"text":"Bạn từng hôn ai mà giờ không muốn ai biết chưa? Cho gợi ý.","tags":[]},{"id":"t031","level":2,"text":"Một điều bạn nghĩ về {B} nhưng chưa bao giờ dám nói thẳng.","tags":[]},{"id":"t032","level":2,"text":"Người cuối cùng bạn tra tên trên mạng là ai? Vì sao?","tags":[]},{"id":"t033","level":2,"text":"Bạn từng giả vờ thích món quà của ai trong bàn chưa? Món gì?","tags":[]},{"id":"t034","level":2,"text":"Bạn từng thích 2 người cùng một lúc chưa? Cuối cùng chọn ai?","tags":[]},{"id":"t035","level":2,"text":"Lần bị bắt quả tang xấu hổ nhất của bạn là gì?","tags":[]},{"id":"t036","level":2,"text":"Đọc to tin nhắn cuối cùng bạn gửi cho người yêu hoặc crush.","tags":["phone"]},{"id":"t037","level":2,"text":"Bạn từng ghét ai trong bàn này chưa? Giờ còn ghét không?","tags":[]},{"id":"t038","level":2,"text":"Ai trong bàn sẽ lấy vợ/chồng cuối cùng? Ai sẽ ly dị đầu tiên?","tags":[]},{"id":"t039","level":2,"text":"Bạn từng bị ‘cắm sừng’ chưa? Phát hiện bằng cách nào?","tags":[]},{"id":"t040","level":2,"text":"Kể buổi hẹn hò qua app tệ nhất của bạn.","tags":[]},{"id":"t041","level":2,"text":"Một bí mật đủ để bạn mất 1 người bạn trong bàn này (không cần nói tên).","tags":[]},{"id":"t042","level":2,"text":"Bạn từng ‘phá’ chuyện tình của ai trong nhóm chưa? Thú tội đi.","tags":[]},{"id":"t043","level":2,"text":"Bạn từng nhắn tin cho người cũ lúc say chưa? Nhắn gì?","tags":["ex"]},{"id":"t044","level":2,"text":"Ai trong bàn bạn nghĩ đang giấu một bí mật lớn nhất?","tags":[]},{"id":"t045","level":2,"text":"Nếu {B} tỏ tình với bạn ngay bây giờ, bạn trả lời thế nào?","tags":[]},{"id":"t046","level":3,"text":"Địa điểm ‘gần gũi’ liều lĩnh nhất của bạn là ở đâu?","tags":[]},{"id":"t047","level":3,"text":"Fantasy bạn chưa dám nói với người yêu là gì?","tags":[]},{"id":"t048","level":3,"text":"Bạn từng tình một đêm chưa? Sáng hôm sau thế nào?","tags":[]},{"id":"t049","level":3,"text":"Điều hấp dẫn nhất ở {B} theo bạn là gì? Nói nhìn thẳng mắt {B}.","tags":[]},{"id":"t050","level":3,"text":"Nếu bắt buộc phải hôn 1 người trong bàn, bạn chọn ai?","tags":[]},{"id":"t051","level":3,"text":"Bạn từng là ‘người thứ ba’ hoặc có ‘người thứ ba’ chưa? Kể.","tags":[]},{"id":"t052","level":3,"text":"Kể nụ hôn đầu: ở đâu, với ai, tệ hay tuyệt?","tags":[]},{"id":"t053","level":3,"text":"Bạn từng gửi ảnh ‘nóng’ cho ai chưa? Có hối hận không?","tags":["phone"]},{"id":"t054","level":3,"text":"Đồ lót bạn đang mặc màu gì?","tags":["body"]},{"id":"t055","level":3,"text":"Kiểu tán tỉnh nào khiến bạn ‘đổ’ nhanh nhất? Ai trong bàn làm được?","tags":[]},{"id":"t056","level":3,"text":"Khoảnh khắc ‘ngượng chín mặt’ nhất của bạn trong chuyện phòng the.","tags":[]},{"id":"t057","level":3,"text":"Bạn từng mơ thấy ai trong bàn theo kiểu ‘không trong sáng’ chưa?","tags":[]},{"id":"t058","level":3,"text":"Bạn thích chủ động hay bị dẫn dắt? Giải thích ngắn gọn 😏","tags":[]},{"id":"t059","level":3,"text":"Mở lịch sử tìm kiếm trình duyệt 30 giây cho cả bàn xem.","tags":["phone"]},{"id":"t060","level":3,"text":"Điều táo bạo nhất bạn từng làm vì một người?","tags":[]},{"id":"t061","level":3,"text":"Nếu phải ngủ chung phòng với 1 người trong bàn (chỉ ngủ thôi), bạn chọn ai?","tags":[]},{"id":"t062","level":3,"text":"Bạn từng nghĩ tới việc quay lại với người cũ khi đang có người mới chưa?","tags":["ex"]},{"id":"t063","level":3,"text":"Ai trong bàn có thân hình bạn thấy quyến rũ nhất?","tags":["body"]},{"id":"t064","level":3,"text":"Nếu có 24 giờ không ai biết, không hậu quả, bạn sẽ làm gì?","tags":[]},{"id":"t065","level":3,"text":"Lời khen ‘nhạy cảm’ nhất bạn từng nhận được là gì?","tags":[]},{"id":"t066","level":3,"text":"Tin nhắn đêm khuya táo bạo nhất bạn từng nhận hoặc gửi?","tags":["phone"]},{"id":"t067","level":3,"text":"Chấm độ ‘hư’ của bạn từ 1–10, rồi để {B} chấm lại.","tags":[]},{"id":"t068","level":3,"text":"Trang phục nào trên người khác khiến bạn thấy ‘nóng’ nhất?","tags":["body"]},{"id":"t069","level":3,"text":"Bạn từng tò mò muốn thử hôn người cùng giới chưa?","tags":[]},{"id":"t070","level":3,"text":"Chuyện ‘người lớn’ nào bạn từng nói dối là đã làm (hoặc chưa làm)?","tags":[]}],"dare":[{"id":"d001","level":1,"text":"Nói chuyện bằng giọng vịt cho tới lượt sau của bạn.","tags":[]},{"id":"d002","level":1,"text":"Để {B} vẽ râu lên mặt bạn bằng bút hoặc son, giữ đến hết buổi.","tags":[]},{"id":"d003","level":1,"text":"Gọi cho mẹ nói ‘Con yêu mẹ’ rồi cúp máy luôn.","tags":["outside"]},{"id":"d004","level":1,"text":"Diễn cảnh gà mái đẻ trứng 15 giây, có âm thanh.","tags":[]},{"id":"d005","level":1,"text":"Hát một câu tình ca bằng giọng ông cụ 80 tuổi.","tags":[]},{"id":"d006","level":1,"text":"Ăn một miếng mồi do {B} trộn tùy ý (phải ăn được).","tags":[]},{"id":"d007","level":1,"text":"Để {B} đặt biệt danh cho bạn. Cả bàn gọi bằng tên đó đến hết buổi.","tags":[]},{"id":"d008","level":1,"text":"Đứng dậy giới thiệu bản thân như thí sinh thi hoa hậu/nam vương.","tags":[]},{"id":"d009","level":1,"text":"Ngửi tóc người bên trái và nhận xét như chuyên gia nước hoa.","tags":[]},{"id":"d010","level":1,"text":"Hít đất 10 cái, mỗi cái kêu một tiếng con vật khác nhau.","tags":[]},{"id":"d011","level":1,"text":"Ôm cái ly của bạn 10 giây và xin lỗi nó thật chân thành.","tags":[]},{"id":"d012","level":1,"text":"Diễn lại lần say nhất của {B} mà bạn từng chứng kiến.","tags":[]},{"id":"d013","level":1,"text":"Kể một chuyện cười. Không ai cười thì uống 2 ngụm.","tags":[]},{"id":"d014","level":1,"text":"Không được nói chữ ‘không’ đến lượt sau. Lỡ miệng mỗi lần = 1 ngụm.","tags":[]},{"id":"d015","level":1,"text":"Cho cả bàn xem ảnh thứ 13 trong album, không được lướt.","tags":["phone"]},{"id":"d016","level":1,"text":"Đi catwalk một vòng quanh bàn, kết thúc bằng một pose ‘thần thánh’.","tags":[]},{"id":"d017","level":1,"text":"Nhại giọng một người trong bàn, cả bàn đoán là ai. Sai thì bạn uống.","tags":[]},{"id":"d018","level":1,"text":"Chụp selfie mặt xấu nhất có thể và để làm hình nền 1 tiếng.","tags":["phone"]},{"id":"d019","level":1,"text":"Nhắn ‘Ê, tao có chuyện quan trọng muốn nói’ cho một người bạn ngoài nhóm rồi tự xử lý.","tags":["outside"]},{"id":"d020","level":1,"text":"Nói tiếng ‘ngoài hành tinh’ 20 giây, {B} phải dịch lại.","tags":[]},{"id":"d021","level":1,"text":"Cầm đũa làm micro, phỏng vấn {B} về đời tư như phóng viên lá cải.","tags":[]},{"id":"d022","level":1,"text":"Bắt chước dáng đi của từng người trong bàn, mỗi người 3 giây.","tags":[]},{"id":"d023","level":2,"text":"Đưa điện thoại cho {B} lướt Zalo/Messenger 30 giây.","tags":["phone"]},{"id":"d024","level":2,"text":"Gọi cho người yêu cũ, nói ‘Anh/em vẫn còn nhớ…’ rồi cúp máy.","tags":["outside","ex"]},{"id":"d025","level":2,"text":"Đăng story ‘Đang buồn, ai rủ đâu cũng đi’ để ít nhất 10 phút.","tags":["outside"]},{"id":"d026","level":2,"text":"Thì thầm vào tai {B} câu tán tỉnh sến nhất bạn nghĩ ra.","tags":["couple"]},{"id":"d027","level":2,"text":"Để {B} soạn 1 status đăng lên Facebook của bạn (bạn được duyệt 1 lần).","tags":["outside"]},{"id":"d028","level":2,"text":"Đổi ảnh đại diện thành ảnh do {B} chọn trong 1 tiếng.","tags":["outside"]},{"id":"d029","level":2,"text":"Bắt chước điệu bộ tán tỉnh của {B}. {B} chấm điểm độ giống.","tags":[]},{"id":"d030","level":2,"text":"Nhắn ‘Ngủ chưa?’ cho crush hoặc người cũ. Đọc to tin trả lời nếu có.","tags":["outside","ex"]},{"id":"d031","level":2,"text":"Cả bàn chọn 1 người trong danh bạ, bạn cho đọc 5 tin nhắn gần nhất với người đó.","tags":["phone"]},{"id":"d032","level":2,"text":"Quảng cáo bán chính bản thân như hàng xả kho trong 30 giây.","tags":[]},{"id":"d033","level":2,"text":"Diễn cảnh tỏ tình kiểu phim Hàn với {B}, có quỳ gối.","tags":["couple"]},{"id":"d034","level":2,"text":"Gọi cho số thứ 7 trong danh bạ và hát chúc mừng sinh nhật.","tags":["outside"]},{"id":"d035","level":2,"text":"Khen {B} 3 điều thật lòng, nghiêm túc, không được cười.","tags":[]},{"id":"d036","level":2,"text":"Để {B} trang điểm cho bạn trong 1 phút, không dùng gương.","tags":[]},{"id":"d037","level":2,"text":"Kể lại nụ hôn đầu và diễn minh họa với cái gối/cái ly.","tags":[]},{"id":"d038","level":2,"text":"Uống một ngụm từ ly của {B} mà không dùng tay.","tags":[]},{"id":"d039","level":2,"text":"Gửi voice ‘Say rồi, nhớ một người quá…’ vào nhóm chat lớp cũ.","tags":["outside"]},{"id":"d040","level":2,"text":"Nhìn thẳng mắt {B} 30 giây không được cười. Ai cười trước thì uống.","tags":[]},{"id":"d041","level":2,"text":"Ngồi giữa 2 người, 2 người đó làm ‘bà mối’ quảng cáo bạn trong 30 giây.","tags":[]},{"id":"d042","level":2,"text":"Đọc to bình luận đầu tiên trên bài đăng gần nhất của bạn bằng giọng quyến rũ.","tags":["phone"]},{"id":"d043","level":2,"text":"Cho cả bàn xem 3 người nhắn tin với bạn gần nhất và giải thích quan hệ.","tags":["phone"]},{"id":"d044","level":2,"text":"Hát một đoạn nhạc tình cho {B}, nắm tay {B} trong lúc hát.","tags":["couple"]},{"id":"d045","level":3,"text":"Nhảy sexy 30 giây theo bài do cả bàn chọn.","tags":[]},{"id":"d046","level":3,"text":"Ngồi lên đùi người bên phải cho tới lượt sau của bạn.","tags":["couple"]},{"id":"d047","level":3,"text":"Cởi 1 món đồ (phụ kiện cũng tính) hoặc uống 2 ngụm.","tags":["body"]},{"id":"d048","level":3,"text":"Massage vai cho {B} 1 phút. {B} chấm điểm, dưới 7 thì uống.","tags":["couple"]},{"id":"d049","level":3,"text":"Đút {B} ăn mồi bằng đũa, thật tình cảm, kèm câu ‘Ăn đi cưng’.","tags":["couple"]},{"id":"d050","level":3,"text":"Tạo dáng chụp ảnh ‘nóng bỏng’ (mặc đủ đồ) cùng {B}, xem xong xóa.","tags":["couple"]},{"id":"d051","level":3,"text":"Liếm môi nhìn camera thật quyến rũ 5 giây. Cả bàn chấm điểm.","tags":[]},{"id":"d052","level":3,"text":"Diễn động tác cởi áo thật chậm, thật ‘tình’ trong 15 giây… nhưng không cởi.","tags":["body"]},{"id":"d053","level":3,"text":"Thì thầm vào tai {B} điều bạn sẽ làm nếu chỉ có hai người.","tags":["couple"]},{"id":"d054","level":3,"text":"Nằm sấp để {B} đặt ly lên lưng, giữ 20 giây không đổ.","tags":["couple"]},{"id":"d055","level":3,"text":"Nhắn ‘Nhớ cái đêm đó ghê’ cho người thứ 5 trong danh bạ, rồi phải giải thích với họ.","tags":["outside"]},{"id":"d056","level":3,"text":"{B} uống 1 ngụm từ ly đặt trên tay bạn, bạn không được run.","tags":["couple"]},{"id":"d057","level":3,"text":"Hôn gió {B} kiểu phim 18+ và giữ ánh mắt 5 giây.","tags":["couple"]},{"id":"d058","level":3,"text":"Tự bịa một đoạn ngôn tình ‘nóng’ và đọc bằng giọng thì thầm 30 giây.","tags":[]},{"id":"d059","level":3,"text":"Chuyền một lá bài/tờ giấy sang {B} bằng miệng (hút giữ), không dùng tay.","tags":["couple"]},{"id":"d060","level":3,"text":"Chọn 1 người trong bàn và nhảy slow 30 giây.","tags":["couple"]},{"id":"d061","level":3,"text":"Diễn câm fantasy của bạn trong 20 giây, cả bàn đoán.","tags":[]},{"id":"d062","level":3,"text":"Vừa nhìn {B} vừa mô tả nụ hôn hoàn hảo trong mơ của bạn.","tags":["couple"]},{"id":"d063","level":3,"text":"Đổi 1 món đồ đang mặc với {B} cho tới lượt sau.","tags":["couple","body"]},{"id":"d064","level":3,"text":"Để {B} viết 1 chữ lên cổ hoặc tay bạn bằng son, giữ đến hết buổi.","tags":["couple","body"]},{"id":"d065","level":3,"text":"Ôm {B} từ phía sau 15 giây và nói ‘Đừng đi…’","tags":["couple"]},{"id":"d066","level":3,"text":"Gọi video cho crush và khen họ quyến rũ trong 10 giây.","tags":["outside"]},{"id":"d067","level":3,"text":"Cho cả bàn đọc đoạn chat đêm khuya gần nhất của bạn, hoặc uống 3 ngụm.","tags":["phone"]},{"id":"d068","level":3,"text":"Làm ‘lap dance’ (mặc đủ đồ) cho một cái ghế trống trong 20 giây.","tags":[]},{"id":"d069","level":3,"text":"Bịt mắt, đoán người trong bàn chỉ bằng cách chạm tay. Sai thì uống.","tags":["couple"]},{"id":"d070","level":3,"text":"Nói câu ‘Tối nay về nhà anh/em không?’ với {B} bằng giọng nghiêm túc nhất.","tags":["couple"]}],"never":[{"id":"n001","level":1,"text":"Tôi chưa từng ngủ quên trong nhà vệ sinh."},{"id":"n002","level":1,"text":"Tôi chưa từng giả bệnh để nghỉ làm/nghỉ học."},{"id":"n003","level":1,"text":"Tôi chưa từng ăn đồ của người khác trong tủ lạnh chung."},{"id":"n004","level":1,"text":"Tôi chưa từng gửi nhầm tin nhắn nói xấu cho chính người bị nói."},{"id":"n005","level":1,"text":"Tôi chưa từng tè ngoài đường sau khi nhậu."},{"id":"n006","level":1,"text":"Tôi chưa từng hát karaoke một mình."},{"id":"n007","level":1,"text":"Tôi chưa từng tự nói chuyện với bản thân trong gương."},{"id":"n008","level":1,"text":"Tôi chưa từng ói trên xe taxi/Grab."},{"id":"n009","level":1,"text":"Tôi chưa từng quên tên người đang nói chuyện với mình."},{"id":"n010","level":1,"text":"Tôi chưa từng trốn tiền nhậu bằng cách giả đi vệ sinh."},{"id":"n011","level":2,"text":"Tôi chưa từng nhắn tin cho người yêu cũ lúc say."},{"id":"n012","level":2,"text":"Tôi chưa từng thích bạn thân của người yêu."},{"id":"n013","level":2,"text":"Tôi chưa từng giả vờ ngủ để tránh nói chuyện với ai đó."},{"id":"n014","level":2,"text":"Tôi chưa từng tạo tài khoản ảo để theo dõi ai."},{"id":"n015","level":2,"text":"Tôi chưa từng có tình cảm với ai trong bàn này."},{"id":"n016","level":2,"text":"Tôi chưa từng nói ‘yêu’ mà không thật lòng."},{"id":"n017","level":2,"text":"Tôi chưa từng bị người yêu bắt gặp đang nhắn tin với người khác."},{"id":"n018","level":2,"text":"Tôi chưa từng hẹn hò hai người cùng lúc."},{"id":"n019","level":2,"text":"Tôi chưa từng xem trộm tin nhắn của người khác."},{"id":"n020","level":2,"text":"Tôi chưa từng tỏ tình qua tin nhắn rồi thu hồi."},{"id":"n021","level":3,"text":"Tôi chưa từng hôn người mới quen dưới 24 giờ."},{"id":"n022","level":3,"text":"Tôi chưa từng gửi ảnh ‘nhạy cảm’ cho ai."},{"id":"n023","level":3,"text":"Tôi chưa từng tình một đêm."},{"id":"n024","level":3,"text":"Tôi chưa từng ‘gần gũi’ ở nơi công cộng."},{"id":"n025","level":3,"text":"Tôi chưa từng tỉnh dậy cạnh một người mà không nhớ tên."},{"id":"n026","level":3,"text":"Tôi chưa từng hôn ai trong bàn này."},{"id":"n027","level":3,"text":"Tôi chưa từng ‘quay lại’ với người cũ chỉ một đêm."},{"id":"n028","level":3,"text":"Tôi chưa từng bị bắt gặp đang ‘tình tứ’."},{"id":"n029","level":3,"text":"Tôi chưa từng nhắn tin ‘nóng’ với người mình không hẹn hò."},{"id":"n030","level":3,"text":"Tôi chưa từng mơ thấy ‘chuyện ấy’ với người quen."}],"mostlikely":[{"id":"m001","level":1,"text":"Ai có khả năng say gục đầu tiên tối nay?"},{"id":"m002","level":1,"text":"Ai có khả năng quên ví/điện thoại ở quán nhất?"},{"id":"m003","level":1,"text":"Ai có khả năng thành người nổi tiếng trên mạng vì một lý do xấu hổ?"},{"id":"m004","level":1,"text":"Ai có khả năng sống sót lâu nhất khi lạc trên đảo hoang?"},{"id":"m005","level":1,"text":"Ai có khả năng khóc khi xem phim hoạt hình nhất?"},{"id":"m006","level":1,"text":"Ai có khả năng trễ chính đám cưới của mình nhất?"},{"id":"m007","level":2,"text":"Ai có khả năng quay lại với người yêu cũ nhất?"},{"id":"m008","level":2,"text":"Ai có khả năng đang giấu một mối quan hệ bí mật?"},{"id":"m009","level":2,"text":"Ai có khả năng cưới sớm nhất nhóm?"},{"id":"m010","level":2,"text":"Ai có khả năng ‘thả thính’ nhân viên quán nhất?"},{"id":"m011","level":2,"text":"Ai có khả năng nhắn tin cho người cũ tối nay?"},{"id":"m012","level":2,"text":"Ai có khả năng ghen nhất khi yêu?"},{"id":"m013","level":2,"text":"Ai có khả năng bị ‘cắm sừng’ mà không biết nhất?"},{"id":"m014","level":3,"text":"Ai có khả năng ‘hư’ nhất khi có người yêu?"},{"id":"m015","level":3,"text":"Ai có khả năng có nhiều người yêu cũ nhất?"},{"id":"m016","level":3,"text":"Ai có khả năng tình một đêm nhất?"},{"id":"m017","level":3,"text":"Ai có khả năng hôn nhầm người khi say nhất?"},{"id":"m018","level":3,"text":"Ai có khả năng có ‘fantasy’ kỳ quặc nhất?"},{"id":"m019","level":3,"text":"Ai có khả năng về nhà cùng một người lạ tối nay?"},{"id":"m020","level":3,"text":"Ai có khả năng đang crush một người trong bàn này?"}],"events":[{"id":"e001","name":"Ai Chậm Nhất","text":"Tất cả đặt tay lên bàn NGAY! Người cuối cùng uống 1 ngụm.","effect":"manual_pick_loser","sips":1},{"id":"e002","name":"Ai Có Khả Năng Nhất","text":"Rút 1 câu ‘Ai có khả năng nhất’. Đếm 3-2-1 cả bàn chỉ tay. Người bị chỉ nhiều nhất uống.","effect":"mostlikely_vote","sips":2},{"id":"e003","name":"Tôi Chưa Từng","text":"Rút 1 câu ‘Tôi chưa từng’. Ai đã từng thì uống.","effect":"never_round","sips":1},{"id":"e004","name":"Đảo Ngược","text":"Mọi thẻ trong túi của tất cả mọi người bị xáo trộn và chia lại ngẫu nhiên!","effect":"shuffle_all_cards"},{"id":"e005","name":"Thuế Thẻ","text":"Người giữ nhiều thẻ thưởng nhất phải nộp 1 thẻ cho người ít nhất.","effect":"card_tax"},{"id":"e006","name":"Cả Bàn Cạn","text":"Không ai thoát! Cả bàn uống 1 ngụm. Khiên không có tác dụng.","effect":"all_drink","sips":1},{"id":"e007","name":"Thiên Thần Hộ Mệnh","text":"Người đang có nhiều thẻ phạt nhất được xóa 1 thẻ phạt.","effect":"heal_most_penalized"},{"id":"e008","name":"Song Sinh Định Mệnh","text":"Random 2 người thành ‘song sinh’: 1 người uống thì người kia uống theo, đến hết 1 vòng.","effect":"link_two_players","duration_turns":8},{"id":"e009","name":"Vua Tạm Thời","text":"Random 1 người làm Vua: được ra 1 luật cho cả bàn đến hết 1 vòng.","effect":"random_king","duration_turns":8},{"id":"e010","name":"Mưa Thẻ","text":"Mỗi người nhận ngẫu nhiên 1 thẻ (có thể là thưởng, có thể là phạt)!","effect":"random_card_each"},{"id":"e011","name":"Cấm Tên","text":"Không ai được gọi tên thật của nhau đến hết vòng. Lỡ miệng = 1 ngụm.","effect":"manual_rule","duration_turns":8},{"id":"e012","name":"Kẻ Phản Bội","text":"Người đang ít ly nhất phải chọn 1 người uống thay mình… 2 ngụm.","effect":"least_drinker_assign","sips":2},{"id":"e013","name":"Bom Hẹn Giờ","text":"Chuyền điện thoại vòng tròn, bom nổ ngẫu nhiên trong 10–25 giây. Đang cầm lúc nổ thì uống 2 ngụm.","effect":"hot_potato","sips":2},{"id":"e014","name":"Đấu Mắt","text":"Random 2 người nhìn nhau, ai cười/chớp mắt trước thì uống.","effect":"duel_two_players","sips":1},{"id":"e015","name":"Hoán Đổi Số Phận","text":"Người nhiều thẻ phạt nhất và người nhiều thẻ thưởng nhất đổi túi thẻ cho nhau!","effect":"swap_bags"}]}</script>
+<script id="questions-data" type="application/json">{"_meta":{"version":1,"placeholders":"{A} = người đang chơi, {B} = 1 người được random (tuân theo bộ lọc an toàn)","levels":"1 = Nhẹ/bựa, 2 = Cay/riêng tư, 3 = Siêu cay/sexy","tags":{"phone":"liên quan điện thoại/tin nhắn riêng tư","outside":"liên quan người ngoài bàn (gọi, nhắn, đăng mạng xã hội)","ex":"liên quan người yêu cũ","couple":"có tương tác/đụng chạm với {B} — chỉ random {B} trong những người bật 'OK thử thách cặp'","body":"liên quan cơ thể/trang phục"}},"truth":[{"id":"t001","level":1,"text":"Kể lần quê nhất của bạn trước mặt crush.","tags":[]},{"id":"t002","level":1,"text":"Bạn từng ‘xả hơi’ ở chỗ đông người chưa? Kể chi tiết, càng chi tiết càng tốt.","tags":[]},{"id":"t003","level":1,"text":"Biệt danh xấu hổ nhất bạn từng bị gọi là gì? Ai đặt?","tags":[]},{"id":"t004","level":1,"text":"Ở nhà một mình thì bạn mấy ngày mới tắm? Nói thật.","tags":[]},{"id":"t005","level":1,"text":"Thói quen kỳ quặc nhất của bạn khi ở một mình là gì?","tags":[]},{"id":"t006","level":1,"text":"Bạn từng ăn vụng đồ của ai trong bàn này chưa?","tags":[]},{"id":"t007","level":1,"text":"Lần gần nhất bạn ‘đào mộ’ Facebook ai đó tới tận ảnh 10 năm trước là ai?","tags":[]},{"id":"t008","level":1,"text":"Ai trong bàn bạn thấy ăn mặc tệ nhất? Góp ý luôn đi.","tags":[]},{"id":"t009","level":1,"text":"Lý do bịa bạn hay dùng nhất để trốn đi làm hoặc trốn một cuộc hẹn?","tags":[]},{"id":"t010","level":1,"text":"Bộ phim/truyện nào làm bạn khóc mà giờ nghĩ lại thấy xấu hổ?","tags":[]},{"id":"t011","level":1,"text":"App nào trong điện thoại bạn sợ người khác mở nhất? Vì sao?","tags":["phone"]},{"id":"t012","level":1,"text":"Bạn từng giả vờ có điện thoại để trốn khỏi cuộc nói chuyện với ai?","tags":[]},{"id":"t013","level":1,"text":"Nếu {B} là một món nhậu, {B} là món gì? Giải thích.","tags":[]},{"id":"t014","level":1,"text":"Bạn từng nhặt đồ ăn rơi dưới đất lên ăn tiếp chưa? Món gì?","tags":[]},{"id":"t015","level":1,"text":"Lần say nhất đời bạn kết thúc ở đâu, nằm cạnh ai/cái gì?","tags":[]},{"id":"t016","level":1,"text":"Bài hát ‘sến’ nhất trong playlist của bạn là bài gì? Hát 1 câu.","tags":[]},{"id":"t017","level":1,"text":"Bạn từng soi gương tập biểu cảm ‘đẹp trai/xinh gái’ chưa? Làm lại cho cả bàn xem.","tags":[]},{"id":"t018","level":1,"text":"Điều trẻ con nhất bạn vẫn còn làm đến giờ?","tags":[]},{"id":"t019","level":2,"text":"Ai trong bàn này bạn từng nói xấu sau lưng nhiều nhất? Nói gì?","tags":[]},{"id":"t020","level":2,"text":"Chọn 3 người trong bàn: 1 người để cưới, 1 người để hẹn hò, 1 người để block.","tags":[]},{"id":"t021","level":2,"text":"Người yêu cũ nào bạn vẫn lén xem story? Lần cuối xem là khi nào?","tags":["ex"]},{"id":"t022","level":2,"text":"Tin nhắn ngại nhất trong điện thoại bạn hiện giờ là gì? Đọc to.","tags":["phone"]},{"id":"t023","level":2,"text":"Bạn từng say nắng người yêu của bạn bè chưa? Người đó có trong bàn không?","tags":[]},{"id":"t024","level":2,"text":"Lời nói dối lớn nhất bạn từng nói với bố mẹ?","tags":[]},{"id":"t025","level":2,"text":"Bạn từng tỏ tình bị từ chối chưa? Kể lại nguyên văn câu bị từ chối.","tags":[]},{"id":"t026","level":2,"text":"Chấm điểm nhan sắc từng người trong bàn từ 1 đến 10. Không được ai cũng 10.","tags":[]},{"id":"t027","level":2,"text":"Bạn từng lén xem điện thoại người yêu chưa? Phát hiện ra gì?","tags":["phone"]},{"id":"t028","level":2,"text":"Điều bạn ghen tị nhất ở {B} là gì?","tags":[]},{"id":"t029","level":2,"text":"Nếu được đọc suy nghĩ của 1 người trong bàn trong 1 phút, bạn chọn ai? Muốn biết gì?","tags":[]},{"id":"t030","level":2,"text":"Bạn từng hôn ai mà giờ không muốn ai biết chưa? Cho gợi ý.","tags":[]},{"id":"t031","level":2,"text":"Một điều bạn nghĩ về {B} nhưng chưa bao giờ dám nói thẳng.","tags":[]},{"id":"t032","level":2,"text":"Người cuối cùng bạn tra tên trên mạng là ai? Vì sao?","tags":[]},{"id":"t033","level":2,"text":"Bạn từng giả vờ thích món quà của ai trong bàn chưa? Món gì?","tags":[]},{"id":"t034","level":2,"text":"Bạn từng thích 2 người cùng một lúc chưa? Cuối cùng chọn ai?","tags":[]},{"id":"t035","level":2,"text":"Lần bị bắt quả tang xấu hổ nhất của bạn là gì?","tags":[]},{"id":"t036","level":2,"text":"Đọc to tin nhắn cuối cùng bạn gửi cho người yêu hoặc crush.","tags":["phone"]},{"id":"t037","level":2,"text":"Bạn từng ghét ai trong bàn này chưa? Giờ còn ghét không?","tags":[]},{"id":"t038","level":2,"text":"Ai trong bàn sẽ lấy vợ/chồng cuối cùng? Ai sẽ ly dị đầu tiên?","tags":[]},{"id":"t039","level":2,"text":"Bạn từng bị ‘cắm sừng’ chưa? Phát hiện bằng cách nào?","tags":[]},{"id":"t040","level":2,"text":"Kể buổi hẹn hò qua app tệ nhất của bạn.","tags":[]},{"id":"t041","level":2,"text":"Một bí mật đủ để bạn mất 1 người bạn trong bàn này (không cần nói tên).","tags":[]},{"id":"t042","level":2,"text":"Bạn từng ‘phá’ chuyện tình của ai trong nhóm chưa? Thú tội đi.","tags":[]},{"id":"t043","level":2,"text":"Bạn từng nhắn tin cho người cũ lúc say chưa? Nhắn gì?","tags":["ex"]},{"id":"t044","level":2,"text":"Ai trong bàn bạn nghĩ đang giấu một bí mật lớn nhất?","tags":[]},{"id":"t045","level":2,"text":"Nếu {B} tỏ tình với bạn ngay bây giờ, bạn trả lời thế nào?","tags":[]},{"id":"t046","level":3,"text":"Địa điểm ‘gần gũi’ liều lĩnh nhất của bạn là ở đâu?","tags":[]},{"id":"t047","level":3,"text":"Fantasy bạn chưa dám nói với người yêu là gì?","tags":[]},{"id":"t048","level":3,"text":"Bạn từng tình một đêm chưa? Sáng hôm sau thế nào?","tags":[]},{"id":"t049","level":3,"text":"Điều hấp dẫn nhất ở {B} theo bạn là gì? Nói nhìn thẳng mắt {B}.","tags":[]},{"id":"t050","level":3,"text":"Nếu bắt buộc phải hôn 1 người trong bàn, bạn chọn ai?","tags":[]},{"id":"t051","level":3,"text":"Bạn từng là ‘người thứ ba’ hoặc có ‘người thứ ba’ chưa? Kể.","tags":[]},{"id":"t052","level":3,"text":"Kể nụ hôn đầu: ở đâu, với ai, tệ hay tuyệt?","tags":[]},{"id":"t053","level":3,"text":"Bạn từng gửi ảnh ‘nóng’ cho ai chưa? Có hối hận không?","tags":["phone"]},{"id":"t054","level":3,"text":"Đồ lót bạn đang mặc màu gì?","tags":["body"]},{"id":"t055","level":3,"text":"Kiểu tán tỉnh nào khiến bạn ‘đổ’ nhanh nhất? Ai trong bàn làm được?","tags":[]},{"id":"t056","level":3,"text":"Khoảnh khắc ‘ngượng chín mặt’ nhất của bạn trong chuyện phòng the.","tags":[]},{"id":"t057","level":3,"text":"Bạn từng mơ thấy ai trong bàn theo kiểu ‘không trong sáng’ chưa?","tags":[]},{"id":"t058","level":3,"text":"Bạn thích chủ động hay bị dẫn dắt? Giải thích ngắn gọn 😏","tags":[]},{"id":"t059","level":3,"text":"Mở lịch sử tìm kiếm trình duyệt 30 giây cho cả bàn xem.","tags":["phone"]},{"id":"t060","level":3,"text":"Điều táo bạo nhất bạn từng làm vì một người?","tags":[]},{"id":"t061","level":3,"text":"Nếu phải ngủ chung phòng với 1 người trong bàn (chỉ ngủ thôi), bạn chọn ai?","tags":[]},{"id":"t062","level":3,"text":"Bạn từng nghĩ tới việc quay lại với người cũ khi đang có người mới chưa?","tags":["ex"]},{"id":"t063","level":3,"text":"Ai trong bàn có thân hình bạn thấy quyến rũ nhất?","tags":["body"]},{"id":"t064","level":3,"text":"Nếu có 24 giờ không ai biết, không hậu quả, bạn sẽ làm gì?","tags":[]},{"id":"t065","level":3,"text":"Lời khen ‘nhạy cảm’ nhất bạn từng nhận được là gì?","tags":[]},{"id":"t066","level":3,"text":"Tin nhắn đêm khuya táo bạo nhất bạn từng nhận hoặc gửi?","tags":["phone"]},{"id":"t067","level":3,"text":"Chấm độ ‘hư’ của bạn từ 1–10, rồi để {B} chấm lại.","tags":[]},{"id":"t068","level":3,"text":"Trang phục nào trên người khác khiến bạn thấy ‘nóng’ nhất?","tags":["body"]},{"id":"t069","level":3,"text":"Bạn từng tò mò muốn thử hôn người cùng giới chưa?","tags":[]},{"id":"t070","level":3,"text":"Chuyện ‘người lớn’ nào bạn từng nói dối là đã làm (hoặc chưa làm)?","tags":[]}],"dare":[{"id":"d001","level":1,"text":"Nói chuyện bằng giọng vịt cho tới lượt sau của bạn.","tags":[]},{"id":"d002","level":1,"text":"Để {B} vẽ râu lên mặt bạn bằng bút hoặc son, giữ đến hết buổi.","tags":[]},{"id":"d003","level":1,"text":"Gọi cho mẹ nói ‘Con yêu mẹ’ rồi cúp máy luôn.","tags":["outside"]},{"id":"d004","level":1,"text":"Diễn cảnh gà mái đẻ trứng 15 giây, có âm thanh.","tags":[]},{"id":"d005","level":1,"text":"Hát một câu tình ca bằng giọng ông cụ 80 tuổi.","tags":[]},{"id":"d006","level":1,"text":"Ăn một miếng mồi do {B} trộn tùy ý (phải ăn được).","tags":[]},{"id":"d007","level":1,"text":"Để {B} đặt biệt danh cho bạn. Cả bàn gọi bằng tên đó đến hết buổi.","tags":[]},{"id":"d008","level":1,"text":"Đứng dậy giới thiệu bản thân như thí sinh thi hoa hậu/nam vương.","tags":[]},{"id":"d009","level":1,"text":"Ngửi tóc người bên trái và nhận xét như chuyên gia nước hoa.","tags":[]},{"id":"d010","level":1,"text":"Hít đất 10 cái, mỗi cái kêu một tiếng con vật khác nhau.","tags":[]},{"id":"d011","level":1,"text":"Ôm cái ly của bạn 10 giây và xin lỗi nó thật chân thành.","tags":[]},{"id":"d012","level":1,"text":"Diễn lại lần say nhất của {B} mà bạn từng chứng kiến.","tags":[]},{"id":"d013","level":1,"text":"Kể một chuyện cười. Không ai cười thì uống.","tags":[]},{"id":"d014","level":1,"text":"Không được nói chữ ‘không’ đến lượt sau. Lỡ miệng lần nào uống lần đó.","tags":[]},{"id":"d015","level":1,"text":"Cho cả bàn xem ảnh thứ 13 trong album, không được lướt.","tags":["phone"]},{"id":"d016","level":1,"text":"Đi catwalk một vòng quanh bàn, kết thúc bằng một pose ‘thần thánh’.","tags":[]},{"id":"d017","level":1,"text":"Nhại giọng một người trong bàn, cả bàn đoán là ai. Sai thì bạn uống.","tags":[]},{"id":"d018","level":1,"text":"Chụp selfie mặt xấu nhất có thể và để làm hình nền 1 tiếng.","tags":["phone"]},{"id":"d019","level":1,"text":"Nhắn ‘Ê, tao có chuyện quan trọng muốn nói’ cho một người bạn ngoài nhóm rồi tự xử lý.","tags":["outside"]},{"id":"d020","level":1,"text":"Nói tiếng ‘ngoài hành tinh’ 20 giây, {B} phải dịch lại.","tags":[]},{"id":"d021","level":1,"text":"Cầm đũa làm micro, phỏng vấn {B} về đời tư như phóng viên lá cải.","tags":[]},{"id":"d022","level":1,"text":"Bắt chước dáng đi của từng người trong bàn, mỗi người 3 giây.","tags":[]},{"id":"d023","level":2,"text":"Đưa điện thoại cho {B} lướt Zalo/Messenger 30 giây.","tags":["phone"]},{"id":"d024","level":2,"text":"Gọi cho người yêu cũ, nói ‘Anh/em vẫn còn nhớ…’ rồi cúp máy.","tags":["outside","ex"]},{"id":"d025","level":2,"text":"Đăng story ‘Đang buồn, ai rủ đâu cũng đi’ để ít nhất 10 phút.","tags":["outside"]},{"id":"d026","level":2,"text":"Thì thầm vào tai {B} câu tán tỉnh sến nhất bạn nghĩ ra.","tags":["couple"]},{"id":"d027","level":2,"text":"Để {B} soạn 1 status đăng lên Facebook của bạn (bạn được duyệt 1 lần).","tags":["outside"]},{"id":"d028","level":2,"text":"Đổi ảnh đại diện thành ảnh do {B} chọn trong 1 tiếng.","tags":["outside"]},{"id":"d029","level":2,"text":"Bắt chước điệu bộ tán tỉnh của {B}. {B} chấm điểm độ giống.","tags":[]},{"id":"d030","level":2,"text":"Nhắn ‘Ngủ chưa?’ cho crush hoặc người cũ. Đọc to tin trả lời nếu có.","tags":["outside","ex"]},{"id":"d031","level":2,"text":"Cả bàn chọn 1 người trong danh bạ, bạn cho đọc 5 tin nhắn gần nhất với người đó.","tags":["phone"]},{"id":"d032","level":2,"text":"Quảng cáo bán chính bản thân như hàng xả kho trong 30 giây.","tags":[]},{"id":"d033","level":2,"text":"Diễn cảnh tỏ tình kiểu phim Hàn với {B}, có quỳ gối.","tags":["couple"]},{"id":"d034","level":2,"text":"Gọi cho số thứ 7 trong danh bạ và hát chúc mừng sinh nhật.","tags":["outside"]},{"id":"d035","level":2,"text":"Khen {B} 3 điều thật lòng, nghiêm túc, không được cười.","tags":[]},{"id":"d036","level":2,"text":"Để {B} trang điểm cho bạn trong 1 phút, không dùng gương.","tags":[]},{"id":"d037","level":2,"text":"Kể lại nụ hôn đầu và diễn minh họa với cái gối/cái ly.","tags":[]},{"id":"d038","level":2,"text":"Uống một ngụm từ ly của {B} mà không dùng tay.","tags":[]},{"id":"d039","level":2,"text":"Gửi voice ‘Say rồi, nhớ một người quá…’ vào nhóm chat lớp cũ.","tags":["outside"]},{"id":"d040","level":2,"text":"Nhìn thẳng mắt {B} 30 giây không được cười. Ai cười trước thì uống.","tags":[]},{"id":"d041","level":2,"text":"Ngồi giữa 2 người, 2 người đó làm ‘bà mối’ quảng cáo bạn trong 30 giây.","tags":[]},{"id":"d042","level":2,"text":"Đọc to bình luận đầu tiên trên bài đăng gần nhất của bạn bằng giọng quyến rũ.","tags":["phone"]},{"id":"d043","level":2,"text":"Cho cả bàn xem 3 người nhắn tin với bạn gần nhất và giải thích quan hệ.","tags":["phone"]},{"id":"d044","level":2,"text":"Hát một đoạn nhạc tình cho {B}, nắm tay {B} trong lúc hát.","tags":["couple"]},{"id":"d045","level":3,"text":"Nhảy sexy 30 giây theo bài do cả bàn chọn.","tags":[]},{"id":"d046","level":3,"text":"Ngồi lên đùi người bên phải cho tới lượt sau của bạn.","tags":["couple"]},{"id":"d047","level":3,"text":"Cởi 1 món đồ (phụ kiện cũng tính) hoặc uống.","tags":["body"]},{"id":"d048","level":3,"text":"Massage vai cho {B} 1 phút. {B} chấm điểm, dưới 7 thì uống.","tags":["couple"]},{"id":"d049","level":3,"text":"Đút {B} ăn mồi bằng đũa, thật tình cảm, kèm câu ‘Ăn đi cưng’.","tags":["couple"]},{"id":"d050","level":3,"text":"Tạo dáng chụp ảnh ‘nóng bỏng’ (mặc đủ đồ) cùng {B}, xem xong xóa.","tags":["couple"]},{"id":"d051","level":3,"text":"Liếm môi nhìn camera thật quyến rũ 5 giây. Cả bàn chấm điểm.","tags":[]},{"id":"d052","level":3,"text":"Diễn động tác cởi áo thật chậm, thật ‘tình’ trong 15 giây… nhưng không cởi.","tags":["body"]},{"id":"d053","level":3,"text":"Thì thầm vào tai {B} điều bạn sẽ làm nếu chỉ có hai người.","tags":["couple"]},{"id":"d054","level":3,"text":"Nằm sấp để {B} đặt ly lên lưng, giữ 20 giây không đổ.","tags":["couple"]},{"id":"d055","level":3,"text":"Nhắn ‘Nhớ cái đêm đó ghê’ cho người thứ 5 trong danh bạ, rồi phải giải thích với họ.","tags":["outside"]},{"id":"d056","level":3,"text":"{B} uống 1 ngụm từ ly đặt trên tay bạn, bạn không được run.","tags":["couple"]},{"id":"d057","level":3,"text":"Hôn gió {B} kiểu phim 18+ và giữ ánh mắt 5 giây.","tags":["couple"]},{"id":"d058","level":3,"text":"Tự bịa một đoạn ngôn tình ‘nóng’ và đọc bằng giọng thì thầm 30 giây.","tags":[]},{"id":"d059","level":3,"text":"Chuyền một lá bài/tờ giấy sang {B} bằng miệng (hút giữ), không dùng tay.","tags":["couple"]},{"id":"d060","level":3,"text":"Chọn 1 người trong bàn và nhảy slow 30 giây.","tags":["couple"]},{"id":"d061","level":3,"text":"Diễn câm fantasy của bạn trong 20 giây, cả bàn đoán.","tags":[]},{"id":"d062","level":3,"text":"Vừa nhìn {B} vừa mô tả nụ hôn hoàn hảo trong mơ của bạn.","tags":["couple"]},{"id":"d063","level":3,"text":"Đổi 1 món đồ đang mặc với {B} cho tới lượt sau.","tags":["couple","body"]},{"id":"d064","level":3,"text":"Để {B} viết 1 chữ lên cổ hoặc tay bạn bằng son, giữ đến hết buổi.","tags":["couple","body"]},{"id":"d065","level":3,"text":"Ôm {B} từ phía sau 15 giây và nói ‘Đừng đi…’","tags":["couple"]},{"id":"d066","level":3,"text":"Gọi video cho crush và khen họ quyến rũ trong 10 giây.","tags":["outside"]},{"id":"d067","level":3,"text":"Cho cả bàn đọc đoạn chat đêm khuya gần nhất của bạn, hoặc uống.","tags":["phone"]},{"id":"d068","level":3,"text":"Làm ‘lap dance’ (mặc đủ đồ) cho một cái ghế trống trong 20 giây.","tags":[]},{"id":"d069","level":3,"text":"Bịt mắt, đoán người trong bàn chỉ bằng cách chạm tay. Sai thì uống.","tags":["couple"]},{"id":"d070","level":3,"text":"Nói câu ‘Tối nay về nhà anh/em không?’ với {B} bằng giọng nghiêm túc nhất.","tags":["couple"]}],"never":[{"id":"n001","level":1,"text":"Tôi chưa từng ngủ quên trong nhà vệ sinh."},{"id":"n002","level":1,"text":"Tôi chưa từng giả bệnh để nghỉ làm/nghỉ học."},{"id":"n003","level":1,"text":"Tôi chưa từng ăn đồ của người khác trong tủ lạnh chung."},{"id":"n004","level":1,"text":"Tôi chưa từng gửi nhầm tin nhắn nói xấu cho chính người bị nói."},{"id":"n005","level":1,"text":"Tôi chưa từng tè ngoài đường sau khi nhậu."},{"id":"n006","level":1,"text":"Tôi chưa từng hát karaoke một mình."},{"id":"n007","level":1,"text":"Tôi chưa từng tự nói chuyện với bản thân trong gương."},{"id":"n008","level":1,"text":"Tôi chưa từng ói trên xe taxi/Grab."},{"id":"n009","level":1,"text":"Tôi chưa từng quên tên người đang nói chuyện với mình."},{"id":"n010","level":1,"text":"Tôi chưa từng trốn tiền nhậu bằng cách giả đi vệ sinh."},{"id":"n011","level":2,"text":"Tôi chưa từng nhắn tin cho người yêu cũ lúc say."},{"id":"n012","level":2,"text":"Tôi chưa từng thích bạn thân của người yêu."},{"id":"n013","level":2,"text":"Tôi chưa từng giả vờ ngủ để tránh nói chuyện với ai đó."},{"id":"n014","level":2,"text":"Tôi chưa từng tạo tài khoản ảo để theo dõi ai."},{"id":"n015","level":2,"text":"Tôi chưa từng có tình cảm với ai trong bàn này."},{"id":"n016","level":2,"text":"Tôi chưa từng nói ‘yêu’ mà không thật lòng."},{"id":"n017","level":2,"text":"Tôi chưa từng bị người yêu bắt gặp đang nhắn tin với người khác."},{"id":"n018","level":2,"text":"Tôi chưa từng hẹn hò hai người cùng lúc."},{"id":"n019","level":2,"text":"Tôi chưa từng xem trộm tin nhắn của người khác."},{"id":"n020","level":2,"text":"Tôi chưa từng tỏ tình qua tin nhắn rồi thu hồi."},{"id":"n021","level":3,"text":"Tôi chưa từng hôn người mới quen dưới 24 giờ."},{"id":"n022","level":3,"text":"Tôi chưa từng gửi ảnh ‘nhạy cảm’ cho ai."},{"id":"n023","level":3,"text":"Tôi chưa từng tình một đêm."},{"id":"n024","level":3,"text":"Tôi chưa từng ‘gần gũi’ ở nơi công cộng."},{"id":"n025","level":3,"text":"Tôi chưa từng tỉnh dậy cạnh một người mà không nhớ tên."},{"id":"n026","level":3,"text":"Tôi chưa từng hôn ai trong bàn này."},{"id":"n027","level":3,"text":"Tôi chưa từng ‘quay lại’ với người cũ chỉ một đêm."},{"id":"n028","level":3,"text":"Tôi chưa từng bị bắt gặp đang ‘tình tứ’."},{"id":"n029","level":3,"text":"Tôi chưa từng nhắn tin ‘nóng’ với người mình không hẹn hò."},{"id":"n030","level":3,"text":"Tôi chưa từng mơ thấy ‘chuyện ấy’ với người quen."}],"mostlikely":[{"id":"m001","level":1,"text":"Ai có khả năng say gục đầu tiên tối nay?"},{"id":"m002","level":1,"text":"Ai có khả năng quên ví/điện thoại ở quán nhất?"},{"id":"m003","level":1,"text":"Ai có khả năng thành người nổi tiếng trên mạng vì một lý do xấu hổ?"},{"id":"m004","level":1,"text":"Ai có khả năng sống sót lâu nhất khi lạc trên đảo hoang?"},{"id":"m005","level":1,"text":"Ai có khả năng khóc khi xem phim hoạt hình nhất?"},{"id":"m006","level":1,"text":"Ai có khả năng trễ chính đám cưới của mình nhất?"},{"id":"m007","level":2,"text":"Ai có khả năng quay lại với người yêu cũ nhất?"},{"id":"m008","level":2,"text":"Ai có khả năng đang giấu một mối quan hệ bí mật?"},{"id":"m009","level":2,"text":"Ai có khả năng cưới sớm nhất nhóm?"},{"id":"m010","level":2,"text":"Ai có khả năng ‘thả thính’ nhân viên quán nhất?"},{"id":"m011","level":2,"text":"Ai có khả năng nhắn tin cho người cũ tối nay?"},{"id":"m012","level":2,"text":"Ai có khả năng ghen nhất khi yêu?"},{"id":"m013","level":2,"text":"Ai có khả năng bị ‘cắm sừng’ mà không biết nhất?"},{"id":"m014","level":3,"text":"Ai có khả năng ‘hư’ nhất khi có người yêu?"},{"id":"m015","level":3,"text":"Ai có khả năng có nhiều người yêu cũ nhất?"},{"id":"m016","level":3,"text":"Ai có khả năng tình một đêm nhất?"},{"id":"m017","level":3,"text":"Ai có khả năng hôn nhầm người khi say nhất?"},{"id":"m018","level":3,"text":"Ai có khả năng có ‘fantasy’ kỳ quặc nhất?"},{"id":"m019","level":3,"text":"Ai có khả năng về nhà cùng một người lạ tối nay?"},{"id":"m020","level":3,"text":"Ai có khả năng đang crush một người trong bàn này?"}],"events":[{"id":"e001","name":"Ai Chậm Nhất","text":"Tất cả đặt tay lên bàn NGAY! Người cuối cùng uống.","effect":"manual_pick_loser"},{"id":"e002","name":"Ai Có Khả Năng Nhất","text":"Rút 1 câu ‘Ai có khả năng nhất’. Đếm 3-2-1 cả bàn chỉ tay. Người bị chỉ nhiều nhất uống.","effect":"mostlikely_vote"},{"id":"e003","name":"Tôi Chưa Từng","text":"Rút 1 câu ‘Tôi chưa từng’. Ai đã từng thì uống.","effect":"never_round"},{"id":"e004","name":"Đảo Ngược","text":"Mọi thẻ trong túi của tất cả mọi người bị xáo trộn và chia lại ngẫu nhiên!","effect":"shuffle_all_cards"},{"id":"e005","name":"Thuế Thẻ","text":"Người giữ nhiều thẻ thưởng nhất phải nộp 1 thẻ cho người ít nhất.","effect":"card_tax"},{"id":"e006","name":"Cả Bàn Cạn","text":"Không ai thoát! Cả bàn uống. Không thẻ nào cứu được.","effect":"all_drink"},{"id":"e007","name":"Thiên Thần Hộ Mệnh","text":"Người đang có nhiều thẻ phạt nhất được xóa 1 thẻ phạt.","effect":"heal_most_penalized"},{"id":"e008","name":"Song Sinh Định Mệnh","text":"Random 2 người thành ‘song sinh’: 1 người uống thì người kia uống theo, đến hết 1 vòng.","effect":"link_two_players","duration_turns":8},{"id":"e009","name":"Vua Tạm Thời","text":"Random 1 người làm Vua: được ra 1 luật cho cả bàn đến hết 1 vòng.","effect":"random_king","duration_turns":8},{"id":"e010","name":"Mưa Thẻ","text":"Mỗi người nhận ngẫu nhiên 1 thẻ (có thể là thưởng, có thể là phạt)!","effect":"random_card_each"},{"id":"e011","name":"Cấm Tên","text":"Không ai được gọi tên thật của nhau đến hết vòng. Lỡ miệng thì uống.","effect":"manual_rule","duration_turns":8},{"id":"e012","name":"Kẻ Phản Bội","text":"Người đang ít ly nhất phải chọn 1 người uống thay mình.","effect":"least_drinker_assign"},{"id":"e013","name":"Bom Hẹn Giờ","text":"Chuyền điện thoại vòng tròn, bom nổ ngẫu nhiên trong 10–25 giây. Đang cầm lúc nổ thì uống.","effect":"hot_potato"},{"id":"e014","name":"Đấu Mắt","text":"Random 2 người nhìn nhau, ai cười/chớp mắt trước thì uống.","effect":"duel_two_players"},{"id":"e015","name":"Hoán Đổi Số Phận","text":"Người nhiều thẻ phạt nhất và người nhiều thẻ thưởng nhất đổi túi thẻ cho nhau!","effect":"swap_bags"}]}</script>
 <script>
 'use strict';
 /* ===== CONFIG: mọi tỉ lệ & con số chỉnh ở đây ===== */
 const CONFIG = {
   wheel: [
-    { id: 'shield',   icon: '🛡️', label: 'Khiên',       w: 25, color: '#0891b2' },
-    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 15, color: '#7c3aed' },
-    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 15, color: '#2563eb' },
-    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 8,  color: '#db2777' },
-    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 12, color: '#57534e' },
-    { id: 'bad',      icon: '💀', label: 'Xui',         w: 10, color: '#b91c1c' },
-    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 10, color: '#c2710c' },
-    { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 5,  color: '#ca8a04' },
+    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 10, color: '#7c3aed' },
+    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 10, color: '#2563eb' },
+    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 6,  color: '#db2777' },
+    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 56, color: '#57534e' },
+    { id: 'bad',      icon: '💀', label: 'Xui',         w: 7,  color: '#b91c1c' },
+    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 7,  color: '#c2710c' },
+    { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 4,  color: '#ca8a04' },
   ],
-  rescueChance: 0.3,                                     // Quay Đổi Vận
+  rescueMissesPer8: 5,                                   // Quay Đổi Vận: bàn 8 người, cứ 5 lần hụt thì lần kế tiếp thoát (bàn khác tính theo tỉ lệ)
   penaltyWeights: { debt: 50, forcedare: 30, silence: 20 },
   levelPreferChance: 0.7,                                // ưu tiên thẻ đúng mức hiện tại
-  eventEvery: [4, 6],                                    // sự kiện mỗi 4–6 lượt
+  eventEveryRounds: 2,                                   // cứ hết 2 vòng có 1 sự kiện
+  earlyRounds: 2,                                        // số vòng đầu vòng quay được chia theo earlySpecials
+  earlySpecials: ['mirror', 'swap', 'bad'],              // mỗi vòng đầu, mỗi ô này ra đúng 1 người, còn lại Không có gì
+  nothingShare: [0.5, 0.625],                            // từ sau đó: phần người Không có gì mỗi vòng (8 người: 4–5)
   enabledEffects: ['all_drink', 'never_round', 'mostlikely_vote', 'manual_pick_loser', 'heal_most_penalized', 'random_card_each'], // v1
   randomCardBonusChance: 0.6,                            // Mưa Thẻ: 60% thưởng / 40% phạt
   levelUpRounds: 2,
   maxBonus: 3,
   deathAt: 3,
-  reactionSeconds: 10,
-  approveSeconds: 5,
+  noTimerCards: ['d025'],                                 // có ghi thời gian nhưng không cần bấm giờ (để story 10 phút)
   maxBounces: 4,
-  bottomsUpSips: 5,                                      // "cạn ly" tính bao nhiêu ngụm vào thống kê
   spinMs: 3600,
   rescueSpinMs: 2600,
+  homeTeaseMs: 3200,                                     // đổi câu đùa ở màn hình đầu
   rescueResultMs: 1000,                                  // dừng lại xem kết quả Quay Đổi Vận
   coupleWholeTable: ['d069'],                            // thẻ couple đụng tới cả bàn: cần mọi người đã bật OK cặp
 };
 const DATA = JSON.parse(document.getElementById('questions-data').textContent);
-const REFUSE = DATA._meta.refuse_sips_default;
 const KEY = 'sayhayso.v1';
 const LEVELS = { 1: { icon: '🟢', name: 'Nhẹ' }, 2: { icon: '🟡', name: 'Cay' }, 3: { icon: '🔴', name: 'Siêu cay' } };
 const CARDS = {
-  shield:    { icon: '🛡️', name: 'Khiên Bất Tử',    desc: 'Hủy toàn bộ một lần uống của mình.' },
   mirror:    { icon: '🪞', name: 'Gương Phản Chiếu', desc: 'Đẩy toàn bộ phạt sang người khác.' },
   swap:      { icon: '🔄', name: 'Đổi Câu',          desc: 'Rút lại thẻ khác cùng loại, cùng mức.' },
-  ally:      { icon: '🤝', name: 'Đồng Minh',        desc: 'Kéo 1 người chia đôi số ngụm (làm tròn lên).' },
+  ally:      { icon: '🤝', name: 'Đồng Minh',        desc: 'Kéo 1 người uống cùng mình.' },
   king:      { icon: '👑', name: 'Vua 1 Phút',       desc: 'Đầu lượt mình: ra 1 luật đến lượt sau của mình.' },
-  debt:      { icon: '💀', name: 'Nợ Ly',            desc: '+1 ngụm vào lần uống tiếp theo, dùng xong thì mất.' },
+  debt:      { icon: '💀', name: 'Nợ Ly',            desc: 'Lần uống tiếp theo phải cạn ly, dùng xong thì mất.' },
   forcedare: { icon: '⛓️', name: 'Bắt Buộc Thách',   desc: 'Lượt kế tiếp không được chọn Thật.' },
   silence:   { icon: '🤐', name: 'Câm Lặng',         desc: 'Không được nói đến lượt kế tiếp của mình.' },
 };
-const BONUS_IDS = ['shield', 'mirror', 'swap', 'ally', 'king'];
+const BONUS_IDS = ['mirror', 'swap', 'ally', 'king'];
 const EMOJIS = ['😎','🤪','😈','🥴','🤠','👻','🐷','🐶','🐱','🦊','🐸','🐵','🦄','🐔','🐙','🦖','🍺','🍻','🔥','💀','👑','🌶️','🍑','🤡'];
 const COLORS = ['#ff2e88','#00f0ff','#ffd60a','#2bff88','#c77dff','#ff8c42','#5ea2ff','#ff6b6b','#a8e063','#f9a8d4','#5eead4','#e2c275'];
 const TAGS = { phone: '📱 Điện thoại', outside: '🌐 Người ngoài', ex: '💔 Người cũ', body: '👙 Cơ thể' };
+const REFUSE_LINES = [
+  'Không dám thì uống đi cho đỡ quê!',
+  'Sợ rồi hả? Nâng ly lên đi bạn ơi!',
+  'Né được thẻ này, chứ né sao được cái ly.',
+  'Từ chối cũng được, cái ly không phán xét đâu.',
+  'Trốn thì uống, không ai cười đâu… chắc vậy.',
+  'Cái ly đang nhìn bạn đó, liệu hồn nha!',
+];
+const HOME_TEASES = [
+  'Tối nay ai gục trước?',
+  'Nói thật thì mất bạn. Nói dối thì mất ly.',
+  'Không dám thì uống. Dám rồi cũng uống.',
+  'Bí mật của bạn sắp được chia đều cho cả bàn.',
+  'Đừng lo, mai không ai nhớ đâu… chắc vậy.',
+  'Luật chỉ có một: ai sợ thì uống.',
+];
+const HOME_FLOATERS = ['🍺', '🔥', '🌶️', '😈', '🍻', '🃏', '💀', '🥴', '👑', '🎡', '🍑', '🐔'];
 const TEASES = ['Hên xui thôi…', 'Trắng tay, về chỗ ngồi đi.', 'Ông trời không thương bạn hôm nay.', 'Quay cho vui thôi mà.', 'Thôi uống miếng nước cho đỡ buồn.'];
 
 /* ===== Tiện ích ===== */
@@ -271,7 +416,10 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e
 function load() {
   try {
     const d = JSON.parse(localStorage.getItem(KEY));
-    if (d && d.version === 1) { S = d; state = S.game; }
+    if (d && d.version === 1) {
+      S = d; state = S.game;
+      if (state) state.players.forEach(p => { p.bonus = p.bonus.filter(id => CARDS[id]); }); // ván cũ còn giữ thẻ đã bỏ
+    }
   } catch (e) { /* dữ liệu hỏng thì bắt đầu lại */ }
 }
 const settings = () => (state ? state.settings : S.draft.settings);
@@ -280,10 +428,20 @@ const cur = () => P(state.turn.currentPlayerId);
 const others = id => state.players.filter(p => p.id !== id);
 const has = (p, c) => p.bonus.includes(c);
 function take(p, c) { const i = p.bonus.indexOf(c); if (i >= 0) { p.bonus.splice(i, 1); p.stats.cardsUsed++; } }
-const sipWord = (p, n) => `${n} ngụm${p.noAlcohol ? ' nước lọc' : ''}`;
+// Số giây cần bấm giờ của thẻ Thách, 0 nếu thẻ không ghi thời gian. "Mỗi người N giây" nhân với số người còn lại.
+function dareSeconds(c) {
+  if (c.type !== 'dare' || CONFIG.noTimerCards.includes(c.id)) return 0;
+  const each = c.text.match(/mỗi người (\d+) giây/i);
+  if (each) return +each[1] * Math.max(1, state.players.length - 1);
+  const m = c.text.match(/(\d+)\s*(giây|phút)/i);
+  return m ? +m[1] * (m[2].toLowerCase() === 'phút' ? 60 : 1) : 0;
+}
+const secsWord = n => (n >= 60 ? `${Math.floor(n / 60)} phút${n % 60 ? ` ${n % 60} giây` : ''}` : `${n} giây`);
+const clock = n => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}`;
+const refuseLine = (c, p) => REFUSE_LINES[[...c.id].reduce((a, ch) => a + ch.charCodeAt(0), 0) % REFUSE_LINES.length] + (p.noAlcohol ? ' (nước lọc nha)' : '');
 const pName = p => `<span class="pn" style="--c:${p.color}">${esc(p.name)}</span>`;
 function log(t) { state.log.push(t); if (state.log.length > 60) state.log.shift(); }
-function addSips(p, n) { p.stats.sips += n; }
+function addDrink(p) { p.stats.sips += 1; } // stats.sips đếm số lần uống, mỗi lần tính 1 dù uống ít hay cạn ly
 const freshStats = () => ({ sips: 0, truths: 0, dares: 0, refusals: 0, dodges: 0, pushes: 0, deathSentences: 0, cardsUsed: 0 });
 
 function makePlayer(list) {
@@ -404,7 +562,7 @@ function drawCard(type, A, opts = {}) {
 }
 function cardHtml(c, A) {
   let t = esc(c.text);
-  if (A && A.noAlcohol) t = t.replace(/(\d+ ngụm)(?! nước)/g, '$1 nước lọc');
+  if (A && A.noAlcohol) t = t.replace(/uống(?=[.,!?…]|$)/g, 'uống nước lọc');
   if (A) t = t.replace(/\{A\}/g, () => pName(A));
   if (c.bId && P(c.bId)) t = t.replace(/\{B\}/g, () => pName(P(c.bId)));
   return t;
@@ -416,7 +574,7 @@ function partnerNote(c) {
 }
 
 /* ===== Luồng: mỗi bước là dữ liệu trong queue nên tải lại trang vẫn tiếp tục được ===== */
-function go(name, data = {}) { state.turn.phase = name; state.screen = { ...data, name }; save(); render(); }
+function go(name, data = {}) { if (name !== 'card') ui.dareTimer = null; state.turn.phase = name; state.screen = { ...data, name }; save(); render(); }
 function flow(...items) { state.queue.unshift(...items); next(); }
 function next() {
   const doomed = state.players.find(p => p.penalty.length >= CONFIG.deathAt);
@@ -433,7 +591,7 @@ function newGame(d) {
   return {
     version: 1, players, settings: s,
     turn: { index: 0, currentPlayerId: null, round: 1, level: s.startLevel, phase: '', card: null, targetB: null, ending: false, expiring: {}, turnsInRound: 0, turnsAtLevel: 0 },
-    effects: [], usedCardIds: [], customCards: [], turnsSinceEvent: 0, nextEventAt: rand(...CONFIG.eventEvery),
+    effects: [], usedCardIds: [], customCards: [],
     lastEventId: null, log: [], queue: [], screen: null, ended: false,
   };
 }
@@ -459,16 +617,17 @@ function endTurn() {
     for (let i = 0; i < (t.expiring[k] || 0); i++) { const at = p.penalty.indexOf(k); if (at >= 0) p.penalty.splice(at, 1); }
   }
   t.expiring = {};
-  if (++t.turnsInRound >= n) { t.turnsInRound = 0; t.round++; }
+  const roundEnded = ++t.turnsInRound >= n;
+  if (roundEnded) { t.turnsInRound = 0; t.round++; }
   if (state.settings.autoEscalate && ++t.turnsAtLevel >= CONFIG.levelUpRounds * n && t.level < state.settings.maxLevel) {
     t.level++; t.turnsAtLevel = 0;
     toast(`${LEVELS[t.level].icon} Lên mức ${LEVELS[t.level].name}!`); sfx('siren');
     log(`Độ cay tăng lên mức ${LEVELS[t.level].name}`);
   }
-  if (state.settings.events && ++state.turnsSinceEvent >= state.nextEventAt) {
+  if (state.settings.events && roundEnded && (t.round - 1) % CONFIG.eventEveryRounds === 0) {
     const ev = chooseEvent();
     if (ev) {
-      state.turnsSinceEvent = 0; state.nextEventAt = rand(...CONFIG.eventEvery); state.lastEventId = ev.id;
+      state.lastEventId = ev.id;
       state.queue.unshift({ name: 'event', ev });
     }
   }
@@ -477,10 +636,10 @@ function endTurn() {
 
 /* ----- Phạt (mục 5.4) ----- */
 const debtsOf = p => p.penalty.filter(x => x === 'debt').length;
-const previewSips = (p, base) => (base + debtsOf(p)) * (p.penalty.length ? 2 : 1);
-// Tính xong là Nợ Ly mất luôn, kể cả khi lần uống này sau đó bị Khiên chặn hoặc bị đẩy đi.
-function makePenalty(p, base) {
-  const pen = { victim: p.id, base, debt: debtsOf(p), doubled: p.penalty.length > 0, sips: previewSips(p, base), chain: [], bounces: 0, from: null };
+// Có Nợ Ly thì lần này phải cạn ly. Tính xong là Nợ Ly mất luôn, kể cả khi lần uống sau đó được thoát hoặc bị đẩy đi.
+function makePenalty(p) {
+  const debt = debtsOf(p);
+  const pen = { victim: p.id, debt, bottoms: debt > 0, chain: [], bounces: 0, from: null };
   p.penalty = p.penalty.filter(x => x !== 'debt');
   return pen;
 }
@@ -490,37 +649,31 @@ function randomPenalty() {
 }
 function penText(pen) {
   const p = P(pen.victim);
-  return pen.bottoms ? `uống cạn ly${p.noAlcohol ? ' nước lọc' : ''}` : `uống ${sipWord(p, pen.sips)}`;
+  return pen.bottoms ? `uống cạn ly${p.noAlcohol ? ' nước lọc' : ''}` : `uống${p.noAlcohol ? ' nước lọc' : ''}`;
 }
 function creditDodges(pen, drinkerId) {
   [...new Set(pen.chain)].filter(id => id !== drinkerId).forEach(id => { if (P(id)) P(id).stats.dodges++; });
 }
-const canMirror = (pen, X) => !pen.shieldOnly && has(X, 'mirror') && pen.bounces < CONFIG.maxBounces && !!pen.from;
+const canMirror = (pen, X) => !pen.noBounce && has(X, 'mirror') && pen.bounces < CONFIG.maxBounces && !!pen.from;
 const LOGIC = {
   react(it) {
     const pen = it.pen, X = P(pen.victim);
-    if (has(X, 'shield') || canMirror(pen, X)) return go('reaction', { pen });
+    if (canMirror(pen, X)) return go('reaction', { pen });
     LOGIC.drink({ pen });
   },
   drink(it) {
     const pen = it.pen, p = P(pen.victim);
     creditDodges(pen, p.id);
-    addSips(p, pen.bottoms ? CONFIG.bottomsUpSips : pen.sips);
+    addDrink(p);
     log(`${p.name} ${penText(pen)}`);
     go('drink', { pen });
   },
   useCards(it) {
     const p = P(it.pen.victim);
-    if (['shield', 'mirror', 'ally'].some(c => has(p, c))) return go('useCards', { pen: it.pen });
+    if (['mirror', 'ally'].some(c => has(p, c))) return go('useCards', { pen: it.pen });
     LOGIC.drink({ pen: it.pen });
   },
 };
-function blockWithShield(pen, p) {
-  take(p, 'shield'); p.stats.dodges++; creditDodges(pen, p.id);
-  log(`${p.name} dùng Khiên chặn phạt`);
-  sfx('reward'); confetti();
-  go('blocked', { pen });
-}
 function addBonus(p, id) {
   if (p.bonus.length < CONFIG.maxBonus) { p.bonus.push(id); return true; }
   state.queue.unshift({ name: 'bagFull', pid: p.id, card: id });
@@ -529,8 +682,9 @@ function addBonus(p, id) {
 
 /* ----- Vòng quay ----- */
 function drawWheel(cv, segs) {
-  const size = 300, dpr = Math.min(devicePixelRatio || 1, 3), c = cv.getContext('2d');
-  cv.width = cv.height = size * dpr; c.scale(dpr, dpr);
+  // Vẽ theo kích thước hiển thị thật, dư gấp đôi để chữ vẫn nét khi quay và khi phóng to
+  const size = 300, shown = cv.clientWidth || size, px = Math.ceil(shown * Math.max(devicePixelRatio || 1, 1) * 2), c = cv.getContext('2d');
+  cv.width = cv.height = px; c.scale(px / size, px / size);
   const total = segs.reduce((s, x) => s + x.w, 0), R = size / 2;
   let a = -Math.PI / 2;
   segs.forEach(s => {
@@ -539,7 +693,8 @@ function drawWheel(cv, segs) {
     c.fillStyle = s.color; c.fill(); c.strokeStyle = '#0b0714'; c.lineWidth = 2; c.stroke();
     c.save(); c.translate(R, R); c.rotate(a + sweep / 2); c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillStyle = '#fff';
     c.font = '20px system-ui,"Segoe UI Emoji","Apple Color Emoji"'; c.fillText(s.icon, R - 8, 1);
-    c.font = '800 12px "Be Vietnam Pro",system-ui,sans-serif'; c.fillText(s.label, R - 38, 1);
+    c.font = '800 13px "Be Vietnam Pro",system-ui,sans-serif'; c.lineJoin = 'round'; c.lineWidth = 3; c.strokeStyle = '#0b0714aa';
+    c.strokeText(s.label, R - 38, 1); c.fillText(s.label, R - 38, 1);
     c.restore();
     a += sweep;
   });
@@ -566,7 +721,7 @@ function spinTo(cv, segs, idx, ms, done) {
 function applySpin(seg) {
   const p = cur();
   let res = { icon: seg.icon, title: seg.label, desc: '' };
-  if (['shield', 'mirror', 'swap', 'mystery'].includes(seg.id)) {
+  if (['mirror', 'swap', 'mystery'].includes(seg.id)) {
     const id = seg.id === 'mystery' ? pickOne(['ally', 'king']) : seg.id;
     const fit = addBonus(p, id);
     res = { icon: CARDS[id].icon, title: `Nhận ${CARDS[id].name}!`, desc: fit ? CARDS[id].desc : 'Túi đầy rồi, chọn bỏ thẻ ở bước sau.', good: true, fly: fit ? id : null };
@@ -579,11 +734,11 @@ function applySpin(seg) {
     res = { icon: CARDS[id].icon, title: `Xui! Dính ${CARDS[id].name}`, desc: CARDS[id].desc, bad: true, fly: id };
     log(`${p.name} quay trúng ô Xui: ${CARDS[id].name}`);
   } else if (seg.id === 'alldrink') {
-    others(p.id).forEach(o => addSips(o, 1));
-    res.title = 'Cả bàn uống!'; res.desc = `Mọi người trừ ${p.name} uống 1 ngụm.`; res.good = true;
-    log(`Cả bàn trừ ${p.name} uống 1 ngụm`);
+    others(p.id).forEach(addDrink);
+    res.title = 'Cả bàn uống!'; res.desc = `Mọi người trừ ${p.name} uống đi!`; res.good = true;
+    log(`Cả bàn trừ ${p.name} uống`);
   } else if (seg.id === 'jackpot') {
-    res.title = 'JACKPOT!'; res.desc = 'Bạn được chọn 1 người uống cạn ly.'; res.good = true;
+    res.title = 'JACKPOT!'; res.desc = `${p.name} được chọn 1 người uống cạn ly.`; res.good = true;
     state.queue.unshift({ name: 'pick', mode: 'jackpot', title: '💰 Chọn 1 người uống cạn ly', candidates: others(p.id).map(o => o.id), random: true });
   }
   go('spinResult', { res });
@@ -606,9 +761,9 @@ function runEvent(ev) {
     case 'never_round':
       return go('eventNever', { ev, q: drawCard('never', null).text, ticks: [] });
     case 'all_drink':
-      state.players.forEach(p => addSips(p, ev.sips));
-      log(`Cả bàn uống ${ev.sips} ngụm (${ev.name})`);
-      return go('eventResult', { ev, icon: '🍻', desc: `Cả bàn uống ${ev.sips} ngụm. Không thẻ nào cứu được.` });
+      state.players.forEach(addDrink);
+      log(`Cả bàn uống (${ev.name})`);
+      return go('eventResult', { ev, icon: '🍻', desc: 'Cả bàn cùng uống. Không thẻ nào cứu được.' });
     case 'heal_most_penalized': {
       const most = Math.max(...state.players.map(p => p.penalty.length));
       const p = pickOne(state.players.filter(x => x.penalty.length === most));
@@ -643,11 +798,11 @@ function renderChrome() {
     </button>`).join('');
   const banners = state.effects.filter(e => e.type === 'king').map(e => {
     const k = P(e.playerIds[0]);
-    return `<div class="banner"><span>👑 ${k ? esc(k.name) : 'Vua'}: ${esc(e.text)}</span><button data-a="openViolator">+1 ngụm</button></div>`;
+    return `<div class="banner"><span>👑 ${k ? esc(k.name) : 'Vua'}: ${esc(e.text)}</span><button data-a="openViolator">🍺 Phạt</button></div>`;
   });
   // Câm Lặng hết tác dụng khi tới lượt người đó (được nói để làm thẻ), thẻ mất ở cuối lượt.
   state.players.filter(p => p.penalty.includes('silence') && !(p.id === t.currentPlayerId && t.expiring.silence)).forEach(p => {
-    banners.push(`<div class="banner"><span>🤐 ${esc(p.name)} đang Câm Lặng</span><button data-a="plusOne" data-id="${p.id}">+1 ngụm</button></div>`);
+    banners.push(`<div class="banner"><span>🤐 ${esc(p.name)} đang Câm Lặng</span><button data-a="plusOne" data-id="${p.id}">🍺 Phạt</button></div>`);
   });
   el.innerHTML = `
     <div class="topbar">
@@ -672,7 +827,7 @@ const SC = {
     return `<div class="center">
       <div class="spot" style="--c:${p.color}">
         <div class="ava">${p.emoji}</div>
-        <div class="pass">Chuyền máy cho</div>
+        <div class="pass">Tới lượt</div>
         <div class="who">${esc(p.name)}</div>
         <div class="muted small">🎒 ${p.bonus.length} thẻ thưởng · ${p.penalty.length} thẻ phạt</div>
       </div>
@@ -685,7 +840,7 @@ const SC = {
     </div>`;
   },
   card() {
-    const p = cur(), c = state.turn.card, lv = LEVELS[c.level], cost = previewSips(p, REFUSE[c.level]);
+    const p = cur(), c = state.turn.card, lv = LEVELS[c.level];
     return `<div class="center">
       <div class="scene"><div class="card3d lv${c.level}">
         <div class="face back">SAY HAY SỢ</div>
@@ -693,10 +848,11 @@ const SC = {
           <div class="tagline"><span>${c.type === 'truth' ? '🗣️ THẬT' : '🔥 THÁCH'}</span><span>${lv.icon} ${lv.name}</span></div>
           <div class="q"><div>${cardHtml(c, p)}</div></div>
           ${partnerNote(c)}
-          <div class="cost">Từ chối: uống ${sipWord(p, cost)}</div>
+          <div class="cost">${esc(refuseLine(c, p))}</div>
         </div>
       </div></div>
       <div class="stack after-flip">
+        ${dareSeconds(c) ? '<button class="btn cyan" id="dareTimer" data-a="dareTimer"></button>' : ''}
         <button class="btn ok" data-a="done">✅ Xong rồi</button>
         <button class="btn warn" data-a="refuse">🍺 Uống thay</button>
         ${has(p, 'swap') ? '<button class="btn" data-a="useSwap">🔄 Dùng thẻ Đổi Câu</button>' : ''}
@@ -707,16 +863,17 @@ const SC = {
     return `<div class="center">
       <div class="big-icon">👀</div>
       <div class="big">${pName(cur())} làm được chưa?</div>
-      <div class="muted">Tự động duyệt sau <b id="count">${CONFIG.approveSeconds}</b> giây</div>
       <button class="btn ok" data-a="approve">👍 Cả bàn duyệt</button>
       <button class="btn ghost" data-a="refuse">👎 Chưa đạt, uống thay</button>
     </div>`;
   },
   spin() {
-    return `<div class="center">
-      <h2>🎡 Vòng Quay May Mắn</h2>
+    return `<div class="center split">
       <div class="wheel-wrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>
-      <button class="btn pri" id="spinBtn" data-a="spin">QUAY!</button>
+      <div class="side">
+        <h2>🎡 Vòng Quay May Mắn</h2>
+        <button class="btn pri" id="spinBtn" data-a="spin">QUAY!</button>
+      </div>
     </div>`;
   },
   spinResult() {
@@ -730,23 +887,24 @@ const SC = {
   },
   penIntro() {
     const { pen, got } = state.screen, p = P(pen.victim);
-    const math = `${pen.base} ngụm${pen.debt ? ` + ${pen.debt} Nợ Ly` : ''}${pen.doubled ? ', nhân đôi vì đang giữ thẻ phạt' : ''}`;
     return `<div class="center">
       <div class="big-icon">🍺</div>
       <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
-      <div class="muted">${esc(math)}</div>
+      ${pen.debt ? `<div class="muted">${CARDS.debt.icon} Tới hạn trả Nợ Ly rồi nha!</div>` : ''}
       ${got ? `<div class="cardline penalty"><span class="i">${CARDS[got].icon}</span><div><b>Nhận thêm ${CARDS[got].name}</b><br><span class="small muted">${CARDS[got].desc}</span></div></div>` : ''}
-      <button class="btn pri" data-a="toRescue">🎰 Quay Đổi Vận (${Math.round(CONFIG.rescueChance * 100)}%)</button>
+      <button class="btn pri" data-a="toRescue">🎰 Quay Đổi Vận</button>
     </div>`;
   },
   rescue() {
     const p = P(state.screen.pen.victim);
-    return `<div class="center">
-      <h2>🎰 Quay Đổi Vận</h2>
-      <div class="muted">${esc(p.name)}: trúng thì đẩy phạt sang người khác, khỏi tốn thẻ.</div>
+    return `<div class="center split">
       <div class="wheel-wrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>
-      <div id="rescueMsg" class="big" style="min-height:40px"></div>
-      <button class="btn pri" id="spinBtn" data-a="spinRescue">QUAY!</button>
+      <div class="side">
+        <h2>🎰 Quay Đổi Vận</h2>
+        <div class="muted">${esc(p.name)}: vào Thoát là khỏi uống, vào Uống thì nâng ly.</div>
+        <div id="rescueMsg" class="big" style="min-height:40px"></div>
+        <button class="btn pri" id="spinBtn" data-a="spinRescue">QUAY!</button>
+      </div>
     </div>`;
   },
   useCards() {
@@ -755,7 +913,7 @@ const SC = {
     return `<div class="center">
       <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
       <h3>Dùng thẻ?</h3>
-      ${line('shield')}${line('mirror')}${line('ally')}
+      <div class="cardgrid">${line('mirror')}${line('ally')}</div>
       <button class="btn warn" data-a="takeDrink">🍺 Chịu uống</button>
     </div>`;
   },
@@ -776,16 +934,14 @@ const SC = {
     const { pen } = state.screen, X = P(pen.victim), from = pen.from && P(pen.from);
     return `<div class="center" style="gap:8px">
       <div class="spot compact" style="--c:${X.color}"><div class="ava">${X.emoji}</div>
-        <div class="pass">Chuyền máy cho</div><div class="who">${esc(X.name)}</div></div>
-      <div style="font-size:20px;font-weight:800">${from ? esc(from.name) + ' bắt bạn ' : 'Bạn sắp '}${esc(penText(pen))}!</div>
-      <div class="timer" style="font-size:42px" id="count">${CONFIG.reactionSeconds}</div>
-      ${has(X, 'shield') ? '<button class="btn cyan" data-a="reactShield">🛡️ Dùng Khiên</button>' : ''}
+        <div class="pass">Tới lượt</div><div class="who">${esc(X.name)}</div></div>
+      <div style="font-size:20px;font-weight:800">${from ? esc(from.name) + ' bắt ' + esc(X.name) + ' ' : esc(X.name) + ' sắp '}${esc(penText(pen))}!</div>
       ${canMirror(pen, X) ? `<button class="btn pri" data-a="reactMirror">🪞 Bật ngược (lần ${pen.bounces + 1}/${CONFIG.maxBounces})</button>` : ''}
       <button class="btn warn" data-a="reactDrink">🍺 Chịu uống</button>
     </div>`;
   },
   blocked() {
-    return `<div class="center"><div class="big-icon">🛡️</div>
+    return `<div class="center"><div class="big-icon">🍀</div>
       <div class="big">${pName(P(state.screen.pen.victim))} né được ly!</div>
       <div class="muted">Lần uống này bị hủy.</div>
       <button class="btn pri" data-a="next">Tiếp ➜</button></div>`;
@@ -793,7 +949,7 @@ const SC = {
   drink() {
     const { pen } = state.screen;
     return `<div class="center"><div class="beer"><i></i></div>
-      <div class="big">${pName(P(pen.victim))} ${esc(penText(pen))} 🍺</div>
+      <div class="big">${pName(P(pen.victim))} ${esc(penText(pen))} đi! 🍺</div>
       <button class="btn pri" data-a="next">Uống rồi ➜</button></div>`;
   },
   bagFull() {
@@ -802,21 +958,25 @@ const SC = {
       <div class="big-icon">${c.icon}</div>
       <div class="big">${pName(p)}: túi đầy!</div>
       <div class="muted">Muốn nhận ${c.name} thì bỏ một thẻ:</div>
-      ${p.bonus.map((b, i) => `<button class="btn cardbtn" data-a="bagDrop" data-v="${i}"><span class="i">${CARDS[b].icon}</span> Bỏ ${CARDS[b].name}</button>`).join('')}
+      <div class="cardgrid">${p.bonus.map((b, i) => `<button class="btn cardbtn" data-a="bagDrop" data-v="${i}"><span class="i">${CARDS[b].icon}</span><span>Bỏ ${CARDS[b].name}</span></button>`).join('')}</div>
       <button class="btn ghost" data-a="next">Không nhận ${c.name}</button>
     </div>`;
   },
   death() {
     const s = state.screen, p = P(s.pid);
     return `<div class="center death">
+      <div class="lead">
       <div class="big-icon">💥</div>
       <div class="big">${esc(p.name)} dính ÁN TỬ!</div>
-      <div style="font-weight:800;font-size:18px">Uống cạn ly${p.noAlcohol ? ' nước lọc' : ''} và làm 1 thử thách. Khiên và Gương đều vô dụng.</div>
+      <div class="death-sub">Uống cạn ly${p.noAlcohol ? ' nước lọc' : ''} và làm 1 thử thách. Thẻ nào cũng vô dụng.</div>
+      </div>
+      <div class="side">
       ${s.dare ? `<div class="note" style="font-size:20px;font-weight:800">${cardHtml(s.dare, p)}</div>${partnerNote(s.dare)}`
                : '<textarea id="deathTask" rows="2" maxlength="140" placeholder="Cả bàn nhập thử thách…"></textarea>'}
       <button class="btn" data-a="deathDraw">🎲 ${s.dare ? 'Rút thẻ khác' : 'Rút thẻ Thách ngẫu nhiên'}</button>
       <button class="btn ok" data-a="deathDone" data-v="done">✅ Xử xong</button>
-      <button class="btn warn" data-a="deathDone" data-v="refuse">🍺 Uống thay thử thách (+${sipWord(p, REFUSE[state.settings.maxLevel])})</button>
+      <button class="btn warn" data-a="deathDone" data-v="refuse">🍺 Uống thay thử thách</button>
+      </div>
     </div>`;
   },
   event() {
@@ -833,7 +993,7 @@ const SC = {
     return `<div class="center event-bg">
       <div class="glitch" style="font-size:26px">${esc(s.ev.name)}</div>
       <div class="note" style="font-size:22px;font-weight:800">${esc(s.q)}</div>
-      <div class="muted">Ai đã từng thì uống ${s.ev.sips} ngụm. Bấm tên để ghi vào thống kê.</div>
+      <div class="muted">Ai đã từng thì uống đi! Bấm tên để ghi vào thống kê.</div>
       ${pgrid(state.players.map(p => p.id), 'neverTick', s.ticks)}
       <button class="btn pri" style="position:sticky;bottom:8px;z-index:2" data-a="neverDone">Xong ➜</button>
     </div>`;
@@ -842,9 +1002,9 @@ const SC = {
     const s = state.screen;
     return `<div class="center event-bg">
       <div class="glitch" style="font-size:26px">${esc(s.ev.name)}</div>
-      <div class="big-icon">${s.icon}</div>
+      ${s.lines ? '' : `<div class="big-icon">${s.icon}</div>`}
       ${s.desc ? `<div style="font-size:20px;font-weight:600">${esc(s.desc)}</div>` : ''}
-      ${(s.lines || []).map(l => { const c = CARDS[l.id]; return `<div class="cardline ${l.isBonus ? 'bonus' : 'penalty'}"><span class="i">${c.icon}</span><div>${pName(P(l.pid))} nhận <b>${c.name}</b></div></div>`; }).join('')}
+      ${s.lines ? `<div class="cardlines">${s.lines.map(l => { const c = CARDS[l.id]; return `<div class="cardline ${l.isBonus ? 'bonus' : 'penalty'}"><span class="i">${c.icon}</span><div>${pName(P(l.pid))} nhận <b>${c.name}</b></div></div>`; }).join('')}</div>` : ''}
       <button class="btn pri" data-a="next">Tiếp ➜</button>
     </div>`;
   },
@@ -852,10 +1012,15 @@ const SC = {
 
 /* Việc cần chạy sau khi vẽ màn hình */
 const MOUNT = {
-  approve() { countdown(CONFIG.approveSeconds, () => A.approve()); },
+  card() {
+    const t = ui.dareTimer;
+    if (t && (t.id !== state.turn.card.id)) ui.dareTimer = null;
+    if (ui.dareTimer && ui.dareTimer.running) runDareTimer();
+    paintDareTimer();
+  },
   spin() { drawWheel($('wheel'), CONFIG.wheel); },
   rescue() { drawWheel($('wheel'), rescueSegs()); },
-  reaction() { sfx('buzz'); vibrate(200); countdown(CONFIG.reactionSeconds, () => A.reactDrink()); },
+  reaction() { sfx('buzz'); vibrate(200); },
   drink() { sfx('buzz'); shake(); vibrate(120); },
   penIntro() { sfx('buzz'); shake(); vibrate(160); if (state.screen.got) flyTo(CARDS[state.screen.got].icon, state.screen.pen.victim); },
   death() { sfx('drum'); flash(); shake(); vibrate([300, 100, 300, 100, 500]); },
@@ -880,27 +1045,60 @@ const MOUNT = {
     ui.timers.push(iv);
   },
 };
-function countdown(secs, done) {
-  let n = secs;
+function paintDareTimer() {
+  const b = $('dareTimer'); if (!b) return;
+  const t = ui.dareTimer, full = dareSeconds(state.turn.card);
+  b.classList.toggle('timing', !!(t && t.running));
+  b.textContent = t && t.running ? `⏱️ ${clock(t.left)}` : t && t.over ? '⏰ Hết giờ! Bấm để đếm lại' : `⏱️ Bắt đầu đếm ${secsWord(full)}`;
+}
+function runDareTimer() {
   const iv = setInterval(() => {
-    if (ui.sheet) return; // đang mở menu/tạm dừng thì đồng hồ dừng
-    n--;
-    const el = $('count'); if (el) el.textContent = n;
-    if (n <= 3 && n > 0) sfx('tick');
-    if (n <= 0) { clearInterval(iv); done(); }
+    if (ui.sheet) return; // đang mở menu thì đồng hồ dừng
+    const t = ui.dareTimer; if (!t) return clearInterval(iv);
+    t.left--;
+    if (t.left <= 3 && t.left > 0) sfx('tick');
+    if (t.left <= 0) { clearInterval(iv); t.running = false; t.over = true; sfx('siren'); vibrate(300); }
+    paintDareTimer();
   }, 1000);
+  ui.dareIv = iv;
   ui.timers.push(iv);
 }
+// Kế hoạch vòng quay của vòng bàn hiện tại. Lưu trong state nên tải lại trang vẫn giữ đúng số đã chia.
+function wheelPlan() {
+  const t = state.turn, n = state.players.length;
+  if (!t.wheelPlan || t.wheelPlan.round !== t.round) {
+    const [lo, hi] = CONFIG.nothingShare, min = Math.floor(n * lo), max = Math.round(n * hi);
+    t.wheelPlan = t.round <= CONFIG.earlyRounds
+      ? { round: t.round, specials: [...CONFIG.earlySpecials] }
+      : { round: t.round, nothing: rand(min, Math.max(min, max)) };
+  }
+  return t.wheelPlan;
+}
+// Xác suất tính theo số lượt còn lại, nên người cuối vòng vẫn nhận đủ phần còn thiếu dù có người từ chối thẻ và không quay.
+function chooseWheelSeg() {
+  const plan = wheelPlan(), left = Math.max(1, state.players.length - state.turn.turnsInRound);
+  if (plan.specials) return Math.random() < plan.specials.length / left ? pickOne(plan.specials) : 'nothing';
+  if (Math.random() < plan.nothing / left) return 'nothing';
+  const rest = CONFIG.wheel.filter(s => s.id !== 'nothing');
+  return rest[weighted(rest, s => s.w)].id;
+}
+function commitWheelSeg(id) {
+  const plan = wheelPlan();
+  if (plan.specials) plan.specials = plan.specials.filter(s => s !== id);
+  else if (id === 'nothing' && plan.nothing > 0) plan.nothing--;
+}
+const rescueMissLimit = () => Math.max(1, Math.round(CONFIG.rescueMissesPer8 * state.players.length / 8));
+const rescuePct = () => Math.round(100 / (rescueMissLimit() + 1)); // độ rộng ô Thoát trên vòng
 const rescueSegs = () => [
-  { id: 'win', icon: '🍀', label: 'Đẩy', w: CONFIG.rescueChance * 100, color: '#059669' },
-  { id: 'lose', icon: '🍺', label: 'Hụt rồi', w: (1 - CONFIG.rescueChance) * 100, color: '#7f1d1d' },
+  { id: 'win', icon: '🍀', label: 'Thoát', w: rescuePct(), color: '#059669' },
+  { id: 'lose', icon: '🍺', label: 'Uống', w: 100 - rescuePct(), color: '#7f1d1d' },
 ];
 
 /* ===== Giao diện: ngoài ván ===== */
 function playerEditor(list) {
   const row = p => {
     const open = ui.openId === p.id;
-    return `<div class="prow" style="--c:${p.color}">
+    return `<div class="prow ${open ? 'open' : ''}" style="--c:${p.color}">
       <div class="head">
         <button class="icon-btn" data-a="toggleOpts" data-id="${p.id}" aria-label="Đổi avatar">${p.emoji}</button>
         <input data-in="name" data-id="${p.id}" value="${esc(p.name)}" maxlength="14" placeholder="Tên" aria-label="Tên người chơi">
@@ -920,7 +1118,7 @@ function playerEditor(list) {
       <input id="newName" class="field" maxlength="14" placeholder="Tên rồi bấm Enter" enterkeyhint="done" ${list.length >= 12 ? 'disabled' : ''}>
       <button class="btn pri" style="width:auto" data-a="addPlayer" ${list.length >= 12 ? 'disabled' : ''}>Thêm</button>
     </div>
-    ${list.map(row).join('')}`;
+    ${list.length ? `<div class="plist">${list.map(row).join('')}</div>` : '<div class="empty">Bàn còn trống. Gõ tên người đầu tiên đi!</div>'}`;
 }
 const V = {
   home() {
@@ -931,11 +1129,14 @@ const V = {
       <button class="btn pri" data-a="resume">▶️ Chơi tiếp</button>
       <button class="btn ghost" data-a="discard">Bỏ ván cũ</button>
     </div>`;
-    return `<div class="center">
-      <div class="big-icon">🍻</div>
-      <div class="home-title">SAY<br>HAY SỢ</div>
-      <div class="muted">Thật hay Thách, thẻ may rủi và vòng quay.<br>Chơi chung một máy, chuyền tay theo lượt.</div>
-      <button class="btn pri" data-a="toSetup">Chơi thôi!</button>
+    return `<div class="floaters" aria-hidden="true">${HOME_FLOATERS.map((e, i) => `<span style="left:${(i * 37 + 6) % 94}%;animation-delay:-${(i * 2.3).toFixed(1)}s;animation-duration:${11 + (i * 3) % 8}s;font-size:${24 + (i * 7) % 26}px">${e}</span>`).join('')}</div>
+    <div class="center home">
+      <div class="clink">🍻</div>
+      <div class="home-title">SAY <br class="m-only">HAY SỢ</div>
+      <div class="home-tease" id="homeTease">${esc(HOME_TEASES[0])}</div>
+      <div class="home-chips"><span>🗣️ Khai thật</span><span>🔥 Dám làm</span><span>🎡 Quay vận</span><span>💥 Án Tử</span></div>
+      <button class="btn pri home-go" data-a="toSetup">🍻 Vô ly thôi!</button>
+      ${DATA._meta && DATA._meta.testSet ? '<div class="small" style="color:var(--yellow)">🧪 Bản chơi thử: câu hỏi tạm, chưa phải bộ chính thức.</div>' : ''}
       <div class="small muted">Dành cho người từ 18 tuổi trở lên. Uống có trách nhiệm, đã uống thì không lái xe.</div>
     </div>`;
   },
@@ -943,38 +1144,44 @@ const V = {
     const d = S.draft, s = d.settings, n = d.players.length;
     const seg = (key, opts) => `<div class="seg">${opts.map(([v, l, dis]) => `<button class="${s[key] === v ? 'sel' : ''}" data-a="setSetting" data-v="${key}" data-id="${v}" ${dis ? 'disabled' : ''}>${l}</button>`).join('')}</div>`;
     const tog = (key, l) => `<button class="tog ${s[key] ? 'on' : ''}" data-a="togSetting" data-v="${key}"><span>${l}</span><span class="sw"></span></button>`;
-    return `<div class="stack">
+    return `<div class="page">
+      <div class="page-head"><h1>🍻 Tối nay ai chơi?</h1><div class="muted">Thêm từ 2 đến 12 người, rồi chỉnh luật theo ý cả bàn.</div></div>
+      <div class="setup-grid">
       <div class="sec"><h3>👥 Người chơi (${n}/12)</h3>${playerEditor(d.players)}</div>
-      <button class="btn pri" data-a="toRules" ${n < 2 ? 'disabled' : ''}>${n < 2 ? 'Cần ít nhất 2 người' : 'Tiếp ➜ Luật chơi'}</button>
       <div class="sec"><h3>⚙️ Cài đặt ván</h3>
-        <div class="small muted">Mức khởi đầu</div>
-        ${seg('startLevel', [[1, '🟢 Nhẹ'], [2, '🟡 Cay'], [3, '🔴 Siêu cay', s.maxLevel < 3]])}
-        <div class="small muted">Mức tối đa</div>
-        ${seg('maxLevel', [[2, '🟡 Cay'], [3, '🔴 Siêu cay']])}
-        <div class="small muted">Thứ tự lượt</div>
-        ${seg('order', [['circle', '🔁 Vòng tròn'], ['random', '🎲 Ngẫu nhiên']])}
+        <div class="opt-row"><div class="small muted">Mức khởi đầu</div>
+        ${seg('startLevel', [[1, '🟢 Nhẹ'], [2, '🟡 Cay'], [3, '🔴 Siêu cay', s.maxLevel < 3]])}</div>
+        <div class="opt-row"><div class="small muted">Mức tối đa</div>
+        ${seg('maxLevel', [[2, '🟡 Cay'], [3, '🔴 Siêu cay']])}</div>
+        <div class="opt-row"><div class="small muted">Thứ tự lượt</div>
+        ${seg('order', [['circle', '🔁 Vòng tròn'], ['random', '🎲 Ngẫu nhiên']])}</div>
         ${tog('autoEscalate', '🌶️ Tự tăng độ cay mỗi 2 vòng')}
         ${tog('events', '⚡ Sự kiện ngẫu nhiên')}
         ${tog('outsideOff', '🌐 Tắt hẳn thẻ dính tới người ngoài')}
         ${tog('sound', '🔊 Âm thanh')}
       </div>
-      <button class="btn ghost" data-a="toHome">⬅ Về đầu</button>
+      </div>
+      <div class="actionbar">
+        <button class="btn ghost" data-a="toHome">⬅ Về đầu</button>
+        <button class="btn pri" data-a="toRules" ${n < 2 ? 'disabled' : ''}>${n < 2 ? 'Cần ít nhất 2 người' : 'Tiếp ➜ Luật chơi'}</button>
+      </div>
     </div>`;
   },
   rules() {
-    const pct = Math.round(CONFIG.rescueChance * 100);
     const slides = [
-      ['🎯 Cách chơi', `<p>Đặt máy giữa bàn, chuyền tay theo lượt.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
+      ['🎯 Cách chơi', `<p>Đặt laptop chỗ cả bàn cùng nhìn thấy. Một người làm quản trò và bấm cho mọi người.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
       ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng.</p><ul>${BONUS_IDS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}</ul>`],
-      ['💀 Thẻ phạt', `<ul>${['debt', 'forcedare', 'silence'].map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>Đang giữ thẻ phạt mà bị phạt thì số ngụm <b>nhân đôi</b>.</li><li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
-      ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: ${pct}% đẩy được phạt miễn phí.</li><li>Bị đẩy sang? Bạn có <b>${CONFIG.reactionSeconds} giây</b> để dùng Khiên hoặc bật ngược bằng Gương.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
+      ['💀 Thẻ phạt', `<ul>${['debt', 'forcedare', 'silence'].map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
+      ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: vào Thoát là khỏi uống. Bàn 8 người cứ ${CONFIG.rescueMissesPer8} lần hụt sẽ có 1 lần thoát.</li><li>Bị đẩy sang? Người đó được bật ngược bằng Gương, cứ thong thả, không tính giờ.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
       ['🤝 An toàn', `<ul><li>Không ai bị ép: luôn có nút <b>Uống thay</b>.</li><li>Thử thách đụng chạm chỉ dành cho người bật <b>OK thử thách cặp</b>.</li><li>Có chế độ <b>nước lọc</b> cho người lái xe.</li><li>Câu ở lại bàn nhậu: chuyện trong game không mang ra ngoài 🤫</li></ul>`],
     ];
-    return `<div class="center">
+    return `<div class="page">
+      <div class="page-head"><h1>📖 Luật chơi</h1><div class="muted swipe-hint">Vuốt ngang để xem ${slides.length} trang luật</div></div>
       <div class="slides">${slides.map(([t, b]) => `<section class="slide"><h2>${t}</h2>${b}</section>`).join('')}</div>
-      <div class="small muted">Vuốt ngang để xem ${slides.length} trang luật</div>
-      <button class="btn pri" data-a="startGame">🍻 Vào chơi</button>
-      <button class="btn ghost" data-a="toSetup">⬅ Sửa cài đặt</button>
+      <div class="actionbar">
+        <button class="btn ghost" data-a="toSetup">⬅ Sửa cài đặt</button>
+        <button class="btn pri" data-a="startGame">🍻 Vào chơi</button>
+      </div>
     </div>`;
   },
   game() { const f = SC[state.screen.name]; return f ? f() : ''; },
@@ -983,20 +1190,26 @@ const V = {
     const award = (key, icon, name, what) => {
       const best = Math.max(...ps.map(p => p.stats[key]));
       const who = best > 0 ? ps.filter(p => p.stats[key] === best).map(pName).join(', ') : '<span class="muted">Chưa ai xứng đáng</span>';
-      return `<div class="award"><span class="i">${icon}</span><div><b>${name}</b><span class="small muted">${what}${best > 0 ? ` · ${best}` : ''}</span><div>${who}</div></div></div>`;
+      return `<div class="award"><span class="i">${icon}</span><div><b>${name}</b><span class="small muted">${what}${best > 0 ? ` · ${best}` : ''}</span></div><div class="who">${who}</div></div>`;
     };
+    // Xếp theo số lần uống, bằng nhau thì ai từ chối nhiều hơn đứng trên
+    const ranked = [...ps].sort((a, b) => b.stats.sips - a.stats.sips || b.stats.refusals - a.stats.refusals);
+    const line = p => `🍺 ${p.stats.sips} · 🗣️ ${p.stats.truths} · 🔥 ${p.stats.dares} · 🐔 ${p.stats.refusals} · 🃏 ${p.stats.cardsUsed}`;
+    const step = (p, r) => (p ? `<div class="step r${r}" style="--c:${p.color}"><div class="who-e">${p.emoji}</div><div class="who-n">${esc(p.name)}</div><div class="cnt">🍺 ${p.stats.sips} lần</div><div class="block"><span class="medal">${['🥇', '🥈', '🥉'][r - 1]}</span><span class="small">🗣️ ${p.stats.truths} · 🔥 ${p.stats.dares}<br>🐔 ${p.stats.refusals} · 🃏 ${p.stats.cardsUsed}</span></div></div>` : '');
     return `<div class="stack">
-      <h1 style="text-align:center;color:var(--yellow)">🏆 Tổng kết</h1>
-      ${award('sips', '🍺', 'Bợm Nhậu', 'Uống nhiều ngụm nhất')}
-      ${award('dodges', '🛡️', 'Vua Né Ly', 'Né được nhiều lần nhất')}
+      <h1 style="text-align:center;color:var(--yellow)">🏆 Bảng xếp hạng</h1>
+      <div class="podium">${step(ranked[1], 2)}${step(ranked[0], 1)}${step(ranked[2], 3)}</div>
+      ${ranked.length > 3 ? `<div class="sec ranklist">${ranked.slice(3).map((p, i) => `<div class="rankrow"><b class="no">${i + 4}</b><span>${p.emoji}</span><span class="nm">${esc(p.name)}</span><span class="small muted">${line(p)}</span></div>`).join('')}</div>` : ''}
+      <div class="small muted" style="text-align:center">🍺 số lần uống · 🗣️ Thật · 🔥 Thách · 🐔 từ chối · 🃏 thẻ đã dùng</div>
+      <h3 style="text-align:center">Danh hiệu</h3>
+      <div class="awards">
+      ${award('sips', '🍺', 'Bợm Nhậu', 'Uống nhiều lần nhất')}
+      ${award('dodges', '🍀', 'Vua Né Ly', 'Né được nhiều lần nhất')}
       ${award('pushes', '😈', 'Kẻ Gieo Rắc', 'Đẩy phạt nhiều nhất')}
       ${award('dares', '🔥', 'Liều Mạng', 'Hoàn thành nhiều thẻ Thách nhất')}
       ${award('refusals', '🐔', 'Gà Con', 'Từ chối nhiều nhất')}
       ${award('deathSentences', '💥', 'Tử Tù', 'Dính Án Tử nhiều nhất')}
-      <div class="sec"><table>
-        <thead><tr><th>Người</th><th>🍺</th><th>🗣️</th><th>🔥</th><th>🐔</th><th>🃏</th></tr></thead>
-        <tbody>${ps.map(p => `<tr><td>${p.emoji} ${esc(p.name)}</td><td>${p.stats.sips}</td><td>${p.stats.truths}</td><td>${p.stats.dares}</td><td>${p.stats.refusals}</td><td>${p.stats.cardsUsed}</td></tr>`).join('')}</tbody>
-      </table><div class="small muted">🍺 ngụm · 🗣️ Thật · 🔥 Thách · 🐔 từ chối · 🃏 thẻ đã dùng</div></div>
+      </div>
       <button class="btn pri" data-a="againKeep">🔁 Chơi ván mới (giữ người chơi)</button>
       <button class="btn ghost" data-a="toHomeClear">Về màn hình đầu</button>
     </div>`;
@@ -1009,6 +1222,16 @@ function render() {
   main.innerHTML = V[S.view]();
   main.scrollTop = keep ? top : 0;
   if (S.view === 'game' && MOUNT[state.screen.name]) MOUNT[state.screen.name]();
+  if (S.view === 'home' && $('homeTease')) {
+    let i = 0;
+    ui.timers.push(setInterval(() => {
+      const el = $('homeTease'); if (!el) return;
+      i = (i + 1) % HOME_TEASES.length;
+      el.textContent = HOME_TEASES[i];
+      el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+    }, CONFIG.homeTeaseMs));
+  }
+  if (S.view === 'end') confetti();
 }
 
 /* ===== Sheet ===== */
@@ -1028,12 +1251,12 @@ const SH = {
   bag: () => {
     const p = P(ui.sheetData), line = (c, cls) => `<div class="cardline ${cls}"><span class="i">${CARDS[c].icon}</span><div><b>${CARDS[c].name}</b><br><span class="small muted">${CARDS[c].desc}</span></div></div>`;
     return `<h2 style="color:${p.color}">${p.emoji} ${esc(p.name)}</h2>
-      <div class="small muted">🍺 ${p.stats.sips} ngụm${p.noAlcohol ? ' nước lọc' : ''}</div>
+      <div class="small muted">🍺 Đã uống ${p.stats.sips} lần${p.noAlcohol ? ' (nước lọc)' : ''}</div>
       <h3>🎁 Thẻ thưởng (${p.bonus.length}/${CONFIG.maxBonus})</h3>${p.bonus.map(c => line(c, 'bonus')).join('') || '<div class="muted">Trống</div>'}
       <h3>💀 Thẻ phạt (${p.penalty.length}/${CONFIG.deathAt})</h3>${p.penalty.map(c => line(c, 'penalty')).join('') || '<div class="muted">Trống</div>'}
       <button class="btn ghost" data-a="closeSheet">Đóng</button>`;
   },
-  king: () => `<h2>👑 Vua 1 Phút</h2><div class="muted">Luật có hiệu lực đến lượt sau của bạn. Vi phạm = 1 ngụm.</div>
+  king: () => `<h2>👑 Vua 1 Phút</h2><div class="muted">Luật có hiệu lực đến lượt sau của bạn. Ai vi phạm thì uống.</div>
     <textarea id="kingText" rows="3" maxlength="90" placeholder="Ví dụ: cấm nói từ “uống”"></textarea>
     <button class="btn warn" data-a="kingConfirm">👑 Ban luật</button><button class="btn ghost" data-a="closeSheet">Thôi</button>`,
   violator: () => `<h2>Ai vi phạm luật?</h2>${pgrid(state.players.map(p => p.id), 'plusOne')}<button class="btn ghost" data-a="closeSheet">Đóng</button>`,
@@ -1124,6 +1347,12 @@ const A = {
     sfx('flip');
     go('card');
   },
+  // Bấm khi đang chạy thì dừng hẳn; bấm khi chưa chạy hoặc đã hết giờ thì đếm từ đầu
+  dareTimer() {
+    if (ui.dareTimer && ui.dareTimer.running) { clearInterval(ui.dareIv); ui.dareTimer = null; return paintDareTimer(); }
+    ui.dareTimer = { id: state.turn.card.id, left: dareSeconds(state.turn.card), running: true, over: false };
+    sfx('tick'); runDareTimer(); paintDareTimer();
+  },
   done() { go('approve'); },
   approve() {
     const p = cur(), isTruth = state.turn.card.type === 'truth';
@@ -1132,7 +1361,7 @@ const A = {
     go('spin');
   },
   refuse() {
-    const p = cur(), pen = makePenalty(p, REFUSE[state.turn.card.level]), got = randomPenalty();
+    const p = cur(), pen = makePenalty(p), got = randomPenalty();
     p.stats.refusals++;
     p.penalty.push(got);
     log(`${p.name} từ chối, nhận ${CARDS[got].name}`);
@@ -1141,31 +1370,36 @@ const A = {
   next() { next(); },
   spin() {
     $('spinBtn').disabled = true;
-    const segs = CONFIG.wheel, idx = weighted(segs, s => s.w);
-    spinTo($('wheel'), segs, idx, CONFIG.spinMs, () => applySpin(segs[idx]));
+    const segs = CONFIG.wheel, picked = chooseWheelSeg(), idx = segs.findIndex(s => s.id === picked);
+    spinTo($('wheel'), segs, idx, CONFIG.spinMs, () => { commitWheelSeg(segs[idx].id); applySpin(segs[idx]); });
   },
   toRescue() { flow({ name: 'rescue', pen: state.screen.pen }); },
   spinRescue() {
     const { pen } = state.screen, segs = rescueSegs();
     $('spinBtn').disabled = true;
-    const win = Math.random() < CONFIG.rescueChance;
+    const win = (state.rescueMisses || 0) >= rescueMissLimit();
     spinTo($('wheel'), segs, win ? 0 : 1, CONFIG.rescueSpinMs, () => {
-      $('rescueMsg').textContent = win ? '🍀 Trúng rồi!' : '🍺 Hụt rồi!';
+      state.rescueMisses = win ? 0 : (state.rescueMisses || 0) + 1;
+      $('rescueMsg').textContent = win ? '🍀 Thoát rồi!' : '🍺 Uống đi!';
       sfx(win ? 'reward' : 'buzz');
       if (win) confetti();
       ui.timers.push(setTimeout(() => {
-        if (win) return go('pick', { mode: 'push', pen, title: 'Đẩy phạt sang ai?', candidates: others(pen.victim).map(o => o.id), random: true });
+        if (win) {
+          const p = P(pen.victim);
+          p.stats.dodges++; creditDodges(pen, p.id);
+          log(`${p.name} thoát nhờ Quay Đổi Vận`);
+          return go('blocked', { pen });
+        }
         LOGIC.useCards({ pen });
       }, CONFIG.rescueResultMs));
     });
   },
   useCard(d) {
     const { pen } = state.screen, p = P(pen.victim);
-    if (d.v === 'shield') return blockWithShield(pen, p);
     take(p, d.v);
     const candidates = others(p.id).map(o => o.id);
     if (d.v === 'mirror') return go('pick', { mode: 'push', pen, title: '🪞 Đẩy phạt sang ai?', candidates, random: true });
-    go('pick', { mode: 'ally', pen, title: '🤝 Kéo ai chia đôi?', candidates, random: true });
+    go('pick', { mode: 'ally', pen, title: '🤝 Kéo ai uống cùng?', candidates, random: true });
   },
   takeDrink() { LOGIC.drink({ pen: state.screen.pen }); },
   pickPlayer(d) { resolvePick(d.id); },
@@ -1185,7 +1419,6 @@ const A = {
     }, 90);
     ui.timers.push(iv);
   },
-  reactShield() { const { pen } = state.screen; blockWithShield(pen, P(pen.victim)); },
   reactMirror() {
     const { pen } = state.screen, X = P(pen.victim);
     take(X, 'mirror'); X.stats.pushes++;
@@ -1207,7 +1440,8 @@ const A = {
   },
   deathDone(d) {
     const p = P(state.screen.pid);
-    addSips(p, CONFIG.bottomsUpSips + (d.v === 'refuse' ? REFUSE[state.settings.maxLevel] : 0));
+    addDrink(p);
+    if (d.v === 'refuse') addDrink(p); // bỏ thử thách thì uống thêm 1 lần
     p.stats.deathSentences++;
     p.penalty = [];
     log(`${p.name} đã thi hành Án Tử`);
@@ -1223,7 +1457,7 @@ const A = {
   },
   neverDone() {
     const s = state.screen;
-    s.ticks.forEach(id => addSips(P(id), s.ev.sips));
+    s.ticks.forEach(id => addDrink(P(id)));
     next();
   },
 
@@ -1257,10 +1491,10 @@ const A = {
   },
   openViolator() { ui.sheet = 'violator'; renderSheet(); },
   plusOne(d) {
-    const p = P(d.id); addSips(p, 1);
-    log(`${p.name} bị bắt lỗi: +1 ngụm`);
+    const p = P(d.id); addDrink(p);
+    log(`${p.name} bị bắt lỗi, phải uống`);
     if (ui.sheet) { ui.sheet = null; renderSheet(); }
-    toast(`${p.name} uống ${sipWord(p, 1)} 🍺`);
+    toast(`${p.name} uống${p.noAlcohol ? ' nước lọc' : ''} đi! 🍺`);
     sfx('buzz'); save(); renderChrome();
   },
   endGame() {
@@ -1288,16 +1522,16 @@ function resolvePick(id) {
     return LOGIC.react({ pen: { ...s.pen, victim: id, from: actor.id, chain: [...s.pen.chain, actor.id] } });
   }
   if (s.mode === 'ally') {
-    const actor = s.pen.victim, half = Math.ceil(s.pen.sips / 2);
-    log(`${P(actor).name} kéo ${P(id).name} chia đôi`);
-    state.queue.unshift({ name: 'drink', pen: { victim: actor, sips: half, chain: [] } });
-    return LOGIC.react({ pen: { victim: id, sips: half, from: actor, chain: [], bounces: 0, shieldOnly: true } });
+    const actor = s.pen.victim;
+    log(`${P(actor).name} kéo ${P(id).name} uống cùng`);
+    state.queue.unshift({ name: 'drink', pen: { victim: actor, bottoms: s.pen.bottoms, chain: [] } });
+    return LOGIC.react({ pen: { victim: id, from: actor, chain: [], bounces: 0, noBounce: true } });
   }
   if (s.mode === 'jackpot') {
-    return LOGIC.react({ pen: { victim: id, sips: CONFIG.bottomsUpSips, bottoms: true, from: state.turn.currentPlayerId, chain: [], bounces: 0 } });
+    return LOGIC.react({ pen: { victim: id, bottoms: true, from: state.turn.currentPlayerId, chain: [], bounces: 0 } });
   }
   if (s.mode === 'loser') {
-    return go('penIntro', { pen: makePenalty(P(id), s.ev.sips), got: null });
+    return go('penIntro', { pen: makePenalty(P(id)), got: null });
   }
 }
 
