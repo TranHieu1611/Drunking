@@ -77,7 +77,7 @@ TURN_END → (đôi khi) RANDOM_EVENT → TURN_START (người tiếp theo)
 | `mirror` | Gương Phản Chiếu | 🪞 | Khi chính mình sắp phải uống | Đẩy toàn bộ phạt sang 1 người (chọn tay **hoặc** bấm "Random" để quay chọn). Người nhận được quyền phản ứng |
 | `swap` | Đổi Câu | 🔄 | Ở màn CARD_REVEAL của chính mình | Rút lại thẻ khác cùng loại/mức |
 | `ally` | Đồng Minh | 🤝 | Khi chính mình sắp phải uống | Chọn 1 người chia đôi số ngụm (làm tròn lên cho cả hai). Người bị kéo có thể phản ứng bằng Khiên |
-| `king` | Vua 1 Phút | 👑 | Ở TURN_START của chính mình | Ra 1 luật tự do (nhập text) hiển thị dạng banner cho cả bàn đến lượt sau của mình. Vi phạm = 1 ngụm (bàn tự phân xử, có nút "+1 ngụm" trên banner) |
+| `king` | Vua 1 Vòng | 👑 | Ở TURN_START của chính mình | Ra 1 luật tự do (nhập text) hiển thị dạng banner cho cả bàn trong đúng 1 vòng (số lượt = số người). Vi phạm = 1 ngụm (bàn tự phân xử, có nút "+1 ngụm" trên banner) |
 
 ### 5.3 Thẻ phạt
 | ID | Tên | Icon | Tác dụng |
@@ -108,7 +108,7 @@ Sau khi hoàn thành thử thách. Wheel 8 ô, canvas hoặc SVG, quay có quán
 | 🛡️ Khiên | 25% | Nhận thẻ Khiên |
 | 🪞 Gương | 15% | Nhận thẻ Gương |
 | 🔄 Đổi Câu | 15% | Nhận thẻ Đổi Câu |
-| 🎁 Thẻ bí ẩn | 8% | Nhận ngẫu nhiên Đồng Minh hoặc Vua 1 Phút |
+| 🎁 Thẻ bí ẩn | 8% | Nhận ngẫu nhiên Đồng Minh hoặc Vua 1 Vòng |
 | 😐 Không có gì | 12% | Câu chọc ngẫu nhiên ("Hên xui thôi…") |
 | 💀 Xui | 10% | Nhận 1 thẻ phạt ngẫu nhiên |
 | 🍻 Cả bàn uống | 10% | Mọi người trừ người quay uống 1 ngụm |
@@ -141,7 +141,7 @@ Bung sau TURN_END mỗi 4–6 lượt. Màn hình đặc biệt: nền đổi m�
 | `all_drink` | Mọi người uống, không dùng được thẻ |
 | `heal_most_penalized` | Xóa 1 thẻ phạt của người nhiều thẻ phạt nhất |
 | `link_two_players` | Gắn 2 người "song sinh" trong `duration_turns` lượt — mỗi khi 1 người uống, app hiện kèm "+ {song sinh} uống theo" |
-| `random_king` | Như thẻ Vua 1 Phút nhưng cho người random, kéo dài `duration_turns` |
+| `random_king` | Như thẻ Vua 1 Vòng nhưng cho người random, kéo dài `duration_turns` |
 | `random_card_each` | Mỗi người nhận 1 thẻ ngẫu nhiên (60% thưởng / 40% phạt) |
 | `manual_rule` | Hiện banner luật trong `duration_turns` lượt, có nút "+1 ngụm" |
 | `least_drinker_assign` | Người có tổng ngụm thấp nhất chọn 1 người uống (người bị chọn được phản ứng) |
