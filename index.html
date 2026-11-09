@@ -243,6 +243,26 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .awards .award .i{font-size:24px}.awards .award .who{margin-left:auto;text-align:right;font-weight:800}
 @media (min-width:900px){.m-only{display:none}}
 @media (prefers-reduced-motion:reduce){.floaters span,.clink,.home .home-title,.home-go{animation:none}.floaters{display:none}}
+/* Nền say và bia: nằm sau cả game, càng cay bia càng dâng, bọt càng sủi, nền càng chao */
+#app{position:relative;z-index:1}
+#bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;--beer:13vh;--sway:1deg;--swayT:9s;--bub:.55}
+#bg[data-level="2"]{--beer:20vh;--sway:2deg;--swayT:6.5s;--bub:.75}
+#bg[data-level="3"]{--beer:28vh;--sway:3.4deg;--swayT:4.2s;--bub:1}
+#bg .bg-sway{position:absolute;inset:-12%;animation:drunk var(--swayT) ease-in-out infinite alternate}
+@keyframes drunk{0%{transform:rotate(calc(var(--sway) * -1)) translate(-1.5%,.5%)}50%{transform:rotate(calc(var(--sway) * .4)) translate(1%,-1%) scale(1.03)}100%{transform:rotate(var(--sway)) translate(1.5%,.8%)}}
+#bg .bg-blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(40px);opacity:.22;animation:blobDrift 22s ease-in-out infinite alternate}
+#bg .bg-b1{left:-15%;top:-10%;background:radial-gradient(circle,#b026ff,transparent 65%)}
+#bg .bg-b2{right:-20%;top:20%;background:radial-gradient(circle,#ff2e88,transparent 65%);animation-duration:27s;animation-delay:-8s}
+#bg .bg-b3{left:10%;bottom:-25%;background:radial-gradient(circle,#ffb020,transparent 65%);animation-duration:19s;animation-delay:-4s}
+@keyframes blobDrift{to{transform:translate(12vw,8vh) scale(1.15)}}
+#bg .bg-beer{position:absolute;left:0;right:0;bottom:0;height:var(--beer);background:linear-gradient(180deg,#f2a516,#b45309 70%,#7c2d12);opacity:.3;transition:height 1.6s cubic-bezier(.3,1.4,.5,1)}
+#bg .bg-wave{position:absolute;left:0;width:200%;height:30px;animation:waveX 7s linear infinite}
+#bg .bg-wave.bg-beerTop{top:-29px;fill:#f2a516}
+#bg .bg-wave.bg-foam{top:-40px;height:34px;fill:#fff4d6;opacity:.85;animation-duration:11s;animation-direction:reverse}
+@keyframes waveX{to{transform:translateX(-50%)}}
+#bg .bg-bub{position:absolute;bottom:0;border-radius:50%;border:1.5px solid #fff3c4;background:#fff3c433;opacity:0;animation:bubUp linear infinite}
+@keyframes bubUp{0%{transform:translate(0,0);opacity:0}10%{opacity:var(--bub)}50%{transform:translate(10px,-35vh)}100%{transform:translate(-8px,-72vh);opacity:0}}
+@media (prefers-reduced-motion:reduce){#bg .bg-bub{display:none}#bg .bg-sway,#bg .bg-blob,#bg .bg-wave{animation:none}}
 @media (min-width:900px) and (min-height:560px){
   .center{gap:24px}
   .center>.btn,.center>.cardline,.center>.note{width:100%;max-width:580px;margin-inline:auto}
@@ -328,6 +348,12 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 </style>
 </head>
 <body>
+<div id="bg" aria-hidden="true"><div class="bg-sway"><div class="bg-blob bg-b1"></div><div class="bg-blob bg-b2"></div><div class="bg-blob bg-b3"></div></div>
+  <div class="bg-beer">
+    <svg class="bg-wave bg-foam" viewBox="0 0 1200 34" preserveAspectRatio="none"><path d="M0 18 Q75 2 150 18 T300 18 T450 18 T600 18 T750 18 T900 18 T1050 18 T1200 18 V34 H0Z"/></svg>
+    <svg class="bg-wave bg-beerTop" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 14 Q100 0 200 14 T400 14 T600 14 T800 14 T1000 14 T1200 14 V30 H0Z"/></svg>
+  </div>
+</div>
 <div id="app"><div id="shell">
   <div id="chrome"></div>
   <main id="main"></main>
@@ -1053,6 +1079,7 @@ function runEvent(ev) {
 /* ===== Giao diện: chrome ===== */
 function renderChrome() {
   const el = $('chrome');
+  $('bg').dataset.level = S.view === 'game' && state ? state.turn.level : 1; // nền say theo độ cay
   if (S.view !== 'game') { el.innerHTML = ''; return; }
   const t = state.turn, lv = LEVELS[t.level], last = state.log[state.log.length - 1], focus = state.screen.name === 'reaction';
   const chips = state.players.map(p => `
@@ -1895,6 +1922,11 @@ document.addEventListener('keydown', e => {
 });
 
 /* ===== Khởi động ===== */
+// Bọt khí nổi từ ly bia ở nền, vị trí và tốc độ ngẫu nhiên một lần
+$('bg').insertAdjacentHTML('beforeend', Array.from({ length: 18 }, () => {
+  const s = 4 + Math.random() * 10, d = 6 + Math.random() * 7;
+  return `<span class="bg-bub" style="left:${(Math.random() * 98).toFixed(1)}%;width:${s.toFixed(0)}px;height:${s.toFixed(0)}px;animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random() * d).toFixed(1)}s"></span>`;
+}).join(''));
 load();
 if (state && !state.ended) { S.view = 'home'; ui.resumePrompt = true; }
 else if (state && state.ended) { S.view = 'end'; }
