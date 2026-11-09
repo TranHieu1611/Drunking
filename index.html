@@ -255,14 +255,33 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 #bg .bg-b2{right:-20%;top:20%;background:radial-gradient(circle,#ff2e88,transparent 65%);animation-duration:27s;animation-delay:-8s}
 #bg .bg-b3{left:10%;bottom:-25%;background:radial-gradient(circle,#ffb020,transparent 65%);animation-duration:19s;animation-delay:-4s}
 @keyframes blobDrift{to{transform:translate(12vw,8vh) scale(1.15)}}
-#bg .bg-beer{position:absolute;left:0;right:0;bottom:0;height:var(--beer);background:linear-gradient(180deg,#f2a516,#b45309 70%,#7c2d12);opacity:.3;transition:height 1.6s cubic-bezier(.3,1.4,.5,1)}
+#bg .bg-beer{position:absolute;left:-6%;right:-6%;bottom:-40px;height:calc(var(--beer) + 40px);transform-origin:50% 100%;background:linear-gradient(180deg,#f2a516,#b45309 70%,#7c2d12);opacity:.3;transition:height 1.6s cubic-bezier(.3,1.4,.5,1)}
 #bg .bg-wave{position:absolute;left:0;width:200%;height:30px;animation:waveX 7s linear infinite}
 #bg .bg-wave.bg-beerTop{top:-29px;fill:#f2a516}
 #bg .bg-wave.bg-foam{top:-40px;height:34px;fill:#fff4d6;opacity:.85;animation-duration:11s;animation-direction:reverse}
 @keyframes waveX{to{transform:translateX(-50%)}}
 #bg .bg-bub{position:absolute;bottom:0;border-radius:50%;border:1.5px solid #fff3c4;background:#fff3c433;opacity:0;animation:bubUp linear infinite}
 @keyframes bubUp{0%{transform:translate(0,0);opacity:0}10%{opacity:var(--bub)}50%{transform:translate(10px,-35vh)}100%{transform:translate(-8px,-72vh);opacity:0}}
-@media (prefers-reduced-motion:reduce){#bg .bg-bub{display:none}#bg .bg-sway,#bg .bg-blob,#bg .bg-wave{animation:none}}
+/* Nền phản ứng theo thao tác: class fx-* gắn tạm lên #bg (bgFx), fx-spin trong lúc vòng quay chạy */
+#bg .bg-glow{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 62%,var(--glow,#ffd60a),transparent 68%)}
+@keyframes glow{0%{opacity:0}18%{opacity:var(--glowMax,.45)}100%{opacity:0}}
+#bg.fx-drink .bg-beer{animation:gulp 2.4s cubic-bezier(.5,0,.3,1)}
+@keyframes gulp{0%{transform:none}30%,50%{transform:translateY(78%)}100%{transform:none}}
+#bg.fx-drink .bg-sway{animation:drunk calc(var(--swayT) / 4) ease-in-out 6 alternate}
+#bg.fx-drink .bg-glow{--glow:#f59e0b;animation:glow 2.4s ease-out}
+#bg.fx-escape .bg-beer{animation:surge 2.2s cubic-bezier(.2,1.6,.4,1)}
+@keyframes surge{0%{transform:none}30%{transform:translateY(-38%) scaleY(1.08)}65%{transform:translateY(-18%)}100%{transform:none}}
+#bg.fx-escape .bg-glow{--glow:#2bff88;animation:glow 2.2s ease-out}
+#bg.fx-good .bg-glow{--glow:#ffd60a;animation:glow 2s ease-out}
+#bg.fx-bad .bg-glow{--glow:#ff2a2a;--glowMax:.55;animation:glow 2.4s ease-out}
+#bg.fx-bad .bg-beer{animation:slosh .3s ease-in-out 6 alternate}
+#bg.fx-spin .bg-sway{animation:swirl 1.4s linear infinite}
+@keyframes swirl{to{transform:rotate(360deg)}}
+#bg.fx-spin .bg-beer{animation:slosh .45s ease-in-out infinite alternate}
+@keyframes slosh{0%{transform:rotate(-2.6deg)}100%{transform:rotate(2.6deg) translateY(-4%)}}
+#bg .bg-burst{position:absolute;bottom:0;border-radius:50%;border:1.5px solid var(--bc,#fff3c4);background:color-mix(in srgb,var(--bc,#fff3c4) 25%,transparent);animation:burstUp ease-out forwards}
+@keyframes burstUp{0%{transform:translate(0,0) scale(.6);opacity:0}12%{opacity:.95}100%{transform:translate(var(--dx,0),-85vh) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){#bg .bg-bub,#bg .bg-burst{display:none}#bg .bg-sway,#bg .bg-blob,#bg .bg-wave,#bg .bg-beer,#bg .bg-glow{animation:none!important}}
 @media (min-width:900px) and (min-height:560px){
   .center{gap:24px}
   .center>.btn,.center>.cardline,.center>.note{width:100%;max-width:580px;margin-inline:auto}
@@ -348,7 +367,7 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 </style>
 </head>
 <body>
-<div id="bg" aria-hidden="true"><div class="bg-sway"><div class="bg-blob bg-b1"></div><div class="bg-blob bg-b2"></div><div class="bg-blob bg-b3"></div></div>
+<div id="bg" aria-hidden="true"><div class="bg-sway"><div class="bg-blob bg-b1"></div><div class="bg-blob bg-b2"></div><div class="bg-blob bg-b3"></div></div><div class="bg-glow"></div>
   <div class="bg-beer">
     <svg class="bg-wave bg-foam" viewBox="0 0 1200 34" preserveAspectRatio="none"><path d="M0 18 Q75 2 150 18 T300 18 T450 18 T600 18 T750 18 T900 18 T1050 18 T1200 18 V34 H0Z"/></svg>
     <svg class="bg-wave bg-beerTop" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 14 Q100 0 200 14 T400 14 T600 14 T800 14 T1000 14 T1200 14 V30 H0Z"/></svg>
@@ -674,6 +693,34 @@ function tint(color, ms) {
   el.style.cssText = `position:fixed;inset:0;background:${color};pointer-events:none;z-index:39;opacity:0`;
   if (el.animate) el.animate([{ opacity: 0 }, { opacity: 0.4, offset: 0.15 }, { opacity: 0.4, offset: 0.7 }, { opacity: 0 }], { duration: ms });
 }
+// Nền phản ứng theo thao tác: drink (uống), escape (thoát uống), good / bad (kết quả vòng quay)
+const BG_FX = {
+  drink: { ms: 2500 },
+  escape: { ms: 2300, burst: [34, '#c8ffe0'] },
+  good: { ms: 2100, burst: [22, '#ffe066'] },
+  bad: { ms: 2500 },
+};
+function bgFx(kind) {
+  const bg = $('bg'), f = BG_FX[kind];
+  if (!bg || !f || reduced()) return;
+  Object.keys(BG_FX).forEach(k => bg.classList.remove('fx-' + k));
+  void bg.offsetWidth; // chạy lại animation nếu cùng kiểu
+  bg.classList.add('fx-' + kind);
+  clearTimeout(bgFx.t); bgFx.t = setTimeout(() => bg.classList.remove('fx-' + kind), f.ms);
+  if (f.burst) bgBurst(...f.burst);
+}
+// Một đợt bọt sủi mạnh từ đáy lên, tự dọn sau khi bay hết
+function bgBurst(n, color) {
+  const box = document.createElement('div'); // mỗi đợt một hộp riêng, dọn hộp của mình thôi
+  box.innerHTML = Array.from({ length: n }, () => {
+    const s = 6 + Math.random() * 16, d = 0.9 + Math.random() * 0.9;
+    return `<span class="bg-burst" style="left:${(Math.random() * 100).toFixed(1)}%;width:${s.toFixed(0)}px;height:${s.toFixed(0)}px;--bc:${color};--dx:${((Math.random() - 0.5) * 120).toFixed(0)}px;animation-duration:${d.toFixed(2)}s;animation-delay:${(Math.random() * 0.4).toFixed(2)}s"></span>`;
+  }).join('');
+  box.style.cssText = 'position:absolute;inset:0';
+  $('bg').appendChild(box);
+  setTimeout(() => box.remove(), 2400);
+}
+const bgSpin = on => { const bg = $('bg'); if (bg) bg.classList.toggle('fx-spin', on); };
 // Đám mây giông lơ lửng trên ô tên người dính xui
 function stormOver(pid) {
   const chip = document.querySelector(`.pchip[data-id="${pid}"]`);
@@ -982,14 +1029,16 @@ function spinTo(cv, segs, idx, ms, done) {
   const target = 360 * 5 - (a0 + (a1 - a0) * (0.15 + Math.random() * 0.7));
   const dur = reduced() ? Math.min(ms, 500) : ms, start = performance.now();
   let last = -1;
+  bgSpin(true); // đèn nền xoáy, bia sóng sánh trong lúc quay
   (function frame(now) {
     const t = Math.min(1, Math.max(0, (now - start) / dur)), r = target * (1 - Math.pow(1 - t, 3.4));
     cv.style.transform = `rotate(${r}deg)`;
     const at = (360 - (r % 360)) % 360;
     let i = edges.length - 1; while (i > 0 && edges[i] > at) i--;
     if (i !== last) { if (last >= 0) sfx('tick'); last = i; }
-    if (t < 1) requestAnimationFrame(frame);
-    else if (S.view === 'game') done(); // bấm kết thúc ván lúc đang quay thì bỏ kết quả
+    if (t < 1) return requestAnimationFrame(frame);
+    bgSpin(false);
+    if (S.view === 'game') done(); // bấm kết thúc ván lúc đang quay thì bỏ kết quả
   })(start);
 }
 function applySpin(seg) {
@@ -1331,7 +1380,9 @@ const MOUNT = {
   spin() { drawWheel($('wheel'), CONFIG.wheel); },
   rescue() { drawWheel($('wheel'), rescueSegs()); },
   reaction() { sfx('buzz'); vibrate(200); },
-  drink() { sfx('buzz'); shake(); vibrate(120); },
+  drink() { sfx('buzz'); shake(); vibrate(120); bgFx('drink'); },
+  blocked() { bgFx('escape'); },
+  goodkid() { bgFx('escape'); },
   penIntro() {
     const { got, pen } = state.screen;
     sfx('buzz'); shake(); vibrate(160);
@@ -1344,6 +1395,7 @@ const MOUNT = {
     const r = state.screen.res;
     if (r.good) { sfx('reward'); confetti(); }
     if (r.fly) flyTo(CARDS[r.fly].icon, state.turn.currentPlayerId);
+    if (r.bad) bgFx('bad'); else if (r.voice === 'potato') bgFx('escape'); else if (r.good) bgFx('good');
     if (r.bad) {
       const ms = badLuck(state.turn.currentPlayerId);
       if (r.voice) ui.timers.push(setTimeout(() => voice(r.voice), ms)); // voice thẻ đọc sau tiếng bựa
@@ -1353,7 +1405,7 @@ const MOUNT = {
     sfx('reward');
     if (state.screen.lines) voice(...new Set(state.screen.lines.map(l => l.id))); // Mưa Thẻ: mỗi loại thẻ đọc một lần
   },
-  blameFire() { voice('blame'); },
+  blameFire() { voice('blame'); bgFx('drink'); },
   pick() {
     if (!state.screen.countdown) return;
     let n = 3; sfx('tick');
