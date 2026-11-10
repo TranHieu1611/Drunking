@@ -25,6 +25,15 @@ button{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-se
 #shell{height:100%;display:flex;flex-direction:column}
 #main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:14px 16px calc(18px + env(safe-area-inset-bottom) + var(--scene-reserve,0px));display:flex;flex-direction:column}
 .center{margin:auto 0;display:flex;flex-direction:column;gap:14px;text-align:center;width:100%}
+/* Trong ván: quầng tối mờ dần sau nội dung, không viền, để chữ không chìm vào cảnh sân mà nền vẫn liền mạch */
+#main>.center{background:radial-gradient(ellipse 62% 58% at 50% 50%,#0a0618b8 0%,#0a061873 55%,transparent 100%);padding:28px 22px}
+/* Màn đầu: đẩy nội dung lên trên để dòng cảnh báo 18+ không đè lên người ngồi */
+body[data-view="home"] #main>.center.home{margin:min(4vh,36px) 0 auto}
+.home .small.muted{display:inline-block;align-self:center;padding:6px 14px;border-radius:99px;background:#0b0718c9;border:1px solid var(--line);color:#e2d8f8}
+#main .muted,#sheet .muted,#chrome .lastlog{color:#d9ccf5}
+/* Đẩy khung lên phía trên (không canh giữa) để chừa khoảng dưới cho bàn nhậu */
+body[data-view="game"] #main>.center{margin:min(2vh,16px) 0 auto}
+#main :is(.muted,.big,.who,.pass,.small,h1,h2,h3,p,li,.home-tease,label),#chrome .lastlog{text-shadow:0 1px 3px #000d,0 0 14px #000a}
 .stack{display:flex;flex-direction:column;gap:12px}
 h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .muted{color:var(--muted)}.small{font-size:14px}
@@ -254,7 +263,8 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 #bg .bg-moon{position:absolute;right:11%;top:max(13vh,104px);width:clamp(38px,5vw,66px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 34%,#fffbea,#f3e3a8 58%,#d4bd76);box-shadow:0 0 28px 8px #f7e7a84d,0 0 100px 40px #f7e7a81c}
 #bg .bg-star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:twinkle var(--tw) ease-in-out infinite alternate}
 #bg .bg-yard{position:absolute;left:0;bottom:0;width:100%;height:clamp(300px,64vh,700px)}
-#bg .bg-yard .win{fill:#ffcf6b;fill-opacity:.75}
+#bg .bg-yard .win{fill:#ffcf6b;fill-opacity:.5}
+#bg .bg-yard .glow{opacity:.6}
 #bg .bg-yard .tv{fill:#86a8f0;animation:tv 3.4s steps(1) infinite}
 @keyframes tv{0%{fill:#7fb2ff}18%{fill:#b9cfff}31%{fill:#6f96e6}52%{fill:#cfe0ff}67%{fill:#7d9fe8}84%{fill:#a6c2ff}}
 #bg .bg-yard .tube{animation:tube 7s steps(1) infinite}
@@ -373,7 +383,7 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .plist{display:flex;flex-direction:column;gap:8px}
 .empty{padding:22px 10px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
 .opt-row{display:flex;flex-direction:column;gap:6px}
-.actionbar{position:sticky;bottom:-18px;margin-top:auto;display:flex;gap:10px;padding:12px 0 6px;background:linear-gradient(transparent,var(--bg2) 34%);z-index:3}
+.actionbar{position:sticky;bottom:-18px;margin-top:auto;display:flex;gap:10px;padding:22px 0 6px;background:linear-gradient(transparent,#120a24f2 45%);z-index:3}
 .actionbar .btn{flex:1;min-width:0}.actionbar .btn.ghost{flex:0 1 38%;background:var(--bg2)}
 .cardgrid,.cardlines{display:flex;flex-direction:column;gap:10px;width:100%}
 .pgrid{display:flex;flex-wrap:wrap;justify-content:center}
@@ -1780,6 +1790,7 @@ const V = {
 };
 function render() {
   ui.timers.forEach(t => clearInterval(t)); ui.timers = [];
+  document.body.dataset.view = S.view; // CSS dựa vào đây để đặt khung kính mờ cho màn trong ván
   renderChrome();
   const main = $('main'), keep = S.view === 'setup', top = main.scrollTop;
   main.innerHTML = V[S.view]();
