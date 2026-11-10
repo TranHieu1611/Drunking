@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0714">
 <title>Say Hay Sợ</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23b026ff%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22b%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffd25a%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23e08a00%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url(%23g)%22%2F%3E%3Cpath%20d%3D%22M43%2024h5a6%206%200%200%201%206%206v8a6%206%200%200%201-6%206h-5%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Crect%20x%3D%2214%22%20y%3D%2220%22%20width%3D%2230%22%20height%3D%2234%22%20rx%3D%225%22%20fill%3D%22url(%23b)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M12%2024q2-11%2011-6q5-8%2012-2q8-4%2010%206v4H12z%22%20fill%3D%22%23fffaf0%22%2F%3E%3Crect%20x%3D%2219%22%20y%3D%2230%22%20width%3D%224%22%20height%3D%2219%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20opacity%3D%22.55%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800;900&display=swap">
 <style>
@@ -313,6 +314,9 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 @keyframes clinkL{0%,62%,100%{transform:none}76%,84%{transform:translate(.5em,-.4em) rotate(22deg)}}
 @keyframes clinkR{0%,62%,100%{transform:none}76%,84%{transform:translate(-.5em,-.4em) rotate(-22deg)}}
 #bg .bg-guy.bg-clinkL::after{content:"✨";position:absolute;left:112%;bottom:.62em;font-size:.45em;opacity:0;animation:spark 4s ease-out infinite}
+/* Cặp vợ chồng: tim bay lên giữa hai người */
+#bg .bg-guy.bg-wed::before{content:"💕";position:absolute;left:105%;bottom:1.05em;font-size:.32em;animation:wedHeart 3.2s ease-out infinite}
+@keyframes wedHeart{0%{transform:translateY(0) scale(.6);opacity:0}25%{opacity:1}100%{transform:translateY(-1.2em) scale(1.1);opacity:0}}
 @keyframes spark{0%,77%,100%{opacity:0;transform:scale(.4)}80%{opacity:1;transform:scale(1.3)}}
 /* Ngủ gục: mức Siêu cay thì gục hẳn xuống bàn, có 💤 */
 #bg[data-level="3"] .bg-guy.bg-sleeper .hd{animation:snore 3s ease-in-out infinite alternate}
@@ -2238,15 +2242,20 @@ const BABY_SVG = '<svg class="chibi" viewBox="0 0 100 115"><defs><radialGradient
   + '<ellipse cx="37" cy="47" rx="5" ry="6.4" fill="#3a2420"/><ellipse cx="63" cy="47" rx="5" ry="6.4" fill="#3a2420"/><circle cx="35.4" cy="44.6" r="2" fill="#fff"/><circle cx="61.4" cy="44.6" r="2" fill="#fff"/>'
   + '<ellipse cx="27" cy="58" rx="6" ry="3.6" fill="#ff7d8f" opacity=".7"/><ellipse cx="73" cy="58" rx="6" ry="3.6" fill="#ff7d8f" opacity=".7"/>'
   + '<path d="M44 59q6 7 12 0z" fill="#9a3f3f"/></svg>';
-const BG_GUYS = [ // nhân vật quanh bàn (4 nam, 4 nữ ngồi xen kẽ); faces: [mắt, miệng] cho mức Nhẹ, Cay, Siêu cay
-  { sex: 'f', style: 'long', hair: '#3b2418', skin: '#ffdcc2', shirt: '#ff6b9a', outfit: 'tank', earrings: true, eye: '#6b4428', role: '', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
-  { sex: 'm', style: 'bald', hair: '#2b2220', skin: '#f2c49c', shirt: '#3a86ff', outfit: 'polo', mustache: true, eye: '#4a3020', role: 'bg-cheer', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] }, // anh hói sinh 1988, đại ca hô dzô
+// 8 người = 4 cặp ngồi cạnh nhau (trái sang phải). faces: [mắt, miệng] cho mức Nhẹ, Cay, Siêu cay
+const BG_GUYS = [
+  // Cặp 1 (2 nam): anh 1998 hơi hói, đại ca hô dzô · em 2002 tóc dựng
+  { sex: 'm', style: 'bald', hair: '#2b2220', skin: '#f2c49c', shirt: '#3a86ff', outfit: 'polo', eye: '#4a3020', role: 'bg-cheer', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] },
+  { sex: 'm', style: 'spiky', hair: '#2a1d16', skin: '#eebd94', shirt: '#8e44ad', outfit: 'hoodie', eye: '#4a3020', role: 'bg-bob', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  // Cặp 2: nam 2001 tóc mái · nữ 2002 tóc dài, cụng ly với nhau
+  { sex: 'm', style: 'fringe', hair: '#241b18', skin: '#f6c9a0', shirt: '#06b6d4', outfit: 'tee', eye: '#4a3020', role: 'bg-clinkL', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  { sex: 'f', style: 'long', hair: '#3b2418', skin: '#ffdcc2', shirt: '#ff6b9a', outfit: 'tank', earrings: true, eye: '#6b4428', role: 'bg-clinkR bg-lefty', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  // Cặp 3 (cùng 2003): nam đeo kính hay ngủ gục · nữ búi tóc cười ngặt nghẽo
   { sex: 'm', style: 'short', hair: '#1f1a1a', skin: '#f6c9a0', shirt: '#2a9d8f', outfit: 'stripe', glasses: true, eye: '#3d2a1e', role: 'bg-sleeper bg-bob', faces: [['open', 'smile'], ['happy', 'grin'], ['sleep', 'snore']] },
   { sex: 'f', style: 'bun', hair: '#5a3524', skin: '#ffd9b8', shirt: '#f4a261', outfit: 'tee', earrings: true, eye: '#7a4a2a', role: 'bg-laugh', faces: [['open', 'smile'], ['lol', 'lol'], ['lol', 'lol']] },
-  { sex: 'm', style: 'spiky', hair: '#2a1d16', skin: '#eebd94', shirt: '#8e44ad', outfit: 'hoodie', eye: '#4a3020', role: 'bg-clinkL', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
-  { sex: 'f', style: 'bob', hair: '#8a4b2a', skin: '#ffdcc2', shirt: '#f2c14e', outfit: 'tank', eye: '#8a5a2a', role: 'bg-clinkR bg-lefty', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] },
-  { sex: 'm', style: 'fringe', hair: '#241b18', skin: '#f6c9a0', shirt: '#06b6d4', outfit: 'tee', eye: '#4a3020', role: '', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
-  { sex: 'f', style: 'pony', hair: '#2e1f1a', skin: '#ffd9b8', shirt: '#e63946', outfit: 'vneck', earrings: true, eye: '#5a3a22', role: 'bg-bob', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  // Cặp 4, vợ chồng (bố mẹ bé): chồng 2003 tóc nhuộm nâu · vợ 2005 đuôi ngựa, mặc áo đôi, cụng ly với nhau
+  { sex: 'm', style: 'short', hair: '#7a4a2a', skin: '#f2c49c', shirt: '#e63946', outfit: 'tee', eye: '#4a3020', role: 'bg-clinkL bg-wed', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  { sex: 'f', style: 'pony', hair: '#2e1f1a', skin: '#ffd9b8', shirt: '#e63946', outfit: 'tee', earrings: true, eye: '#5a3a22', role: 'bg-clinkR bg-lefty', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] },
 ];
 (() => {
   const BULB_COLORS = ['#ffd166', '#ff6b6b', '#7ee081', '#6ec3ff', '#ffa94d'], n = 15, H = 96;
