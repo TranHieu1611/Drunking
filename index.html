@@ -23,12 +23,11 @@ button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 #app{height:100vh;height:100dvh;max-width:520px;margin:0 auto;overflow:hidden}
 #shell{height:100%;display:flex;flex-direction:column}
-#main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:14px 16px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
+#main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:14px 16px calc(18px + env(safe-area-inset-bottom) + var(--scene-reserve,0px));display:flex;flex-direction:column}
 .center{margin:auto 0;display:flex;flex-direction:column;gap:14px;text-align:center;width:100%}
 .stack{display:flex;flex-direction:column;gap:12px}
 h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .muted{color:var(--muted)}.small{font-size:14px}
-
 /* Nút */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;padding:10px 16px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);font-weight:800;font-size:18px;transition:transform .08s}
 .btn:active{transform:scale(.97)}
@@ -40,7 +39,6 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .btn.cyan{background:linear-gradient(135deg,#0a7f9c,var(--cyan));color:#00161c;border:0}
 .btn.ghost{background:transparent}
 .icon-btn{min-width:48px;min-height:48px;border-radius:14px;border:1px solid var(--line);background:var(--panel2);font-size:20px;display:inline-flex;align-items:center;justify-content:center;flex:none;padding:0}
-
 /* Thanh trên */
 .topbar{display:flex;align-items:center;gap:8px;padding:8px 12px 4px;padding-top:calc(8px + env(safe-area-inset-top))}
 .topbar .brand{margin-right:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:900;letter-spacing:.3px;color:var(--yellow);text-shadow:0 0 12px #ffd60a88;white-space:nowrap}
@@ -64,7 +62,6 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .banner span{flex:1;min-width:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
 .banner button{flex:none;min-height:48px;min-width:48px;padding:0 10px;border-radius:10px;border:0;background:var(--yellow);color:#201400;font-weight:800;font-size:13px}
 .lastlog{padding:0 14px 2px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
 /* Lượt chơi */
 .spot{position:relative;padding:18px 8px;border-radius:24px;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--c) 45%,transparent),transparent 68%)}
 .spot .ava{font-size:72px;line-height:1.1;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
@@ -77,7 +74,6 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .btn.truth{background:linear-gradient(135deg,#0a7f9c,var(--cyan));color:#00161c;border:0;box-shadow:0 0 22px #00f0ff55}
 .btn.dare{background:linear-gradient(135deg,#e0115f,var(--pink));border:0;box-shadow:0 0 22px #ff2e8866}
 .locked{font-size:13px;font-weight:600;display:block}
-
 /* Thẻ */
 .scene{perspective:1100px}
 .card3d{position:relative;transform-style:preserve-3d;animation:flip .7s cubic-bezier(.3,.9,.35,1) both}
@@ -92,20 +88,17 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .note{font-size:15px;padding:8px 10px;border-radius:12px;background:#ffffff10;text-align:center}
 .after-flip{animation:fadeup .4s .45s both}
 @keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
 /* Vòng quay */
 .wheel-wrap{position:relative;width:min(84vw,300px);height:min(84vw,300px);margin:6px auto 0}
 .wheel-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 28px #b026ff88}
 .wheel-wrap .ptr{position:absolute;left:50%;top:-8px;margin-left:-13px;width:0;height:0;border:13px solid transparent;border-top:24px solid var(--yellow);filter:drop-shadow(0 0 6px #ffd60a);z-index:2}
 .big-icon{font-size:76px;line-height:1.1;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
 .big{font-size:30px;font-weight:900;overflow-wrap:anywhere}
-
 /* Ly bia */
 .beer{width:112px;height:150px;margin:0 auto;border:4px solid #fff;border-top:0;border-radius:6px 6px 20px 20px;position:relative;overflow:hidden;background:#ffffff12}
 .beer i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#ffd60a,#f09a00);animation:fill 1.1s .1s ease-out forwards}
 .beer i::before{content:"";position:absolute;left:-4px;right:-4px;top:-13px;height:16px;border-radius:12px;background:#fff}
 @keyframes fill{to{height:86%}}
-
 /* Lưới người chơi */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
 .pgrid button{min-height:84px;padding:8px 4px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-weight:800;overflow:hidden}
@@ -114,7 +107,6 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .pgrid button.hl,.pgrid button.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 28%,var(--panel));box-shadow:0 0 16px var(--c)}
 .count3{font-size:120px;font-weight:900;color:var(--yellow);text-shadow:0 0 28px var(--yellow);animation:pop .4s}
 .timer{font-size:54px;font-weight:900;color:var(--yellow);text-shadow:0 0 20px #ffd60a99}
-
 /* Toàn màn hình đặc biệt */
 .death{background:radial-gradient(circle,#7a0014,#1c0208);border-radius:24px;padding:20px 14px;box-shadow:0 0 40px var(--red)}
 .death .big{color:#fff;text-shadow:0 0 18px var(--red)}
@@ -135,7 +127,6 @@ textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);backg
 @keyframes stamp{0%{transform:translate(-50%,-50%) rotate(-12deg) scale(3);opacity:0}14%{transform:translate(-50%,-50%) rotate(-12deg) scale(1);opacity:1}80%{transform:translate(-50%,-50%) rotate(-12deg) scale(1);opacity:1}100%{transform:translate(-50%,-50%) rotate(-12deg) scale(1);opacity:0}}
 .storm{position:fixed;z-index:57;pointer-events:none;font-size:30px;transform:translate(-50%,-100%);animation:storm .5s ease-in-out 8 alternate}
 @keyframes storm{to{transform:translate(-50%,-115%)}}
-
 /* Sheet, toast */
 #sheet{position:fixed;inset:0;background:#000a;z-index:30;display:none;align-items:flex-end;justify-content:center}
 #sheet.open{display:flex}
@@ -148,7 +139,6 @@ textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);backg
 .cardline.bonus{border-color:#00f0ff55}.cardline.penalty{border-color:#ff3b3b77}
 .btn.cardbtn{justify-content:flex-start;text-align:left;font-size:16px;min-height:64px}
 .btn.cardbtn .i{font-size:26px}
-
 /* Setup */
 .home-title{font-size:52px;font-weight:900;line-height:1.02;background:linear-gradient(120deg,var(--yellow),var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 16px #ff2e8866)}
 .sec{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
@@ -205,6 +195,16 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .pgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.pgrid button .e{font-size:42px}.pgrid button .n{font-size:20px}
   .btn.timing{font-size:44px}
 }
+/* Laptop màn thấp: thu gọn để chừa chỗ cho bàn nhậu ở đáy, nút không đè lên người ngồi */
+@media (min-width:900px) and (min-height:560px) and (max-height:800px){
+  .pchip{width:88px;padding:5px 4px}.pchip .e{font-size:28px}.pchip .n{font-size:14px}
+  .choose .btn{min-height:76px;font-size:32px}
+  .spot .ava{font-size:60px}.spot .pass{font-size:18px}.spot .who{font-size:42px}
+  .spot.compact .ava{font-size:48px}.spot.compact .who{font-size:38px}
+  .face .q{font-size:32px}
+  .big{font-size:34px}.big-icon{font-size:64px}.muted{font-size:17px}
+  .center{gap:14px}
+}
 /* Màn hình đầu */
 .floaters{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .floaters span{position:absolute;bottom:-60px;opacity:.28;animation:floatUp linear infinite}
@@ -243,52 +243,120 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .awards .award .i{font-size:24px}.awards .award .who{margin-left:auto;text-align:right;font-weight:800}
 @media (min-width:900px){.m-only{display:none}}
 @media (prefers-reduced-motion:reduce){.floaters span,.clink,.home .home-title,.home-go{animation:none}.floaters{display:none}}
-/* Nền say và bia: nằm sau cả game, càng cay bia càng dâng, bọt càng sủi, nền càng chao */
+/* Nền quán nhậu: dây đèn, bàn 8 người nhậu (càng cay càng té le) và 1 bé chạy quậy. Phản ứng theo thao tác qua class fx-* */
 #app{position:relative;z-index:1}
-#bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;--beer:13vh;--sway:1deg;--swayT:9s;--bub:.55}
-#bg[data-level="2"]{--beer:20vh;--sway:2deg;--swayT:6.5s;--bub:.75}
-#bg[data-level="3"]{--beer:28vh;--sway:3.4deg;--swayT:4.2s;--bub:1}
-#bg .bg-sway{position:absolute;inset:-12%;animation:drunk var(--swayT) ease-in-out infinite alternate}
-@keyframes drunk{0%{transform:rotate(calc(var(--sway) * -1)) translate(-1.5%,.5%)}50%{transform:rotate(calc(var(--sway) * .4)) translate(1%,-1%) scale(1.03)}100%{transform:rotate(var(--sway)) translate(1.5%,.8%)}}
-#bg .bg-blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(40px);opacity:.22;animation:blobDrift 22s ease-in-out infinite alternate}
-#bg .bg-b1{left:-15%;top:-10%;background:radial-gradient(circle,#b026ff,transparent 65%)}
-#bg .bg-b2{right:-20%;top:20%;background:radial-gradient(circle,#ff2e88,transparent 65%);animation-duration:27s;animation-delay:-8s}
-#bg .bg-b3{left:10%;bottom:-25%;background:radial-gradient(circle,#ffb020,transparent 65%);animation-duration:19s;animation-delay:-4s}
-@keyframes blobDrift{to{transform:translate(12vw,8vh) scale(1.15)}}
-#bg .bg-beer{position:absolute;left:-6%;right:-6%;bottom:-40px;height:calc(var(--beer) + 40px);transform-origin:50% 100%;background:linear-gradient(180deg,#f2a516,#b45309 70%,#7c2d12);opacity:.3;transition:height 1.6s cubic-bezier(.3,1.4,.5,1)}
-#bg .bg-wave{position:absolute;left:0;width:200%;height:30px;animation:waveX 7s linear infinite}
-#bg .bg-wave.bg-beerTop{top:-29px;fill:#f2a516}
-#bg .bg-wave.bg-foam{top:-40px;height:34px;fill:#fff4d6;opacity:.85;animation-duration:11s;animation-direction:reverse}
-@keyframes waveX{to{transform:translateX(-50%)}}
-#bg .bg-bub{position:absolute;bottom:0;border-radius:50%;border:1.5px solid #fff3c4;background:#fff3c433;opacity:0;animation:bubUp linear infinite}
-@keyframes bubUp{0%{transform:translate(0,0);opacity:0}10%{opacity:var(--bub)}50%{transform:translate(10px,-35vh)}100%{transform:translate(-8px,-72vh);opacity:0}}
-/* Nền phản ứng theo thao tác: class fx-* gắn tạm lên #bg (bgFx), fx-spin trong lúc vòng quay chạy */
-#bg .bg-glow{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 62%,var(--glow,#ffd60a),transparent 68%)}
-@keyframes glow{0%{opacity:0}18%{opacity:var(--glowMax,.45)}100%{opacity:0}}
-#bg.fx-drink .bg-beer{animation:gulp 2.4s cubic-bezier(.5,0,.3,1)}
-@keyframes gulp{0%{transform:none}30%,50%{transform:translateY(78%)}100%{transform:none}}
-#bg.fx-drink .bg-sway{animation:drunk calc(var(--swayT) / 4) ease-in-out 6 alternate}
+/* Không chừa chỗ dưới đáy: giao diện được phép che bàn nhậu để luôn hiển thị đủ nội dung */
+:root{--scene-reserve:0px}
+#bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;--table:calc(min(100vw,1100px) * .1);--tipsy:3deg;background:radial-gradient(110% 45% at 50% 0%,#5a2e0c55,transparent 70%),radial-gradient(90% 40% at 50% 100%,#6b330f55,transparent 75%),linear-gradient(180deg,#0a0820 0%,#171033 45%,#24173a 75%,#1d1426 100%)}
+#bg[data-level="2"]{--tipsy:7deg}#bg[data-level="3"]{--tipsy:13deg}
+/* Sân nhà ban đêm phía sau bàn: trăng, sao, dãy nhà, nhà 2 tầng sáng đèn, cây, cổng, xe máy, mèo đi trên tường */
+#bg .bg-sky{position:absolute;inset:0}
+#bg .bg-moon{position:absolute;right:11%;top:max(13vh,104px);width:clamp(38px,5vw,66px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 34%,#fffbea,#f3e3a8 58%,#d4bd76);box-shadow:0 0 28px 8px #f7e7a84d,0 0 100px 40px #f7e7a81c}
+#bg .bg-star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:twinkle var(--tw) ease-in-out infinite alternate}
+#bg .bg-yard{position:absolute;left:0;bottom:0;width:100%;height:clamp(300px,64vh,700px)}
+#bg .bg-yard .win{fill:#ffcf6b;fill-opacity:.75}
+#bg .bg-yard .tv{fill:#86a8f0;animation:tv 3.4s steps(1) infinite}
+@keyframes tv{0%{fill:#7fb2ff}18%{fill:#b9cfff}31%{fill:#6f96e6}52%{fill:#cfe0ff}67%{fill:#7d9fe8}84%{fill:#a6c2ff}}
+#bg .bg-yard .tube{animation:tube 7s steps(1) infinite}
+@keyframes tube{0%,88%,100%{opacity:1}89%{opacity:.25}90%{opacity:1}92%{opacity:.4}93%{opacity:1}}
+#bg .bg-yard .cat{animation:cat 36s linear infinite}
+@keyframes cat{0%{transform:translateX(0)}42%{transform:translateX(-430px);opacity:1}43%,100%{transform:translateX(-430px);opacity:0}}
+#bg.fx-bad .bg-yard :is(.win,.tv,.glow,.tube){animation:outage 2.4s steps(1) both}
+#bg .bg-lights{position:absolute;left:0;right:0;top:0;height:96px;transform-origin:50% 0;animation:strand 6s ease-in-out infinite alternate}
+@keyframes strand{from{transform:rotate(-.35deg)}to{transform:rotate(.35deg)}}
+#bg .bg-lights svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#bg .bg-lights path{fill:none;stroke:#ffffff38;stroke-width:1.5;vector-effect:non-scaling-stroke}
+#bg .bg-bulb{position:absolute;width:11px;height:15px;margin-left:-5.5px;border-radius:50% 50% 46% 46%;background:var(--bc);box-shadow:0 0 10px 3px color-mix(in srgb,var(--bc) 65%,transparent),0 0 28px 8px color-mix(in srgb,var(--bc) 22%,transparent);animation:twinkle var(--tw,2.4s) ease-in-out infinite alternate}
+#bg .bg-bulb::before{content:"";position:absolute;left:3px;top:-4px;width:5px;height:5px;border-radius:1px;background:#2a2230}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+#bg .bg-glow{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 75%,var(--glow,#ffd60a),transparent 68%)}
+@keyframes glow{0%{opacity:0}18%{opacity:var(--glowMax,.35)}100%{opacity:0}}
+/* Khu ngồi: bàn inox nhìn hơi từ trên xuống, người ngồi phía bên kia bàn, đồ ăn và bếp nướng trên bàn. Mọi kích thước theo bề rộng khu ngồi (--W) */
+#bg .bg-scene{position:absolute;left:50%;bottom:0;width:min(100%,1100px,130vh);aspect-ratio:1100/300;transform:translateX(-50%);--W:min(100vw,1100px,130vh)}
+#bg .bg-tablesvg{position:absolute;left:0;bottom:0;width:100%;height:auto;aspect-ratio:1100/170;z-index:2;overflow:visible}
+#bg .bg-tablesvg .coal{animation:coal 1.4s ease-in-out infinite alternate}
+@keyframes coal{from{opacity:.7}to{opacity:1}}
+#bg .bg-tablesvg .smoke{transform-box:fill-box;transform-origin:50% 50%;opacity:0;animation:smoke 3.4s ease-out infinite}
+@keyframes smoke{0%{transform:translate(0,0) scale(.5);opacity:0}15%{opacity:.45}100%{transform:translate(var(--sx,10px),-130px) scale(2.4);opacity:0}}
+#bg .bg-lv2,#bg .bg-lv3{transition:opacity .9s}
+#bg[data-level="1"] :is(.bg-lv2,.bg-lv3),#bg[data-level="2"] .bg-lv3{opacity:0}
+#bg .bg-guy{position:absolute;bottom:36.5%;width:1em;height:1.2em;margin-left:-.5em;font-size:max(30px,calc(var(--W) * .075));line-height:1;opacity:.96;transform-origin:50% 90%;z-index:1;animation:gsway var(--d,3.2s) ease-in-out var(--dl,0s) infinite alternate}
+#bg .chibi{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 .04em .05em #0008)}
+#bg .chibi .hd{transform-box:fill-box;transform-origin:50% 65%}
+/* Mặt đổi theo độ cay, má đỏ dần */
+#bg .ex{display:none}
+#bg[data-level="1"] .ex1,#bg[data-level="2"] .ex2,#bg[data-level="3"] .ex3{display:inline}
+#bg .blush{opacity:.22;transition:opacity 1.2s}#bg[data-level="2"] .blush{opacity:.55}#bg[data-level="3"] .blush{opacity:.95}
+#bg .bg-mug{position:absolute;z-index:2;left:66%;bottom:.3em;width:.34em;height:.4em;transform-origin:30% 90%}
+#bg .bg-lefty .bg-mug{left:auto;right:66%;transform-origin:70% 90%}
+#bg .bg-mug svg{display:block;width:100%;height:100%;overflow:visible}
+#bg .bg-lefty .bg-mug svg{transform:scaleX(-1)}
+@keyframes gsway{from{transform:rotate(calc(var(--tipsy) * -1))}to{transform:rotate(var(--tipsy))}}
+#bg .bg-guy.bg-bob{animation:gbob .9s ease-in-out infinite alternate}
+@keyframes gbob{from{transform:translateY(0) rotate(calc(var(--tipsy) * -.4))}to{transform:translateY(-.12em) rotate(calc(var(--tipsy) * .4))}}
+#bg .bg-guy.bg-laugh .hd{animation:laugh .16s linear infinite alternate}
+@keyframes laugh{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(6deg) translateY(-2px)}}
+#bg .bg-guy.bg-cheer .bg-mug{animation:dzo 2.8s ease-in-out infinite}
+@keyframes dzo{0%,25%,100%{transform:none}35%,45%{transform:translate(-.18em,-.85em) rotate(-18deg)}55%{transform:translate(-.08em,-.25em)}65%,72%{transform:translate(-.18em,-.85em) rotate(-18deg)}}
+#bg .bg-guy.bg-clinkL .bg-mug{animation:clinkL 4s ease-in-out infinite}
+#bg .bg-guy.bg-clinkR .bg-mug{animation:clinkR 4s ease-in-out infinite}
+@keyframes clinkL{0%,62%,100%{transform:none}76%,84%{transform:translate(.5em,-.4em) rotate(22deg)}}
+@keyframes clinkR{0%,62%,100%{transform:none}76%,84%{transform:translate(-.5em,-.4em) rotate(-22deg)}}
+#bg .bg-guy.bg-clinkL::after{content:"✨";position:absolute;left:112%;bottom:.62em;font-size:.45em;opacity:0;animation:spark 4s ease-out infinite}
+@keyframes spark{0%,77%,100%{opacity:0;transform:scale(.4)}80%{opacity:1;transform:scale(1.3)}}
+/* Ngủ gục: mức Siêu cay thì gục hẳn xuống bàn, có 💤 */
+#bg[data-level="3"] .bg-guy.bg-sleeper .hd{animation:snore 3s ease-in-out infinite alternate}
+@keyframes snore{from{transform:translate(14px,20px) rotate(80deg)}to{transform:translate(14px,18px) rotate(74deg)}}
+#bg .bg-guy.bg-sleeper::after{content:"💤";position:absolute;left:90%;bottom:.6em;font-size:.4em;opacity:0}
+#bg[data-level="3"] .bg-guy.bg-sleeper::after{animation:zzz 2.6s ease-out infinite}
+@keyframes zzz{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(.8em,-1.6em) scale(1.4)}}
+/* Bé quậy: chạy qua, nhảy lên bàn đá đổ ly, nhảy xuống chạy mất */
+#bg .bg-kid{position:absolute;left:-8%;bottom:2%;z-index:4;font-size:max(26px,calc(var(--W) * .055));line-height:1;animation:kidRun 22s linear infinite}
+#bg .bg-kid .bg-k{display:block;width:1em;height:1.15em;transform-origin:50% 100%;animation:waddle .42s ease-in-out infinite alternate}
+@keyframes waddle{from{transform:rotate(-9deg) translateY(0)}to{transform:rotate(9deg) translateY(-.07em)}}
+@keyframes kidRun{0%{left:-8%;bottom:2%}26%{left:53%;bottom:2%}30%{left:55.5%;bottom:42%}33%{left:57%;bottom:22%}44%{left:63%;bottom:22%}48%{left:65%;bottom:40%}51%{left:67%;bottom:2%}88%,100%{left:112%;bottom:2%}}
+#bg .bg-knock{position:absolute;left:61%;bottom:24%;width:.34em;height:.4em;margin-left:-.17em;font-size:max(30px,calc(var(--W) * .075));z-index:3;transform-origin:100% 100%;animation:knock 22s ease-in infinite}
+#bg .bg-knock svg{display:block;width:100%;height:100%;overflow:visible}
+@keyframes knock{0%,38%{transform:none}41%,74%{transform:rotate(90deg)}80%,100%{transform:none}}
+/* Uống: cả bàn nâng ly uống, đèn tối lại */
+#bg.fx-drink .bg-guy .bg-mug{animation:sip 1.7s cubic-bezier(.4,0,.3,1) calc(var(--i) * 60ms) both}
+#bg.fx-drink .bg-guy.bg-lefty .bg-mug{animation-name:sipL}
+@keyframes sip{0%,100%{transform:none}30%,64%{transform:translate(-.42em,-.5em) rotate(-62deg)}}
+@keyframes sipL{0%,100%{transform:none}30%,64%{transform:translate(.42em,-.5em) rotate(62deg)}}
+#bg.fx-drink .bg-bulb{animation:dim 2.4s ease-in-out}
+@keyframes dim{0%,100%{opacity:1}40%,60%{opacity:.25}}
 #bg.fx-drink .bg-glow{--glow:#f59e0b;animation:glow 2.4s ease-out}
-#bg.fx-escape .bg-beer{animation:surge 2.2s cubic-bezier(.2,1.6,.4,1)}
-@keyframes surge{0%{transform:none}30%{transform:translateY(-38%) scaleY(1.08)}65%{transform:translateY(-18%)}100%{transform:none}}
+/* Thoát uống: cả bàn nhảy cẫng, đèn xanh */
+#bg.fx-escape .bg-guy{animation:jump .8s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 50ms) 2 both}
+@keyframes jump{0%,100%{transform:none}40%{transform:translateY(-.6em) rotate(8deg)}}
+#bg.fx-escape .bg-bulb{--bc:#3dff95}
 #bg.fx-escape .bg-glow{--glow:#2bff88;animation:glow 2.2s ease-out}
+/* Trúng thẻ tốt: đèn nháy vàng, cả bàn giơ ly */
+#bg.fx-good .bg-bulb{--bc:#ffd60a;animation:blink .22s steps(2) 8}
+@keyframes blink{50%{opacity:.2}}
+#bg.fx-good .bg-guy .bg-mug{animation:dzo 1.8s ease-in-out calc(var(--i) * 40ms) both}
 #bg.fx-good .bg-glow{--glow:#ffd60a;animation:glow 2s ease-out}
-#bg.fx-bad .bg-glow{--glow:#ff2a2a;--glowMax:.55;animation:glow 2.4s ease-out}
-#bg.fx-bad .bg-beer{animation:slosh .3s ease-in-out 6 alternate}
-#bg.fx-spin .bg-sway{animation:swirl 1.4s linear infinite}
-@keyframes swirl{to{transform:rotate(360deg)}}
-#bg.fx-spin .bg-beer{animation:slosh .45s ease-in-out infinite alternate}
-@keyframes slosh{0%{transform:rotate(-2.6deg)}100%{transform:rotate(2.6deg) translateY(-4%)}}
-#bg .bg-burst{position:absolute;bottom:0;border-radius:50%;border:1.5px solid var(--bc,#fff3c4);background:color-mix(in srgb,var(--bc,#fff3c4) 25%,transparent);animation:burstUp ease-out forwards}
-@keyframes burstUp{0%{transform:translate(0,0) scale(.6);opacity:0}12%{opacity:.95}100%{transform:translate(var(--dx,0),-85vh) scale(1.1);opacity:0}}
-@media (prefers-reduced-motion:reduce){#bg .bg-bub,#bg .bg-burst{display:none}#bg .bg-sway,#bg .bg-blob,#bg .bg-wave,#bg .bg-beer,#bg .bg-glow{animation:none!important}}
+/* Trúng Xui: cúp điện, cả bàn run */
+#bg.fx-bad .bg-bulb{--bc:#ff4040;animation:outage 2.4s steps(1) both}
+@keyframes outage{0%{opacity:1}8%{opacity:.08}14%{opacity:.9}20%{opacity:.05}34%{opacity:.7}40%{opacity:.04}75%{opacity:.04}82%{opacity:.6}88%{opacity:.1}100%{opacity:1}}
+#bg.fx-bad .bg-guy{animation:rattle .12s linear 14 alternate}
+@keyframes rattle{from{transform:translateX(-2px) rotate(-4deg)}to{transform:translateX(2px) rotate(4deg)}}
+#bg.fx-bad .bg-glow{--glow:#ff2a2a;--glowMax:.4;animation:glow 2.4s ease-out}
+/* Đang quay: đèn chạy đuổi, cả bàn lắc đầu theo nhạc */
+#bg.fx-spin .bg-bulb{animation:chase .7s linear calc(var(--i) * -47ms) infinite}
+@keyframes chase{0%,100%{opacity:.18}45%{opacity:1;transform:scale(1.3)}}
+#bg.fx-spin .bg-guy{animation:headbang .34s ease-in-out calc(var(--i) * -60ms) infinite alternate}
+@keyframes headbang{from{transform:rotate(-10deg) translateY(0)}to{transform:rotate(10deg) translateY(-.1em)}}
+#bg .bg-burst{position:absolute;bottom:var(--table);border-radius:50%;border:1.5px solid var(--bc,#fff3c4);background:color-mix(in srgb,var(--bc,#fff3c4) 25%,transparent);animation:burstUp ease-out forwards}
+@keyframes burstUp{0%{transform:translate(0,0) scale(.6);opacity:0}12%{opacity:.95}100%{transform:translate(var(--dx,0),-70vh) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){#bg .bg-burst,#bg .bg-kid{display:none}#bg *,#bg *::after,#bg *::before{animation:none!important;transition:none!important}}
 @media (min-width:900px) and (min-height:560px){
   .center{gap:24px}
   .center>.btn,.center>.cardline,.center>.note{width:100%;max-width:580px;margin-inline:auto}
   .split{display:grid;grid-template-columns:auto minmax(280px,440px);justify-content:center;align-items:center;gap:64px}
   .split .side{display:flex;flex-direction:column;gap:20px;text-align:left}
   .split .side h2{font-size:34px;margin:0}.split .side .btn{min-height:72px;font-size:28px;font-weight:900}
-  .wheel-wrap{width:min(calc(100vh - 240px),440px);height:min(calc(100vh - 240px),440px);margin:0}
+  .wheel-wrap{width:clamp(220px,calc(100vh - 240px - var(--scene-reserve,0px)),440px);height:clamp(220px,calc(100vh - 240px - var(--scene-reserve,0px)),440px);margin:0} /* trừ chỗ chừa cho bàn nhậu */
   .home{gap:24px}.home .home-title{font-size:96px}.clink{font-size:120px}.home-tease{font-size:30px}
   .home-chips span{font-size:18px;padding:8px 16px}.home .home-go{max-width:480px;min-height:76px;font-size:28px}
   .stack:has(>.podium){max-width:820px;width:100%;margin:0 auto}
@@ -367,10 +435,125 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 </style>
 </head>
 <body>
-<div id="bg" aria-hidden="true"><div class="bg-sway"><div class="bg-blob bg-b1"></div><div class="bg-blob bg-b2"></div><div class="bg-blob bg-b3"></div></div><div class="bg-glow"></div>
-  <div class="bg-beer">
-    <svg class="bg-wave bg-foam" viewBox="0 0 1200 34" preserveAspectRatio="none"><path d="M0 18 Q75 2 150 18 T300 18 T450 18 T600 18 T750 18 T900 18 T1050 18 T1200 18 V34 H0Z"/></svg>
-    <svg class="bg-wave bg-beerTop" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 14 Q100 0 200 14 T400 14 T600 14 T800 14 T1000 14 T1200 14 V30 H0Z"/></svg>
+<div id="bg" aria-hidden="true" data-level="1">
+  <div class="bg-sky"><span class="bg-moon"></span></div>
+  <svg class="bg-yard" viewBox="-400 0 2000 500" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="yGround" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1f38"/><stop offset="1" stop-color="#140d1f"/></linearGradient>
+      <radialGradient id="yGlow"><stop offset="0" stop-color="#ffcf6b" stop-opacity=".45"/><stop offset="1" stop-color="#ffcf6b" stop-opacity="0"/></radialGradient>
+      <radialGradient id="yTube"><stop offset="0" stop-color="#dff1ff" stop-opacity=".55"/><stop offset="1" stop-color="#dff1ff" stop-opacity="0"/></radialGradient>
+      <linearGradient id="yHouse" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241a3c"/><stop offset="1" stop-color="#170f29"/></linearGradient>
+    </defs>
+    <!-- dãy nhà xa, bồn nước inox, ăng-ten -->
+    <path fill="#1a1331" d="M-400 340V256H-330V230H-250V272H-170V238H-80V262H0V262H70V232H150V276H210V218H300V252H360V204H430V262H520V228H600V270H680V212H760V246H840V192H930V256H1010V222H1090V266H1200V238H1290V272H1380V224H1470V260H1600V340Z"/>
+    <g fill="#271e45"><rect x="98" y="210" width="44" height="22" rx="11"/><rect x="1018" y="200" width="46" height="22" rx="11"/></g>
+    <path d="M862 192V142M842 152H882M848 164H876M318 252V214M304 222H332" stroke="#2b2250" stroke-width="3" fill="none"/>
+    <g class="win" opacity=".5"><rect x="88" y="248" width="14" height="16"/><rect x="250" y="234" width="12" height="14"/><rect x="960" y="238" width="14" height="16"/><rect x="1040" y="242" width="12" height="14"/><rect x="-310" y="244" width="12" height="14"/><rect x="1300" y="252" width="14" height="14"/></g>
+    <!-- cột điện, trạm biến áp, dây điện chằng chịt -->
+    <g fill="#120c20"><rect x="-252" y="110" width="14" height="332"/><rect x="-300" y="132" width="110" height="7"/><rect x="-290" y="156" width="90" height="6"/><rect x="-266" y="196" width="42" height="50" rx="4" fill="#1d1534"/>
+      <rect x="1478" y="110" width="14" height="332"/><rect x="1430" y="132" width="110" height="7"/><rect x="1440" y="156" width="90" height="6"/></g>
+    <g stroke="#0b0716" stroke-width="2.6" fill="none"><path d="M-295 132Q600 222 1435 132"/><path d="M-245 132Q600 238 1485 132"/><path d="M-195 132Q600 212 1535 132"/><path d="M-285 156Q600 250 1445 156"/><path d="M-205 156Q600 236 1525 156"/><path d="M-245 160Q120 230 452 330"/><path d="M1485 160Q1140 236 760 330"/></g>
+    <!-- vườn trái: cây to, cây chuối, luống rau -->
+    <g fill="#100b1e"><rect x="246" y="250" width="20" height="200" rx="6"/><circle cx="214" cy="222" r="62"/><circle cx="286" cy="196" r="72"/><circle cx="252" cy="262" r="56"/><circle cx="326" cy="252" r="48"/><circle cx="170" cy="270" r="40"/></g>
+    <g fill="#130e24"><rect x="52" y="292" width="15" height="150" rx="6"/><path d="M60 300Q10 270-30 300Q20 290 60 306Z"/><path d="M60 296Q100 250 150 268Q100 276 60 304Z"/><path d="M60 300Q40 240 70 214Q66 262 64 300Z"/><path d="M60 300Q110 300 130 340Q90 314 60 306Z"/></g>
+    <path fill="#150f27" d="M-400 442V362H140V442Z"/><rect x="-400" y="356" width="540" height="8" fill="#211938"/>
+    <g fill="#0f0b1d"><circle cx="-340" cy="430" r="26"/><circle cx="-290" cy="424" r="32"/><circle cx="-230" cy="432" r="24"/><circle cx="-150" cy="428" r="30"/><circle cx="-80" cy="432" r="22"/><circle cx="110" cy="430" r="28"/><circle cx="170" cy="434" r="22"/><circle cx="330" cy="430" r="24"/></g>
+    <g fill="#ff8fb1" opacity=".55"><circle cx="-300" cy="410" r="3"/><circle cx="-160" cy="414" r="3"/><circle cx="104" cy="414" r="3"/><circle cx="-226" cy="420" r="2.5"/></g>
+    <!-- nhà 2 tầng có sảnh: mái hiên, cột, đèn tuýp, cửa sáng đèn, TV -->
+    <circle class="glow" cx="600" cy="268" r="110" fill="url(#yGlow)"/>
+    <path fill="url(#yHouse)" d="M440 442V236L600 168L760 236V442Z"/>
+    <path d="M428 240L600 160L772 240" stroke="#2c2150" stroke-width="10" fill="none" stroke-linejoin="round"/>
+    <rect class="win" x="555" y="244" width="90" height="56" rx="4"/>
+    <path d="M600 244V300M555 272H645" stroke="#1a122e" stroke-width="5"/>
+    <ellipse class="tube" cx="600" cy="372" rx="190" ry="70" fill="url(#yTube)"/>
+    <rect class="win" x="572" y="364" width="56" height="78" rx="3" opacity=".85"/>
+    <path d="M600 364V442" stroke="#1a122e" stroke-width="3"/>
+    <rect class="tv" x="466" y="370" width="62" height="46" rx="3"/>
+    <rect class="win" x="672" y="370" width="56" height="46" rx="3" opacity=".75"/>
+    <path d="M700 370V416M672 393H728" stroke="#1a122e" stroke-width="4"/>
+    <path fill="#2b2049" d="M376 318H824L856 348H344Z"/>
+    <path d="M400 322L390 346M440 322L432 346M480 322L474 346M520 322L516 346M560 322L558 346M600 322V346M640 322L642 346M680 322L684 346M720 322L726 346M760 322L768 346M800 322L810 346" stroke="#221839" stroke-width="2"/>
+    <rect class="tube" x="566" y="352" width="68" height="6" rx="3" fill="#eaf6ff"/>
+    <rect x="392" y="348" width="14" height="94" fill="#251b40"/><rect x="794" y="348" width="14" height="94" fill="#251b40"/>
+    <path fill="#3a2e55" d="M350 432H850L866 448H334Z"/>
+    <g><path d="M352 420H382L378 444H356Z" fill="#5a3a2a"/><circle cx="360" cy="410" r="12" fill="#14102a"/><circle cx="374" cy="404" r="13" fill="#14102a"/><path d="M818 420H848L844 444H822Z" fill="#5a3a2a"/><circle cx="826" cy="408" r="13" fill="#14102a"/><circle cx="840" cy="412" r="11" fill="#14102a"/></g>
+    <!-- tường rào phải, cổng sắt, đèn trụ, mèo đi trên tường, cây -->
+    <g fill="#100b1e"><rect x="1372" y="270" width="18" height="170" rx="6"/><circle cx="1350" cy="244" r="54"/><circle cx="1410" cy="224" r="60"/><circle cx="1440" cy="270" r="44"/></g>
+    <path fill="#150f27" d="M872 442V350H1600V442Z"/>
+    <rect x="872" y="344" width="728" height="8" fill="#211938"/>
+    <rect x="976" y="288" width="22" height="154" fill="#1d1534"/><rect x="1146" y="288" width="22" height="154" fill="#1d1534"/>
+    <circle class="win" cx="987" cy="282" r="7" opacity=".9"/><circle class="glow" cx="987" cy="282" r="40" fill="url(#yGlow)"/>
+    <path d="M998 300H1146M998 442H1146M1018 300V442M1038 300V442M1058 300V442M1078 300V442M1098 300V442M1118 300V442M998 370H1146" stroke="#2c2150" stroke-width="4" fill="none"/>
+    <g fill="#0f0b1d"><circle cx="900" cy="432" r="20"/><circle cx="1230" cy="430" r="26"/><circle cx="1290" cy="434" r="20"/><circle cx="1540" cy="430" r="28"/></g>
+    <g class="cat" fill="#06040d"><ellipse cx="1632" cy="334" rx="17" ry="9"/><circle cx="1614" cy="326" r="8"/><path d="M1608 320l2-8 4 6zM1616 319l4-7 2 8z"/><path d="M1648 332q14-4 10-22" stroke="#06040d" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="1620" y="338" width="4" height="8"/><rect x="1640" y="338" width="4" height="8"/></g>
+    <!-- sân gạch -->
+    <rect x="-400" y="440" width="2000" height="60" fill="url(#yGround)"/>
+    <path d="M-400 460H1600M-400 480H1600M-300 440L-388 500M-100 440L-166 500M100 440L56 500M300 440L278 500M500 440L494 500M700 440L706 500M900 440L922 500M1100 440L1144 500M1300 440L1366 500M1500 440L1588 500" stroke="#ffffff0d" stroke-width="2"/>
+    <!-- xe máy dựng trước cổng -->
+    <g><circle cx="1188" cy="452" r="22" fill="#0b0716" stroke="#3a2f58" stroke-width="4"/><circle cx="1300" cy="452" r="22" fill="#0b0716" stroke="#3a2f58" stroke-width="4"/>
+      <path d="M1180 448Q1196 416 1240 420L1272 414Q1304 408 1316 438L1296 452H1210Z" fill="#2a2046"/><path d="M1232 414Q1258 402 1286 408L1284 418H1234Z" fill="#120c22"/>
+      <path d="M1300 418L1316 396L1328 398" stroke="#3a2f58" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="1318" cy="404" r="4" fill="#ffe7a3"/></g>
+  </svg>
+  <div class="bg-glow"></div>
+  <div class="bg-lights"><svg viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M-2 3 Q50 40 102 3"/></svg></div>
+  <div class="bg-scene">
+    <svg class="bg-tablesvg" viewBox="0 0 1100 170" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="tTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab4bf"/><stop offset=".55" stop-color="#dfe6ec"/><stop offset="1" stop-color="#9aa6b2"/></linearGradient>
+        <linearGradient id="tEdge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a96a3"/><stop offset="1" stop-color="#4f5a66"/></linearGradient>
+        <radialGradient id="tCoal"><stop offset="0" stop-color="#fff2a8"/><stop offset=".45" stop-color="#ff8a1f"/><stop offset="1" stop-color="#a8240a"/></radialGradient>
+        <linearGradient id="tGreen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f6b38"/><stop offset=".45" stop-color="#3fa463"/><stop offset="1" stop-color="#14462a"/></linearGradient>
+        <linearGradient id="tBrown" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a2a0c"/><stop offset=".45" stop-color="#a5622a"/><stop offset="1" stop-color="#3b1a06"/></linearGradient>
+        <linearGradient id="tBucket" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d99a6"/><stop offset=".4" stop-color="#eef3f7"/><stop offset="1" stop-color="#6f7b88"/></linearGradient>
+        <linearGradient id="tStool" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d4d"/><stop offset="1" stop-color="#a5121a"/></linearGradient>
+      </defs>
+      <!-- mặt bàn inox -->
+      <path d="M90 40H1010L1090 126H10Z" fill="url(#tTop)" stroke="#6e7a86" stroke-width="2"/>
+      <path d="M140 47H520L512 53H134Z" fill="#fff" opacity=".4"/><path d="M640 112H980L986 118H636Z" fill="#fff" opacity=".25"/>
+      <path d="M10 126H1090V139H10Z" fill="url(#tEdge)"/>
+      <g fill="#5d6873"><rect x="44" y="139" width="11" height="31"/><rect x="1045" y="139" width="11" height="31"/><rect x="380" y="139" width="9" height="31"/><rect x="711" y="139" width="9" height="31"/></g>
+      <ellipse cx="71.5" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="71.5" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M83.5 50L111.5 61M86.5 48L114.5 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="207.9" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="207.9" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M219.9 50L247.9 61M222.9 48L250.9 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="344.3" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="344.3" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M356.3 50L384.3 61M359.3 48L387.3 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="480.7" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="480.7" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M492.7 50L520.7 61M495.7 48L523.7 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="617.1" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="617.1" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M629.1 50L657.1 61M632.1 48L660.1 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="753.5" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="753.5" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M765.5 50L793.5 61M768.5 48L796.5 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="889.9" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="889.9" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M901.9 50L929.9 61M904.9 48L932.9 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="1026.3" cy="54" rx="19" ry="6.5" fill="#f5f7fa"/><ellipse cx="1026.3" cy="53" rx="14" ry="3.8" fill="#dfe7ee"/><path d="M1038.3 50L1066.3 61M1041.3 48L1069.3 59" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/>
+      <!-- chai bia đứng, thêm dần theo độ cay -->
+      <g class=""><path d="M241 70V40Q241 32 246 28V16H254V28Q259 32 259 40V70Z" fill="url(#tGreen)"/><rect x="245.5" y="12" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="241" y="44" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="244" y="34" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g><g class=""><path d="M857 70V40Q857 32 862 28V16H870V28Q875 32 875 40V70Z" fill="url(#tGreen)"/><rect x="861.5" y="12" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="857" y="44" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="860" y="34" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g>
+      <g class="bg-lv2"><path d="M325 72V42Q325 34 330 30V18H338V30Q343 34 343 42V72Z" fill="url(#tBrown)"/><rect x="329.5" y="14" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="325" y="46" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="328" y="36" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g><g class="bg-lv2"><path d="M639 70V40Q639 32 644 28V16H652V28Q657 32 657 40V70Z" fill="url(#tGreen)"/><rect x="643.5" y="12" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="639" y="44" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="642" y="34" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g><g class="bg-lv2"><path d="M775 72V42Q775 34 780 30V18H788V30Q793 34 793 42V72Z" fill="url(#tBrown)"/><rect x="779.5" y="14" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="775" y="46" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="778" y="36" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g>
+      <g class="bg-lv3"><path d="M139 72V42Q139 34 144 30V18H152V30Q157 34 157 42V72Z" fill="url(#tGreen)"/><rect x="143.5" y="14" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="139" y="46" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="142" y="36" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g><g class="bg-lv3"><path d="M461 70V40Q461 32 466 28V16H474V28Q479 32 479 40V70Z" fill="url(#tBrown)"/><rect x="465.5" y="12" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="461" y="44" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="464" y="34" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g><g class="bg-lv3"><path d="M991 72V42Q991 34 996 30V18H1004V30Q1009 34 1009 42V72Z" fill="url(#tGreen)"/><rect x="995.5" y="14" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="991" y="46" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="994" y="36" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g>
+      <!-- xô đá ướp bia -->
+      <path d="M902 70L908 104H948L954 70Z" fill="url(#tBucket)"/><ellipse cx="928" cy="70" rx="26" ry="7" fill="#cfe8f5"/>
+      <g fill="#eaf8ff" opacity=".9"><rect x="910" y="64" width="9" height="7" rx="2"/><rect x="921" y="66" width="9" height="7" rx="2"/><rect x="934" y="63" width="9" height="7" rx="2"/></g>
+      <path d="M916 66V44M940 66V48" stroke="#2f8f4e" stroke-width="7" stroke-linecap="round"/>
+      <!-- khô mực -->
+      <ellipse cx="170" cy="96" rx="50" ry="15" fill="#f4f6f8" stroke="#cfd6dc" stroke-width="1.5"/>
+      <g stroke="#d9a74a" stroke-width="5" stroke-linecap="round"><path d="M138 95L160 90M150 101L182 94M170 92L200 98M162 104L190 103"/></g>
+      <!-- rau sống -->
+      <ellipse cx="318" cy="104" rx="54" ry="16" fill="#f4f6f8" stroke="#cfd6dc" stroke-width="1.5"/>
+      <g><ellipse cx="296" cy="100" rx="16" ry="7" fill="#3fae4c" transform="rotate(-20 296 100)"/><ellipse cx="320" cy="98" rx="18" ry="7" fill="#6cc04a" transform="rotate(15 320 98)"/><ellipse cx="340" cy="104" rx="15" ry="6" fill="#2e8b3e" transform="rotate(-8 340 104)"/><ellipse cx="312" cy="108" rx="14" ry="5" fill="#8fd16a"/><circle cx="332" cy="96" r="4" fill="#e53935"/></g>
+      <!-- thịt chờ nướng -->
+      <ellipse cx="420" cy="74" rx="44" ry="12" fill="#f4f6f8" stroke="#cfd6dc" stroke-width="1.5"/>
+      <g><ellipse cx="404" cy="72" rx="14" ry="5.5" fill="#e07a86"/><ellipse cx="424" cy="75" rx="14" ry="5.5" fill="#d9606f"/><ellipse cx="440" cy="71" rx="12" ry="5" fill="#e88c96"/><path d="M394 72H414M416 75H432M432 71H448" stroke="#fff" stroke-width="1.6" opacity=".8"/></g>
+      <!-- bếp nướng than giữa bàn, thịt trên vỉ, khói -->
+      <ellipse cx="550" cy="100" rx="84" ry="18" fill="#000" opacity=".25"/>
+      <path d="M470 80Q470 108 550 108Q630 108 630 80Z" fill="#3a3a42"/>
+      <ellipse cx="550" cy="80" rx="80" ry="22" fill="#26262c"/>
+      <ellipse class="coal" cx="550" cy="80" rx="68" ry="17" fill="url(#tCoal)"/>
+      <g stroke="#55555e" stroke-width="2"><path d="M486 74H614M480 80H620M486 86H614M500 69H600M500 91H600"/></g>
+      <g><rect x="500" y="70" width="26" height="10" rx="4" fill="#8b4513" transform="rotate(-8 513 75)"/><rect x="532" y="73" width="28" height="10" rx="4" fill="#a0522d"/><rect x="566" y="70" width="26" height="10" rx="4" fill="#9a4a24" transform="rotate(10 579 75)"/><rect x="520" y="83" width="24" height="9" rx="4" fill="#b5652f"/><rect x="556" y="84" width="26" height="9" rx="4" fill="#8b4513"/>
+        <path d="M506 74l4 4M514 73l4 4M538 75l4 5M546 75l4 5M572 73l4 4M580 74l4 4" stroke="#3b1a06" stroke-width="1.5"/></g>
+      <circle class="smoke" cx="528" cy="66" r="11" fill="#d6d6de" style="--sx:-24px"/><circle class="smoke" cx="552" cy="62" r="12" fill="#d6d6de" style="--sx:6px;animation-delay:-1.1s"/><circle class="smoke" cx="576" cy="66" r="10" fill="#d6d6de" style="--sx:26px;animation-delay:-2.2s"/>
+      <!-- tôm nướng -->
+      <ellipse cx="712" cy="104" rx="52" ry="15" fill="#f4f6f8" stroke="#cfd6dc" stroke-width="1.5"/>
+      <g stroke="#ff7a3d" stroke-width="6" fill="none" stroke-linecap="round"><path d="M684 104q8-11 16 0"/><path d="M704 100q8-11 16 0"/><path d="M724 106q8-11 16 0"/></g>
+      <!-- đậu phộng, chén nước chấm -->
+      <ellipse cx="824" cy="76" rx="30" ry="9" fill="#e8edf2"/><ellipse cx="824" cy="75" rx="24" ry="6" fill="#c27d3e"/><g fill="#e2a868"><circle cx="814" cy="74" r="2.4"/><circle cx="824" cy="76" r="2.4"/><circle cx="834" cy="73" r="2.4"/><circle cx="820" cy="72" r="2"/></g>
+      <ellipse cx="616" cy="112" rx="16" ry="5" fill="#f4f6f8"/><ellipse cx="616" cy="111" rx="11" ry="3" fill="#c0392b"/>
+      <ellipse cx="972" cy="104" rx="16" ry="5" fill="#f4f6f8"/><ellipse cx="972" cy="103" rx="11" ry="3" fill="#7cb342"/>
+      <!-- mức Siêu cay: chai rỗng lăn lóc, giấy ăn vo viên -->
+      <g class="bg-lv3" transform="rotate(-78 240 118)"><g><path d="M231 118V88Q231 80 236 76V64H244V76Q249 80 249 88V118Z" fill="url(#tGreen)"/><rect x="235.5" y="60" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="231" y="92" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="234" y="82" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g></g><g class="bg-lv3" transform="rotate(-78 790 120)"><g><path d="M781 120V90Q781 82 786 78V66H794V78Q799 82 799 90V120Z" fill="url(#tBrown)"/><rect x="785.5" y="62" width="9" height="5" rx="1.5" fill="#d9d9d9"/><rect x="781" y="94" width="18" height="12" fill="#f2e6c8" opacity=".85"/><rect x="784" y="84" width="3" height="30" rx="1.5" fill="#fff" opacity=".3"/></g></g>
+      <g class="bg-lv3" fill="#fbfbfb"><circle cx="380" cy="116" r="6"/><circle cx="388" cy="112" r="5"/><circle cx="866" cy="112" r="6"/><circle cx="604" cy="54" r="5"/></g>
+      <!-- 2 ghế nhựa đỏ trống phía trước -->
+      <g><path d="M162 152L170 170H250L258 152Z" fill="#9c1018"/><ellipse cx="210" cy="152" rx="50" ry="11" fill="url(#tStool)"/><ellipse cx="210" cy="152" rx="9" ry="3" fill="#7a0c12"/>
+        <path d="M842 152L850 170H930L938 152Z" fill="#9c1018"/><ellipse cx="890" cy="152" rx="50" ry="11" fill="url(#tStool)"/><ellipse cx="890" cy="152" rx="9" ry="3" fill="#7a0c12"/></g>
+    </svg>
+    <div class="bg-kid"><span class="bg-k"></span></div>
   </div>
 </div>
 <div id="app"><div id="shell">
@@ -466,7 +649,6 @@ const HOME_TEASES = [
 ];
 const HOME_FLOATERS = ['🍺', '🔥', '🌶️', '😈', '🍻', '🃏', '💀', '🥴', '👑', '🎡', '🍑', '🐔'];
 const TEASES = ['Hên xui thôi…', 'Trắng tay, về chỗ ngồi đi.', 'Ông trời không thương bạn hôm nay.', 'Quay cho vui thôi mà.', 'Thôi uống miếng nước cho đỡ buồn.'];
-
 /* ===== Tiện ích ===== */
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -479,7 +661,6 @@ function weighted(items, w) {
   for (let i = 0; i < items.length; i++) { r -= w(items[i]); if (r < 0) return i; }
   return items.length - 1;
 }
-
 /* ===== State ===== */
 const newDraft = () => ({
   players: [],
@@ -529,7 +710,6 @@ function makePlayer(list) {
     coupleOk: false, bannedTags: [], noAlcohol: false, bonus: [], penalty: [], stats: freshStats(),
   };
 }
-
 /* ===== Âm thanh & rung ===== */
 let actx = null;
 function tone(f, d, type = 'sine', v = 0.15, at = 0, to = null) {
@@ -635,7 +815,6 @@ function voice(...ids) {
   } catch (e) { /* không có Web Audio */ }
 }
 const vibrate = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* bỏ qua */ } };
-
 /* ===== Hiệu ứng ===== */
 function toast(t) {
   const el = $('toast'); el.textContent = t; el.classList.add('on');
@@ -759,7 +938,6 @@ function flyTo(icon, pid) {
   const dx = r.left + r.width / 2 - innerWidth / 2 - 20, dy = r.top + r.height / 2 - innerHeight * 0.45 - 30;
   el.animate([{ transform: 'scale(1.3)' }, { transform: `translate(${dx}px,${dy}px) scale(.3)`, opacity: 0.4 }], { duration: 800, easing: 'cubic-bezier(.5,0,.3,1)' }).onfinish = () => el.remove();
 }
-
 /* ===== Rút thẻ (mục 7) ===== */
 const hasB = c => c.text.includes('{B}');
 function partnersFor(c, A) {
@@ -811,7 +989,6 @@ function partnerNote(c) {
   if (!c.bId || hasB(c) || CONFIG.coupleWholeTable.includes(c.id)) return '';
   return `<div class="note">🤝 Làm cùng ${pName(P(c.bId))} (đã bật OK thử thách cặp).</div>`;
 }
-
 /* ===== Luồng: mỗi bước là dữ liệu trong queue nên tải lại trang vẫn tiếp tục được ===== */
 function go(name, data = {}) { voice$.queue = []; if (name !== 'card') ui.dareTimer = null; state.turn.phase = name; state.screen = { ...data, name }; save(); render(); }
 function flow(...items) { state.queue.unshift(...items); next(); }
@@ -874,7 +1051,6 @@ function endTurn() {
   expireCards();
   next();
 }
-
 /* ----- Phạt (mục 5.4) ----- */
 const debtsOf = p => p.penalty.filter(x => x === 'debt').length;
 // Có Nợ Ly thì lần này phải cạn ly. Tính xong là Nợ Ly mất luôn, kể cả khi lần uống sau đó được thoát hoặc bị đẩy đi.
@@ -1000,7 +1176,6 @@ function addBonus(p, id) {
   state.queue.unshift({ name: 'bagFull', pid: p.id, card: id });
   return false;
 }
-
 /* ----- Vòng quay ----- */
 function drawWheel(cv, segs) {
   // Vẽ theo kích thước hiển thị thật, dư gấp đôi để chữ vẫn nét khi quay và khi phóng to
@@ -1083,7 +1258,6 @@ function applySpin(seg) {
   }
   go('spinResult', { res });
 }
-
 /* ----- Sự kiện (v1: 6 effect) ----- */
 function chooseEvent() {
   const penalized = state.players.some(p => p.penalty.length);
@@ -1124,11 +1298,10 @@ function runEvent(ev) {
     default: next();
   }
 }
-
 /* ===== Giao diện: chrome ===== */
 function renderChrome() {
   const el = $('chrome');
-  $('bg').dataset.level = S.view === 'game' && state ? state.turn.level : 1; // nền say theo độ cay
+  bgSetLevel(S.view === 'game' && state ? state.turn.level : 1); // cả bàn say theo độ cay
   if (S.view !== 'game') { el.innerHTML = ''; return; }
   const t = state.turn, lv = LEVELS[t.level], last = state.log[state.log.length - 1], focus = state.screen.name === 'reaction';
   const chips = state.players.map(p => `
@@ -1160,7 +1333,6 @@ function renderChrome() {
   if (on) { const bar = el.querySelector('.pbar'); bar.scrollLeft = on.offsetLeft - bar.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2; }
 }
 const pgrid = (ids, act, sel = []) => `<div class="pgrid">${ids.map(id => { const p = P(id); return `<button style="--c:${p.color}" class="${sel.includes(id) ? 'sel' : ''}" data-a="${act}" data-id="${id}"><span class="e">${p.emoji}</span><span class="n">${esc(p.name)}</span></button>`; }).join('')}</div>`;
-
 /* ===== Giao diện: màn hình trong ván ===== */
 const SC = {
   turn() {
@@ -1368,7 +1540,6 @@ const SC = {
     </div>`;
   },
 };
-
 /* Việc cần chạy sau khi vẽ màn hình */
 const MOUNT = {
   card() {
@@ -1467,7 +1638,6 @@ const rescueSegs = () => [
   { id: 'win', icon: '🍀', label: 'Thoát', w: rescuePct(), color: '#059669' },
   { id: 'lose', icon: '🍺', label: 'Uống', w: 100 - rescuePct(), color: '#7f1d1d' },
 ];
-
 /* ===== Giao diện: ngoài ván ===== */
 function playerEditor(list) {
   const row = p => {
@@ -1626,7 +1796,6 @@ function render() {
   }
   if (S.view === 'end') confetti();
 }
-
 /* ===== Sheet ===== */
 const SH = {
   menu: () => `<h2>Menu</h2>
@@ -1679,7 +1848,6 @@ function renderSheet() {
 function refreshEditor() { save(); if (S.view === 'game') renderSheet(); else render(); }
 const plist = () => (S.view === 'game' ? state.players : S.draft.players);
 const pOf = id => plist().find(p => p.id === id);
-
 /* ===== Hành động ===== */
 const A = {
   /* Setup */
@@ -1954,7 +2122,6 @@ function resolvePick(id) {
     return go('penIntro', { pen: makePenalty(P(id)), got: null });
   }
 }
-
 /* ===== Sự kiện DOM ===== */
 document.addEventListener('click', e => {
   if (e.target === $('sheet') && ui.sheet && ui.sheet !== 'pause') { A.closeSheet(); return; }
@@ -1972,13 +2139,125 @@ document.addEventListener('input', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.id === 'newName') { e.preventDefault(); A.addPlayer(); }
 });
-
 /* ===== Khởi động ===== */
-// Bọt khí nổi từ ly bia ở nền, vị trí và tốc độ ngẫu nhiên một lần
-$('bg').insertAdjacentHTML('beforeend', Array.from({ length: 18 }, () => {
-  const s = 4 + Math.random() * 10, d = 6 + Math.random() * 7;
-  return `<span class="bg-bub" style="left:${(Math.random() * 98).toFixed(1)}%;width:${s.toFixed(0)}px;height:${s.toFixed(0)}px;animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random() * d).toFixed(1)}s"></span>`;
-}).join(''));
+// Nền quán nhậu: bóng đèn theo dây võng (cùng đường cong với path trong svg), bàn 8 người chibi và đồ nhắm (món nào hiện từ mức cay nào)
+const mixHex = (a, b, t) => '#' + [0, 2, 4].map(i => Math.round(parseInt(a.substr(i + 1, 2), 16) * (1 - t) + parseInt(b.substr(i + 1, 2), 16) * t).toString(16).padStart(2, '0')).join('');
+const MUG_SVG = '<svg viewBox="0 0 26 30"><path d="M19 9h3a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4h-3" fill="none" stroke="#e8f4ff" stroke-width="2.4" opacity=".9"/><rect x="2" y="6" width="18" height="23" rx="3" fill="url(#bgBeer)" stroke="#e8f4ff" stroke-width="1.6"/><path d="M1 9q2-7 7-3q3-5 7-1q5-3 6 3v2H1z" fill="#fffaf0"/><rect x="5" y="12" width="2.6" height="13" rx="1.3" fill="#fff" opacity=".5"/></svg>';
+// Nhân vật chibi: mặt má bầu, mắt to có tròng và đốm sáng, tóc có vệt bóng, trang phục riêng.
+// style tóc: long, bun, bob, pony, bald, spiky, short, fringe · outfit: tee, polo, vneck, stripe, hoodie, tank
+function chibiSVG(c, id) {
+  const sk = c.skin, hr = c.hair, sh = c.shirt, ink = '#2b1a16', fem = c.sex === 'f';
+  const skD = mixHex(sk, '#7a3a1a', 0.22), shD = mixHex(sh, '#000000', 0.32), shL = mixHex(sh, '#ffffff', 0.4);
+  const g = (k, v) => '<g class="ex ' + k + '">' + v + '</g>';
+  const both = f => f(38, -1) + f(62, 1); // mắt trái (hướng ngoài -1), mắt phải (+1)
+  const lash = (x, s) => fem ? '<path d="M' + (x - 6.6) + ' 49.5Q' + x + ' 44 ' + (x + 6.6) + ' 49.5M' + (x + 6 * s) + ' 49l' + (3.2 * s) + '-2.6" stroke="' + ink + '" stroke-width="2.1" fill="none" stroke-linecap="round"/>' : '<path d="M' + (x - 6.2) + ' 49.6Q' + x + ' 45.4 ' + (x + 6.2) + ' 49.6" stroke="' + ink + '" stroke-width="1.5" fill="none"/>';
+  const eyes = {
+    open: both((x, s) => '<ellipse cx="' + x + '" cy="53" rx="6.2" ry="7" fill="#fff"/><ellipse cx="' + x + '" cy="54" rx="4.9" ry="6" fill="url(#i' + id + ')"/><ellipse cx="' + x + '" cy="55" rx="2.3" ry="2.9" fill="' + ink + '"/><circle cx="' + (x - 1.9) + '" cy="51.2" r="2" fill="#fff"/><circle cx="' + (x + 2.1) + '" cy="57.2" r=".9" fill="#fff"/>' + lash(x, s)),
+    happy: both((x, s) => '<path d="M' + (x - 6) + ' 55q6-8 12 0" stroke="' + ink + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>' + (fem ? '<path d="M' + (x + 5.6 * s) + ' 53.2l' + (3 * s) + '-2.2" stroke="' + ink + '" stroke-width="2" stroke-linecap="round"/>' : '')),
+    dizzy: both(x => '<path d="M' + x + ' 53m-5 0a5 5 0 1 1 10 0a3.8 3.8 0 1 1-7.6 0a2.5 2.5 0 1 1 5 0" stroke="' + ink + '" stroke-width="1.9" fill="none"/>'),
+    sleep: both((x, s) => '<path d="M' + (x - 6) + ' 53q6 5 12 0" stroke="' + ink + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>' + (fem ? '<path d="M' + (x + 5.6 * s) + ' 54.4l' + (2.6 * s) + '1.6" stroke="' + ink + '" stroke-width="1.8" stroke-linecap="round"/>' : '')),
+    lol: '<path d="M33 49l8.5 4.5-8.5 4.5M67 49l-8.5 4.5 8.5 4.5" stroke="' + ink + '" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  const brow = (l, r) => '<path d="' + l + r + '" stroke="' + mixHex(hr, '#000000', 0.1) + '" stroke-width="' + (fem ? 2 : 2.8) + '" fill="none" stroke-linecap="round"/>';
+  const brows = { calm: brow('M32 43q6-3.5 12-1', 'M56 42q6-2 12 1'), up: brow('M32 41q6-5 12-2', 'M56 39q6-3 12 2'), drunk: brow('M31 41q6-6 12-2', 'M56 44q6 0 12 3'), down: brow('M32 45q6-2 12 0', 'M56 45q6-2 12 0') };
+  const mouth = {
+    smile: '<path d="M44.5 66q5.5 4.6 11 0" stroke="#8a3b2e" stroke-width="2.2" fill="none" stroke-linecap="round"/>',
+    grin: '<path d="M42.5 64.5q7.5 10.5 15 0z" fill="#7a2626"/><path d="M44.5 65.2h11" stroke="#fff" stroke-width="1.6" opacity=".9"/><ellipse cx="50" cy="69.6" rx="3.6" ry="1.9" fill="#ff8a95"/>',
+    wavy: '<path d="M42 67q2-2.6 4 0t4 0t4 0t4 0" stroke="#8a3b2e" stroke-width="2.1" fill="none" stroke-linecap="round"/>',
+    snore: '<ellipse cx="50" cy="67" rx="2.6" ry="3.2" fill="#7a2626"/>',
+    lol: '<path d="M40.5 63.5q9.5 15 19 0z" fill="#7a2626"/><path d="M42.6 64.4h14.8" stroke="#fff" stroke-width="1.8"/><ellipse cx="50" cy="71" rx="4.4" ry="2.3" fill="#ff8a95"/>',
+  };
+  const browOf = { open: 'calm', happy: 'up', dizzy: 'drunk', sleep: 'down', lol: 'up' };
+  const face = c.faces.map(([e, m], i) => g('ex' + (i + 1), brows[browOf[e]] + eyes[e] + mouth[m])).join('');
+  const H = 'url(#h' + id + ')';
+  const back = {
+    long: '<path d="M14 48Q11 98 22 106L78 106Q89 98 86 48Q86 9 50 9Q14 9 14 48Z" fill="' + H + '"/>',
+    bob: '<path d="M14 48Q12 82 24 84L76 84Q88 82 86 48Q86 10 50 10Q14 10 14 48Z" fill="' + H + '"/>',
+    pony: '<path d="M74 28Q106 34 96 88Q90 66 78 52Z" fill="' + H + '"/><circle cx="78" cy="30" r="4.5" fill="#ff5fa2"/>',
+    bun: '<circle cx="50" cy="11" r="12.5" fill="' + H + '"/><path d="M42 8q8-6 16 0" stroke="#fff" stroke-width="2" opacity=".35" fill="none"/>',
+  }[c.style] || '';
+  const front = {
+    long: '<path d="M16 48Q16 12 50 11Q84 12 84 48Q74 29 59 27Q48 38 30 34Q21 40 16 48Z" fill="' + H + '"/>',
+    bun: '<path d="M16 46Q17 13 50 12Q83 13 84 46Q75 28 50 27Q25 28 16 46Z" fill="' + H + '"/>',
+    pony: '<path d="M16 47Q17 12 50 11Q83 12 84 47Q77 26 53 29Q38 33 16 47Z" fill="' + H + '"/>',
+    bob: '<path d="M17 47Q16 13 50 12Q84 13 83 47L83 42Q66 34 50 35Q34 34 17 42Z" fill="' + H + '"/><rect x="66" y="26" width="11" height="4.5" rx="2.2" fill="#ff7eb6" transform="rotate(-24 71 28)"/>',
+    spiky: '<path d="M15 47L18 23L26 31L29 11L40 23L50 5L60 23L71 11L74 31L82 23L85 47Q73 30 50 30Q27 30 15 47Z" fill="' + H + '"/>',
+    short: '<path d="M15 45Q15 11 50 11Q85 11 85 45Q79 24 50 24Q21 24 15 45Z" fill="' + H + '"/>',
+    fringe: '<path d="M15 46Q15 11 50 11Q85 11 85 46Q75 21 38 41Q29 29 15 46Z" fill="' + H + '"/>',
+    bald: '<path d="M16 58Q13 37 24 28Q21 45 26 60ZM84 58Q87 37 76 28Q79 45 74 60Z" fill="' + H + '"/><path d="M44 15q3-5 7-1M50 14q4-4 7 0" stroke="' + hr + '" stroke-width="1.4" fill="none" stroke-linecap="round"/><ellipse cx="39" cy="21" rx="12" ry="5.4" fill="#fff" opacity=".55" transform="rotate(-22 39 21)"/><ellipse cx="58" cy="17" rx="4" ry="2" fill="#fff" opacity=".4"/>',
+  }[c.style];
+  const shine = c.style === 'bald' ? '' : '<path d="M27 25Q44 13 66 19" stroke="#fff" stroke-width="3" opacity=".32" fill="none" stroke-linecap="round"/>';
+  const outfit = {
+    tee: '<path d="M40 82Q50 91 60 82" stroke="' + shD + '" stroke-width="3" fill="none"/><path d="M50 98l2.6 5.4 5.9.8-4.3 4.1 1 5.9L50 111.4l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="' + shL + '" opacity=".85"/>',
+    polo: '<path d="M39 80L50 90L44 97L35 86ZM61 80L50 90L56 97L65 86Z" fill="' + shL + '"/><path d="M50 90V108" stroke="' + shD + '" stroke-width="1.6"/><circle cx="50" cy="97" r="1.4" fill="#fff"/><circle cx="50" cy="103" r="1.4" fill="#fff"/>',
+    vneck: '<path d="M41 81L50 95L59 81Z" fill="' + skD + '"/><path d="M41 81L50 95L59 81" stroke="' + shD + '" stroke-width="2.2" fill="none"/>',
+    stripe: '<path d="M18 98H82M15 106H85M14 114H86" stroke="#fff" stroke-width="3.4" opacity=".4"/><path d="M41 82Q50 90 59 82" stroke="' + shD + '" stroke-width="3" fill="none"/>',
+    hoodie: '<path d="M30 85Q50 99 70 85" stroke="' + shD + '" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M45 92V106M55 92V106" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="45" cy="107" r="1.6" fill="#fff"/><circle cx="55" cy="107" r="1.6" fill="#fff"/>',
+    tank: '<path d="M30 84Q36 92 42 96Q50 90 58 96Q64 92 70 84Q50 79 30 84Z" fill="url(#s' + id + ')"/><path d="M33 84V96M67 84V96" stroke="' + shD + '" stroke-width="3"/><circle cx="50" cy="90" r="1.8" fill="#ffd166"/>',
+  }[c.outfit] || '';
+  const extra = (c.glasses ? '<g fill="#ffffff22" stroke="#2a2230" stroke-width="2.2"><rect x="28.5" y="45" width="19" height="15" rx="6"/><rect x="52.5" y="45" width="19" height="15" rx="6"/><path d="M47.5 51h5M28.5 50l-11-2.5M71.5 50l11-2.5" fill="none"/></g>' : '')
+    + (c.mustache ? '<path d="M41 62q9-5.5 18 0q-9 3.4-18 0z" fill="' + mixHex(hr, '#000000', 0.1) + '"/><ellipse cx="50" cy="74" rx="11" ry="4" fill="' + hr + '" opacity=".1"/>' : '')
+    + (c.earrings ? '<circle cx="16" cy="61" r="2" fill="#ffd166"/><circle cx="84" cy="61" r="2" fill="#ffd166"/>' : '');
+  return '<svg class="chibi" viewBox="0 0 100 120"><defs>'
+    + '<radialGradient id="s' + id + '" cx="40%" cy="30%" r="75%"><stop offset="0" stop-color="' + mixHex(sk, '#ffffff', 0.4) + '"/><stop offset=".6" stop-color="' + sk + '"/><stop offset="1" stop-color="' + mixHex(sk, '#8a3f1c', 0.3) + '"/></radialGradient>'
+    + '<linearGradient id="h' + id + '" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="' + mixHex(hr, '#ffffff', 0.3) + '"/><stop offset=".45" stop-color="' + hr + '"/><stop offset="1" stop-color="' + mixHex(hr, '#000000', 0.4) + '"/></linearGradient>'
+    + '<radialGradient id="b' + id + '" cx="45%" cy="15%" r="95%"><stop offset="0" stop-color="' + shL + '"/><stop offset=".55" stop-color="' + sh + '"/><stop offset="1" stop-color="' + shD + '"/></radialGradient>'
+    + '<radialGradient id="i' + id + '" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="' + mixHex(c.eye || '#6b4428', '#ffffff', 0.35) + '"/><stop offset="1" stop-color="' + mixHex(c.eye || '#6b4428', '#000000', 0.35) + '"/></radialGradient>'
+    + '</defs>'
+    + '<path d="M13 122Q13 90 30 84Q50 78 70 84Q87 90 87 122Z" fill="url(#b' + id + ')"/>'
+    + '<path d="M29 86Q23 100 22 122M71 86Q77 100 78 122" stroke="' + shD + '" stroke-width="2" opacity=".6" fill="none"/>'
+    + '<rect x="44" y="73" width="12" height="12" rx="4" fill="' + skD + '"/>'
+    + outfit
+    + '<g class="hd">' + back
+    + '<circle cx="16" cy="53" r="5.6" fill="' + skD + '"/><circle cx="84" cy="53" r="5.6" fill="' + skD + '"/><circle cx="16.6" cy="53" r="2.6" fill="' + mixHex(sk, '#7a3a1a', 0.35) + '"/><circle cx="83.4" cy="53" r="2.6" fill="' + mixHex(sk, '#7a3a1a', 0.35) + '"/>'
+    + '<path d="M17 46Q17 13 50 13Q83 13 83 46Q83 70 66 78Q50 84 34 78Q17 70 17 46Z" fill="url(#s' + id + ')" stroke="' + mixHex(sk, '#7a3a1a', 0.4) + '" stroke-width=".8"/>'
+    + '<g class="blush" fill="#ff5d73"><ellipse cx="28.5" cy="63" rx="6.4" ry="3.6"/><ellipse cx="71.5" cy="63" rx="6.4" ry="3.6"/></g>'
+    + '<circle cx="26" cy="61.6" r="1.2" fill="#fff" opacity=".6"/><circle cx="69" cy="61.6" r="1.2" fill="#fff" opacity=".6"/>'
+    + '<path d="M48.6 60.2q1.4 1.4 2.8 0" stroke="' + mixHex(sk, '#7a3a1a', 0.5) + '" stroke-width="1.4" fill="none" stroke-linecap="round"/>'
+    + front + shine + face + extra + '</g></svg>';
+}
+// Bé gái hơn 1 tuổi: đầu thật to, chỏm tóc buộc nơ, váy hồng, ôm bình sữa
+const BABY_SVG = '<svg class="chibi" viewBox="0 0 100 115"><defs><radialGradient id="sBaby" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#fff2e4"/><stop offset=".65" stop-color="#ffd9b8"/><stop offset="1" stop-color="#e8a780"/></radialGradient><radialGradient id="dBaby" cx="45%" cy="20%" r="90%"><stop offset="0" stop-color="#ffd1e6"/><stop offset=".6" stop-color="#ff7eb6"/><stop offset="1" stop-color="#c2387a"/></radialGradient></defs>'
+  + '<rect x="35" y="98" width="11" height="15" rx="5.5" fill="#f2c39f"/><rect x="54" y="98" width="11" height="15" rx="5.5" fill="#f2c39f"/>'
+  + '<path d="M30 102L36 74Q50 69 64 74L70 102Z" fill="url(#dBaby)"/>'
+  + '<g transform="rotate(-25 72 74)"><rect x="66" y="58" width="11" height="20" rx="4" fill="#eef7ff" stroke="#bcd" stroke-width="1"/><rect x="66" y="66" width="11" height="12" rx="3" fill="#fffdf5"/><path d="M68 58h7l-1.5-6h-4z" fill="#ffb3cf"/></g>'
+  + '<circle cx="34" cy="80" r="5" fill="#f2c39f"/><circle cx="68" cy="76" r="5" fill="#f2c39f"/>'
+  + '<circle cx="50" cy="42" r="36" fill="url(#sBaby)"/>'
+  + '<path d="M44 8q6-12 12 0q-6-3-12 0z" fill="#6b3f22"/><path d="M38 12l-8-6v12zM62 12l8-6v12z" fill="#ff5fa2"/><circle cx="50" cy="12" r="4" fill="#ff86bb"/>'
+  + '<ellipse cx="37" cy="47" rx="5" ry="6.4" fill="#3a2420"/><ellipse cx="63" cy="47" rx="5" ry="6.4" fill="#3a2420"/><circle cx="35.4" cy="44.6" r="2" fill="#fff"/><circle cx="61.4" cy="44.6" r="2" fill="#fff"/>'
+  + '<ellipse cx="27" cy="58" rx="6" ry="3.6" fill="#ff7d8f" opacity=".7"/><ellipse cx="73" cy="58" rx="6" ry="3.6" fill="#ff7d8f" opacity=".7"/>'
+  + '<path d="M44 59q6 7 12 0z" fill="#9a3f3f"/></svg>';
+const BG_GUYS = [ // nhân vật quanh bàn (4 nam, 4 nữ ngồi xen kẽ); faces: [mắt, miệng] cho mức Nhẹ, Cay, Siêu cay
+  { sex: 'f', style: 'long', hair: '#3b2418', skin: '#ffdcc2', shirt: '#ff6b9a', outfit: 'tank', earrings: true, eye: '#6b4428', role: '', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  { sex: 'm', style: 'bald', hair: '#2b2220', skin: '#f2c49c', shirt: '#3a86ff', outfit: 'polo', mustache: true, eye: '#4a3020', role: 'bg-cheer', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] }, // anh hói sinh 1988, đại ca hô dzô
+  { sex: 'm', style: 'short', hair: '#1f1a1a', skin: '#f6c9a0', shirt: '#2a9d8f', outfit: 'stripe', glasses: true, eye: '#3d2a1e', role: 'bg-sleeper bg-bob', faces: [['open', 'smile'], ['happy', 'grin'], ['sleep', 'snore']] },
+  { sex: 'f', style: 'bun', hair: '#5a3524', skin: '#ffd9b8', shirt: '#f4a261', outfit: 'tee', earrings: true, eye: '#7a4a2a', role: 'bg-laugh', faces: [['open', 'smile'], ['lol', 'lol'], ['lol', 'lol']] },
+  { sex: 'm', style: 'spiky', hair: '#2a1d16', skin: '#eebd94', shirt: '#8e44ad', outfit: 'hoodie', eye: '#4a3020', role: 'bg-clinkL', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  { sex: 'f', style: 'bob', hair: '#8a4b2a', skin: '#ffdcc2', shirt: '#f2c14e', outfit: 'tank', eye: '#8a5a2a', role: 'bg-clinkR bg-lefty', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'grin']] },
+  { sex: 'm', style: 'fringe', hair: '#241b18', skin: '#f6c9a0', shirt: '#06b6d4', outfit: 'tee', eye: '#4a3020', role: '', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+  { sex: 'f', style: 'pony', hair: '#2e1f1a', skin: '#ffd9b8', shirt: '#e63946', outfit: 'vneck', earrings: true, eye: '#5a3a22', role: 'bg-bob', faces: [['open', 'smile'], ['happy', 'grin'], ['dizzy', 'wavy']] },
+];
+(() => {
+  const BULB_COLORS = ['#ffd166', '#ff6b6b', '#7ee081', '#6ec3ff', '#ffa94d'], n = 15, H = 96;
+  $('bg').querySelector('.bg-lights').insertAdjacentHTML('beforeend', Array.from({ length: n }, (_, i) => {
+    const t = (i + 0.5) / n, y = ((1 - t) ** 2 * 3 + 2 * (1 - t) * t * 40 + t ** 2 * 3) / 40 * H;
+    return '<span class="bg-bulb" style="left:' + (t * 100).toFixed(2) + '%;top:' + (y + 1).toFixed(1) + 'px;--bc:' + BULB_COLORS[i % BULB_COLORS.length] + ';--i:' + i + ';--tw:' + (1.8 + Math.random() * 1.6).toFixed(2) + 's;animation-delay:-' + (Math.random() * 3).toFixed(2) + 's"></span>';
+  }).join(''));
+  $('bg').querySelector('.bg-sky').insertAdjacentHTML('beforeend', Array.from({ length: 34 }, () =>
+    '<span class="bg-star" style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (12 + Math.random() * 34).toFixed(1) + '%;opacity:' + (0.35 + Math.random() * 0.5).toFixed(2) + ';--tw:' + (1.6 + Math.random() * 2.4).toFixed(2) + 's;animation-delay:-' + (Math.random() * 3).toFixed(2) + 's"></span>').join(''));
+  const beerDef = '<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="bgBeer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd25a"/><stop offset="1" stop-color="#e08a00"/></linearGradient></defs></svg>';
+  const guys = BG_GUYS.map((c, i) =>
+    '<span class="bg-guy ' + c.role + '" style="left:' + (6.5 + i * 12.4).toFixed(1) + '%;--i:' + i + ';--d:' + (2.6 + (i % 3) * 0.7).toFixed(1) + 's;--dl:-' + (i * 0.45).toFixed(2) + 's">'
+    + chibiSVG(c, 'g' + i) + '<span class="bg-mug">' + MUG_SVG + '</span></span>').join('');
+  const knock = '<span class="bg-knock">' + MUG_SVG + '</span>'; // ly bia bị bé đá đổ rồi được dựng lại
+  $('bg').querySelector('.bg-scene').insertAdjacentHTML('afterbegin', beerDef + guys + knock);
+  $('bg').querySelector('.bg-k').innerHTML = BABY_SVG;
+})();
+// Độ cay quyết định mặt, má đỏ và độ té le của cả bàn (qua CSS theo data-level)
+function bgSetLevel(lv) {
+  const bg = $('bg');
+  if (bg.dataset.level !== String(lv)) bg.dataset.level = lv;
+}
 load();
 if (state && !state.ended) { S.view = 'home'; ui.resumePrompt = true; }
 else if (state && state.ended) { S.view = 'end'; }
