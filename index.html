@@ -1004,20 +1004,25 @@ function eligible(c, A) {
   return true;
 }
 // opts.level: mức trần thay cho mức hiện tại · opts.exact: chỉ lấy đúng mức đó · opts.notId: tránh thẻ đang hiện
+// Khóa nhận diện câu: mã + băm nội dung, để bộ câu tạm và bộ thật trùng mã (t001…) không bị nhầm nhau
+const cardKey = c => { let h = 0; for (const ch of c.text) h = (h * 31 + ch.codePointAt(0)) | 0; return c.id + ':' + (h >>> 0).toString(36); };
+// Câu đã bốc được nhớ qua mọi ván (S.seenCards), chỉ ra lại khi đã bốc hết câu phù hợp
 function drawCard(type, A, opts = {}) {
   const L = opts.level || state.turn.level;
   const pool = (DATA[type] || []).concat(state.customCards.filter(c => c.type === type));
   const all = pool.filter(c => (opts.exact ? c.level === L : c.level <= L) && eligible(c, A) && c.id !== opts.notId);
   if (!all.length) return null;
-  let avail = all.filter(c => !state.usedCardIds.includes(c.id));
-  if (!avail.length) { // hết pool thì xáo lại
-    const ids = new Set(all.map(c => c.id));
-    state.usedCardIds = state.usedCardIds.filter(id => !ids.has(id));
+  const seen = new Set(S.seenCards || []);
+  let avail = all.filter(c => !seen.has(cardKey(c)));
+  if (!avail.length) { // hết câu phù hợp thì xáo lại phần đó
+    const keys = new Set(all.map(cardKey));
+    S.seenCards = (S.seenCards || []).filter(k => !keys.has(k));
     avail = all;
   }
   const same = avail.filter(c => c.level === L), low = avail.filter(c => c.level < L);
   const useSame = same.length && (!low.length || Math.random() < CONFIG.levelPreferChance);
   const c = pickOne(useSame ? same : low);
+  S.seenCards = [...(S.seenCards || []), cardKey(c)];
   state.usedCardIds.push(c.id);
   const out = { ...c, type, bId: null };
   if (A && (hasB(c) || (c.tags || []).includes('couple'))) out.bId = pickOne(partnersFor(c, A)).id;
