@@ -126,6 +126,11 @@ textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);backg
 .event-bg{background:radial-gradient(circle,#4b0f6f,#180627);border:1px solid var(--purple);box-shadow:0 0 30px #b026ff88;border-radius:24px;padding:20px 14px}
 .shake{animation:shake .45s}
 @keyframes shake{10%,90%{transform:translateX(-3px)}20%,80%{transform:translateX(6px)}30%,50%,70%{transform:translateX(-9px)}40%,60%{transform:translateX(9px)}}
+/* Thẻ Ngẫu hứng: lá thẻ viền xanh, lúc xáo thì lắc qua lại */
+.luck-card{align-self:center;min-width:min(100%,420px);padding:18px 22px;border-radius:22px;background:linear-gradient(160deg,#0e3a4a,#162046);border:2px solid #22d3ee;box-shadow:0 0 26px #22d3ee66;display:flex;flex-direction:column;gap:6px;align-items:center}
+.luck-card.shuffling{animation:luckShake .12s linear infinite alternate}
+@keyframes luckShake{from{transform:rotate(-3deg) scale(.97)}to{transform:rotate(3deg) scale(1.03)}}
+.luck-desc{font-size:20px;font-weight:800;line-height:1.5;text-shadow:0 1px 3px #000d}
 #flash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:40}
 #flash.go{animation:flash .6s}
 @keyframes flash{0%,40%{opacity:.75}100%{opacity:0}}
@@ -176,11 +181,6 @@ textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);backg
 .seg button{flex:1;min-width:0;min-height:48px;border-radius:12px;border:1px solid var(--line);background:#ffffff0d;font-weight:800;font-size:14px;padding:4px}
 .seg button.sel{background:var(--purple);border-color:var(--purple)}
 .seg button:disabled{opacity:.35}
-.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:none;margin:0 -16px;padding:0 16px;text-align:left}
-.slides::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:center;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;min-height:360px;display:flex;flex-direction:column;gap:10px}
-.slide h2{font-size:26px;color:var(--yellow)}
-.slide p{margin:0}.slide ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 table{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed}
 th,td{padding:7px 2px;text-align:center;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -403,13 +403,6 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
   .prow.open{grid-column:1/-1}
   .actionbar{justify-content:center}.actionbar .btn{flex:0 1 300px}.actionbar .btn.ghost{flex:0 1 220px}
-  .swipe-hint{display:none}
-  .slides{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;overflow:visible;margin:0;padding:0}
-  .slide{grid-column:span 2;min-height:0;padding:14px 16px;font-size:15px;gap:8px}
-  .slide ul{gap:4px}
-  .slide h2{font-size:24px}
-  .slide:nth-child(4),.slide:nth-child(5){grid-column:span 3}
-  .slide:nth-child(6){grid-column:1/-1}
   .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:14px}
   .btn.cardbtn{flex-direction:column;justify-content:center;text-align:center;min-height:128px;font-size:20px;gap:8px;padding:12px}
   .btn.cardbtn .i{font-size:40px}.btn.cardbtn .small{font-size:15px}
@@ -437,15 +430,44 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .sheet h2{font-size:26px}
 }
 .center,.page-head,.sheet,.face .q,.banner span{text-wrap:balance}
-.slide,.btn.cardbtn .small{text-wrap:pretty}
-.slide h3{font-size:16px;margin-top:4px}
-.rate-groups,.rate-group{display:flex;flex-direction:column;gap:8px;min-width:0}
-.rate-groups{gap:14px}
-.slide .muted.small{font-size:13px}
-.rates{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:14px}
-.rates b{text-align:right;color:var(--yellow);font-variant-numeric:tabular-nums}
-.src{display:block;font-size:13px;font-weight:700;color:var(--yellow)}
-@media (min-width:900px) and (min-height:560px){.rate-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
+.rpanel,.btn.cardbtn .small{text-wrap:pretty}
+/* Trang Luật chơi: tab theo chủ đề */
+.rtabs{flex:none;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px 4px;padding:2px 16px 6px}
+.rtabs::-webkit-scrollbar{display:none}
+.rtab{flex:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:#120a24cc;font-weight:800;font-size:15px;color:#d9ccf5}
+.rtab span{font-size:18px}
+.rtab.on{background:linear-gradient(135deg,var(--purple),var(--pink));border-color:transparent;color:#fff;box-shadow:0 0 18px #b026ff66}
+.rpanel{flex:none;background:#170e2ee6;border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:14px;text-align:left;animation:fadeup .25s ease-out}
+.rpanel h2{font-size:24px;color:var(--yellow)}
+.rpanel p{margin:0}
+.rnote{padding:10px 14px;border-radius:14px;background:#ffffff0d;border:1px dashed #ffffff26;color:#e2d8f8;font-size:15px}
+.rsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rstep{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 14px 16px;border-radius:18px;background:#ffffff0a;border:1px solid var(--line)}
+.rstep .rn{position:absolute;left:10px;top:8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:900;background:var(--yellow);color:#201400}
+.rstep .ri{font-size:40px;line-height:1.1}.rstep b{font-size:18px}.rstep p{color:#d9ccf5;font-size:15px}
+.rtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.rtile{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:#ffffff0a;border:1px solid var(--line)}
+.rtile.good{border-left:4px solid var(--cyan)}.rtile.bad{border-left:4px solid var(--red)}
+.rtile .ri{font-size:30px;line-height:1.1;flex:none}
+.rtile .rb{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rtile b{font-size:16px}.rtile p{font-size:14px;color:#d9ccf5;line-height:1.4}
+.rtag{align-self:flex-start;font-size:12px;font-weight:800;padding:2px 9px;border-radius:99px;background:#00f0ff22;color:#7ff6ff}
+.rtile.bad .rtag{background:#ff3b3b22;color:#ff9a9a}
+.rsrc{align-self:flex-start;font-size:12px;font-weight:800;color:var(--yellow)}
+.rdeath{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#5c0b1a,#2a0612);border:1px solid #ff3b3b88}
+.rdeath span{font-size:34px}.rdeath b{font-size:17px}.rdeath p{font-size:14px;color:#ffd0d0}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.rbars{display:flex;flex-direction:column;gap:7px;padding:14px;border-radius:16px;background:#ffffff0a;border:1px solid var(--line)}
+.rbars h3{font-size:16px;color:var(--yellow);margin:0 0 2px}
+.rbars p{font-size:14px;color:#d9ccf5}
+.rbar{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 38px;align-items:center;gap:8px;font-size:13px}
+.rbar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rbar i{height:8px;border-radius:99px;background:#ffffff14;overflow:hidden}
+.rbar em{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--pink))}
+.rbar b{text-align:right;color:var(--yellow);font-variant-numeric:tabular-nums}
+.rmini{font-size:13px!important;font-weight:800}
+.rlist{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:3px}
+@media (min-width:900px) and (min-height:560px){.rtabs{justify-content:center;margin:0 0 4px}.rpanel{padding:22px 26px}}
 </style>
 </head>
 <body>
@@ -596,9 +618,16 @@ const CONFIG = {
     { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 11, color: '#c2710c' },
     { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 5,  color: '#ca8a04' },
   ],
-  rescueMissesPer8: 5,                                   // Quay Đổi Vận: bàn 8 người, cứ 5 lần hụt thì lần kế tiếp thoát (bàn khác tính theo tỉ lệ)
+  // Quay Đổi Vận: 5 ô bằng nhau, 1 ô Thoát (20%) và 4 ô phải uống (80%). Mỗi lần quay độc lập, chỉ theo tỉ lệ.
+  rescueWheel: [
+    { id: 'win', icon: '🍀', label: 'Thoát', w: 20, color: '#059669' },
+    { id: 'lose', icon: '🍺', label: 'Uống', w: 20, color: '#7f1d1d' },
+    { id: 'lose', icon: '🍻', label: 'Dzô!', w: 20, color: '#9a3412' },
+    { id: 'lose', icon: '🥃', label: 'Cạn đi', w: 20, color: '#831843' },
+    { id: 'lose', icon: '😵', label: 'Nâng ly', w: 20, color: '#581c87' },
+  ],
   penaltyWeights: { debt: 40, forcedare: 25, blame: 15, silence: 20 },   // thẻ phạt khi từ chối và Mưa Thẻ
-  xuiWeights: { debt: 30, forcedare: 18, blame: 14, cover: 10, silence: 14 },             // ô Xui, có thêm thẻ tác dụng ngay (Để đó cho chuỵ)
+  xuiWeights: { debt: 18, forcedare: 30, blame: 14, cover: 10, silence: 14 },             // ô Xui, có thêm thẻ tác dụng ngay (Để đó cho chuỵ)
   mysteryWeights: { split: 30, king: 25, beauty: 30, goodkid: 10, magic: 5 },              // ô Bí ẩn, Bé ngoan và Túi thần kỳ chỉ có ở đây
   cardLifeRounds: 2,                                     // thẻ giữ quá số vòng này thì hết hạn
   magicRounds: 5,                                        // thời hạn Túi thần kỳ
@@ -606,9 +635,12 @@ const CONFIG = {
   coverMax: 3,                                           // Để đó cho chuỵ uống hộ tối đa
   levelPreferChance: 0.7,                                // ưu tiên thẻ đúng mức hiện tại
   eventEveryRounds: 2,                                   // cứ hết 2 vòng có 1 sự kiện
-  earlyRounds: 2,                                        // số vòng đầu vòng quay được chia theo earlySpecials
-  earlySpecials: ['mirror', 'swap', 'bad'],              // mỗi vòng đầu, mỗi ô này ra đúng 1 người, còn lại Không có gì
-  nothingShare: [0.5, 0.625],                            // từ sau đó: phần người Không có gì mỗi vòng (8 người: 4–5)
+  earlyRounds: 2,                                        // số vòng đầu vòng quay dùng earlyWeights
+  // Mỗi lần quay độc lập, chỉ theo tỉ lệ (%), không chia suất theo thứ tự người quay trong vòng.
+  // Các vòng đầu chỉ ra 5 ô này; từ sau đó theo trọng số w của wheel ở trên.
+  earlyWeights: { mirror: 13, swap: 13, bad: 14, luck: 30, nothing: 30 },
+  luckSeg: { id: 'luck', icon: '🎲', label: 'Ngẫu hứng', w: 10, color: '#0891b2' }, // chỉ có trên vòng quay ở các vòng đầu
+  luckWeights: { pair: 1, shout: 1, door: 1 },           // 3 kiểu khi mở thẻ Ngẫu hứng, tỉ lệ ngang nhau
   enabledEffects: ['all_drink', 'never_round', 'mostlikely_vote', 'manual_pick_loser', 'heal_most_penalized', 'random_card_each'], // v1
   randomCardBonusChance: 0.6,                            // Mưa Thẻ: 60% thưởng / 40% phạt
   levelUpRounds: 2,
@@ -1252,6 +1284,19 @@ function applySpin(seg) {
   } else if (seg.id === 'nothing') {
     res.desc = pickOne(TEASES);
     log(`${p.name} quay trúng ô trống`);
+  } else if (seg.id === 'luck') {
+    const lw = CONFIG.luckWeights, lk = Object.keys(lw), kind = lk[weighted(lk, x => lw[x])];
+    const L = LUCK[kind];
+    res = { icon: L.icon, title: L.title, luck: kind };
+    if (kind === 'pair') {
+      const two = [...state.players].sort(() => Math.random() - 0.5).slice(0, 2);
+      two.forEach(addDrink);
+      res.pids = two.map(x => x.id);
+      log(`Ngẫu hứng: ${two.map(x => x.name).join(' và ')} uống`);
+    } else {
+      res.pid = p.id;
+      log(`${p.name} quay trúng Ngẫu hứng: ${L.title}`);
+    }
   } else if (seg.id === 'bad') {
     const xw = CONFIG.xuiWeights, xk = Object.keys(xw), id = xk[weighted(xk, x => xw[x])];
     res = { icon: CARDS[id].icon, title: `Xui! Dính ${CARDS[id].name}`, desc: CARDS[id].desc, bad: true, fly: id, voice: id };
@@ -1408,6 +1453,12 @@ const SC = {
   },
   spinResult() {
     const r = state.screen.res;
+    if (r.luck) return `<div class="center">
+      <div class="muted small">🎲 NGẪU HỨNG</div>
+      <div class="luck-card" id="luckCard"><div class="big-icon">${r.icon}</div><div class="big">${esc(r.title)}</div></div>
+      <div class="luck-desc">${luckDesc(r)}</div>
+      <button class="btn pri" data-a="next">Tiếp ➜</button>
+    </div>`;
     return `<div class="center">
       <div class="big-icon">${r.icon}</div>
       <div class="big">${esc(r.title)}</div>
@@ -1562,7 +1613,7 @@ const MOUNT = {
     if (ui.dareTimer && ui.dareTimer.running) runDareTimer();
     paintDareTimer();
   },
-  spin() { drawWheel($('wheel'), CONFIG.wheel); },
+  spin() { drawWheel($('wheel'), wheelSegs()); },
   rescue() { drawWheel($('wheel'), rescueSegs()); },
   reaction() { sfx('buzz'); vibrate(200); },
   drink() { sfx('buzz'); shake(); vibrate(120); bgFx('drink'); },
@@ -1578,6 +1629,7 @@ const MOUNT = {
   event() { sfx('siren'); vibrate(200); },
   spinResult() {
     const r = state.screen.res;
+    if (r.luck) return luckReveal(r);
     if (r.good) { sfx('reward'); confetti(); }
     if (r.fly) flyTo(CARDS[r.fly].icon, state.turn.currentPlayerId);
     if (r.bad) bgFx('bad'); else if (r.voice === 'potato') bgFx('escape'); else if (r.good) bgFx('good');
@@ -1623,35 +1675,55 @@ function runDareTimer() {
   ui.timers.push(iv);
 }
 // Kế hoạch vòng quay của vòng bàn hiện tại. Lưu trong state nên tải lại trang vẫn giữ đúng số đã chia.
-function wheelPlan() {
-  const t = state.turn, n = state.players.length;
-  if (!t.wheelPlan || t.wheelPlan.round !== t.round) {
-    const [lo, hi] = CONFIG.nothingShare, min = Math.floor(n * lo), max = Math.round(n * hi);
-    t.wheelPlan = t.round <= CONFIG.earlyRounds
-      ? { round: t.round, specials: [...CONFIG.earlySpecials] }
-      : { round: t.round, nothing: rand(min, Math.max(min, max)) };
-  }
-  return t.wheelPlan;
+// Mỗi lần quay độc lập, chỉ phụ thuộc tỉ lệ: không nhớ ai quay trước, ván mới không lặp lại kết quả ván cũ
+function wheelWeights() {
+  if (state.turn.round <= CONFIG.earlyRounds) return CONFIG.earlyWeights;
+  return Object.fromEntries(CONFIG.wheel.map(s => [s.id, s.w]));
 }
-// Xác suất tính theo số lượt còn lại, nên người cuối vòng vẫn nhận đủ phần còn thiếu dù có người từ chối thẻ và không quay.
 function chooseWheelSeg() {
-  const plan = wheelPlan(), left = Math.max(1, state.players.length - state.turn.turnsInRound);
-  if (plan.specials) return Math.random() < plan.specials.length / left ? pickOne(plan.specials) : 'nothing';
-  if (Math.random() < plan.nothing / left) return 'nothing';
-  const rest = CONFIG.wheel.filter(s => s.id !== 'nothing');
-  return rest[weighted(rest, s => s.w)].id;
+  const w = wheelWeights(), ids = Object.keys(w);
+  return ids[weighted(ids, id => w[id])];
 }
-function commitWheelSeg(id) {
-  const plan = wheelPlan();
-  if (plan.specials) plan.specials = plan.specials.filter(s => s !== id);
-  else if (id === 'nothing' && plan.nothing > 0) plan.nothing--;
+// Các vòng đầu vòng quay có thêm ô Ngẫu hứng, đặt cạnh Không có gì
+// Thẻ Ngẫu hứng: 3 kiểu, mở ra thì xáo qua cả 3 rồi dừng ở kiểu đã chọn
+const LUCK = {
+  pair: { icon: '🎯', title: '2 người xui xẻo uống!' },
+  shout: { icon: '📢', title: 'Hét thật to: "Ớ!"' },
+  door: { icon: '🚪', title: 'Đi ra cửa rồi quay lại!' },
+};
+function luckDesc(r) {
+  if (r.luck === 'pair') return r.pids.filter(P).map(id => `${pName(P(id))} uống${P(id).noAlcohol ? ' nước lọc' : ''}`).join(' · ') + '<div class="muted small">Xui thôi, không có lý do gì cả.</div>';
+  const p = P(r.pid);
+  if (r.luck === 'shout') return `${pName(p)} đứng dậy hét thật to chữ <b>"Ớ!"</b><div class="muted small">Không hét đủ to thì hét lại.</div>`;
+  return `${pName(p)} đứng dậy đi ra tới cửa rồi quay lại chỗ ngồi<div class="muted small">Cả bàn nhìn theo, cấm chạy.</div>`;
 }
-const rescueMissLimit = () => Math.max(1, Math.round(CONFIG.rescueMissesPer8 * state.players.length / 8));
-const rescuePct = () => Math.round(100 / (rescueMissLimit() + 1)); // độ rộng ô Thoát trên vòng
-const rescueSegs = () => [
-  { id: 'win', icon: '🍀', label: 'Thoát', w: rescuePct(), color: '#059669' },
-  { id: 'lose', icon: '🍺', label: 'Uống', w: 100 - rescuePct(), color: '#7f1d1d' },
-];
+function luckReveal(r) {
+  const card = $('luckCard'), desc = card.nextElementSibling, kinds = Object.keys(LUCK);
+  const done = () => {
+    card.classList.remove('shuffling'); desc.style.visibility = '';
+    card.querySelector('.big-icon').textContent = r.icon; card.querySelector('.big').textContent = r.title;
+    if (r.luck === 'pair') { sfx('buzz'); bgFx('drink'); vibrate(200); r.pids.forEach(id => flyTo('🍺', id)); }
+    else { sfx('reward'); bgFx('good'); }
+  };
+  if (reduced()) return done();
+  desc.style.visibility = 'hidden'; card.classList.add('shuffling');
+  let n = 0;
+  const iv = setInterval(() => {
+    const L = LUCK[kinds[n++ % kinds.length]];
+    card.querySelector('.big-icon').textContent = L.icon; card.querySelector('.big').textContent = L.title;
+    sfx('tick');
+    if (n >= 10) { clearInterval(iv); done(); }
+  }, 120);
+  ui.timers.push(iv);
+}
+const wheelSegs = () => {
+  if (state.turn.round > CONFIG.earlyRounds) return CONFIG.wheel;
+  const segs = [...CONFIG.wheel], at = segs.findIndex(s => s.id === 'nothing');
+  segs.splice(at + 1, 0, CONFIG.luckSeg);
+  return segs;
+};
+const rescueSegs = () => CONFIG.rescueWheel;
+const rescuePct = () => { const s = rescueSegs(), t = s.reduce((a, x) => a + x.w, 0); return Math.round(s.filter(x => x.id === 'win').reduce((a, x) => a + x.w, 0) / t * 100); };
 /* ===== Giao diện: ngoài ván ===== */
 function playerEditor(list) {
   const row = p => {
@@ -1727,39 +1799,55 @@ const V = {
   },
   rules() {
     const mw = CONFIG.mysteryWeights, pctOf = (w, id) => Math.round(w[id] / Object.values(w).reduce((a, b) => a + b, 0) * 100);
-    // Thẻ từ ô Bí ẩn: Bé ngoan và Túi thần kỳ chỉ có ở đây, các thẻ khác còn có trong Mưa Thẻ
-    const wheelTotal = Object.fromEntries(CONFIG.wheel.map(s => [s.id, s.w]));
-    const mysteryNote = id => (mw[id] ? ` <span class="src">🎁 ${BONUS_IDS.includes(id) ? 'Từ' : 'Chỉ có ở'} ô Bí ẩn, ${pctOf(mw, id)}%</span>`
-      : id === 'potato' ? ` <span class="src">🎡 Ô riêng trên Vòng Quay, ${pctOf(wheelTotal, id)}%</span>` : '');
-    const rateRows = rows => `<div class="rates">${rows.map(([l, v]) => `<span>${l}</span><b>${v}%</b>`).join('')}</div>`;
-    const cardRows = w => rateRows(Object.keys(w).map(id => [`${CARDS[id].icon} ${CARDS[id].name}`, pctOf(w, id)]));
     const wheelW = Object.fromEntries(CONFIG.wheel.map(s => [s.id, s.w]));
     const wheelSeg = id => CONFIG.wheel.find(s => s.id === id);
-    const [lo, hi] = CONFIG.nothingShare;
-    const slides = [
-      ['🎯 Cách chơi', `<p>Đặt laptop chỗ cả bàn cùng nhìn thấy. Một người làm quản trò và bấm cho mọi người.</p><ul><li>Chọn <b>Thật</b> hoặc <b>Thách</b> rồi rút thẻ.</li><li>Làm xong: quay <b>Vòng Quay May Mắn</b>.</li><li>Không làm: <b>uống thay</b>, nhận thêm 1 thẻ phạt.</li><li>Càng về sau càng cay.</li></ul>`],
-      ['🎁 Thẻ thưởng', `<p>Tối đa ${CONFIG.maxBonus} thẻ, thẻ ai người đó dùng, dùng 1 lần là mất. Giữ quá ${CONFIG.cardLifeRounds} vòng thì hết hạn.</p><ul>${RULE_BONUS.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}${mysteryNote(id)}</li>`).join('')}</ul>`],
-      ['💀 Thẻ phạt', `<ul>${RULE_PENALTY.map(id => `<li>${CARDS[id].icon} <b>${CARDS[id].name}:</b> ${CARDS[id].desc}</li>`).join('')}<li>💥 <b>Đủ ${CONFIG.deathAt} thẻ phạt là Án Tử:</b> cạn ly và làm 1 thử thách, không thẻ nào cứu được.</li></ul>`],
-      ['🪞 Đẩy phạt', `<ul><li>Bị phạt được <b>Quay Đổi Vận</b>: vào Thoát là khỏi uống. Bàn 8 người cứ ${CONFIG.rescueMissesPer8} lần hụt sẽ có 1 lần thoát.</li><li>Bị đẩy sang? Người đó được bật ngược bằng Gương, cứ thong thả, không tính giờ.</li><li>Bật ngược tối đa ${CONFIG.maxBounces} lần mỗi chuỗi.</li></ul>`],
-      ['🤝 An toàn', `<ul><li>Không ai bị ép: luôn có nút <b>Uống thay</b>.</li><li>Thử thách đụng chạm chỉ dành cho người bật <b>OK thử thách cặp</b>.</li><li>Có chế độ <b>nước lọc</b> cho người lái xe.</li><li>Câu ở lại bàn nhậu: chuyện trong game không mang ra ngoài 🤫</li></ul>`],
-      ['🎲 Tỉ lệ ra thẻ', `<div class="rate-groups"><div class="rate-group"><h3>Vòng ${CONFIG.earlyRounds > 1 ? `1–${CONFIG.earlyRounds}` : 1}</h3>
-        <p>Mỗi vòng đúng 1 người ra mỗi ô: ${CONFIG.earlySpecials.map(id => `${wheelSeg(id).icon} ${wheelSeg(id).label}`).join(', ')}. Còn lại là ${wheelSeg('nothing').icon} ${wheelSeg('nothing').label}.</p>
-        <h3>Từ vòng ${CONFIG.earlyRounds + 1}: Vòng Quay May Mắn</h3>
-        ${rateRows(CONFIG.wheel.map(s => [`${s.icon} ${s.label}`, pctOf(wheelW, s.id)]))}
-        <p class="small muted">Bàn 8 người: mỗi vòng ${Math.floor(8 * lo)}–${Math.round(8 * hi)} người ra ${wheelSeg('nothing').label}.</p></div>
-        <div class="rate-group"><h3>🎁 Trúng ô Bí ẩn: nhận ngẫu nhiên 1 thẻ</h3>${cardRows(mw)}</div>
-        <div class="rate-group"><h3>💀 Trúng ô Xui: dính ngẫu nhiên 1 thẻ</h3>${cardRows(CONFIG.xuiWeights)}</div>
-        <div class="rate-group"><h3>🐔 Từ chối thẻ: nhận ngẫu nhiên 1 thẻ phạt</h3>${cardRows(CONFIG.penaltyWeights)}
-        <p class="small muted">Sự kiện Mưa Thẻ: mỗi người nhận 1 thẻ, ${Math.round(CONFIG.randomCardBonusChance * 100)}% là thẻ thưởng, không có thẻ chỉ thuộc ô Bí ẩn hay ô Xui.</p></div></div>`],
+    // Mô tả thẻ dạng "Khi sắp uống: ..." thì tách phần trước dấu ":" thành nhãn thời điểm dùng
+    const split = d => { const m = d.match(/^([^:]{3,22}):\s*(.+)$/); return m ? [m[1], m[2][0].toUpperCase() + m[2].slice(1)] : ['', d]; };
+    const src = id => (mw[id] ? '<span class="rsrc">🎁 ' + (BONUS_IDS.includes(id) ? 'Bí ẩn' : 'Chỉ ở Bí ẩn') + ' · ' + pctOf(mw, id) + '%</span>'
+      : id === 'potato' ? '<span class="rsrc">🎡 Vòng Quay · ' + pctOf(wheelW, id) + '%</span>' : '');
+    const tile = (id, cls) => { const [tag, d] = split(CARDS[id].desc); return '<div class="rtile ' + cls + '"><div class="ri">' + CARDS[id].icon + '</div><div class="rb"><b>' + CARDS[id].name + '</b>' + (tag ? '<span class="rtag">' + tag + '</span>' : '') + '<p>' + d + '</p>' + src(id) + '</div></div>'; };
+    const item = (i, t, d) => '<div class="rtile"><div class="ri">' + i + '</div><div class="rb"><b>' + t + '</b><p>' + d + '</p></div></div>';
+    const bars = (title, rows) => { const max = Math.max(...rows.map(r => r[1])); return '<div class="rbars"><h3>' + title + '</h3>' + rows.map(([l, v]) => '<div class="rbar"><span>' + l + '</span><i><em style="width:' + Math.max(4, v / max * 100).toFixed(0) + '%"></em></i><b>' + v + '%</b></div>').join('') + '</div>'; };
+    const cardBars = (title, w) => bars(title, Object.keys(w).map(id => [CARDS[id].icon + ' ' + CARDS[id].name, pctOf(w, id)]));
+    const tabs = [
+      ['🎯', 'Cách chơi', '<div class="rsteps">'
+        + [['🗣️', 'Chọn Thật hoặc Thách', 'Rút thẻ và làm theo.'],
+           ['🍺', 'Không dám thì uống', 'Uống thay và nhận thêm 1 thẻ phạt.'],
+           ['🎡', 'Làm xong thì quay', 'Vòng Quay May Mắn ra thưởng, phạt hoặc trò vui.'],
+           ['🌶️', 'Càng chơi càng cay', 'Cứ ' + CONFIG.levelUpRounds + ' vòng lên một mức: Nhẹ, Cay, Siêu cay.']]
+          .map(([i, t, d], n) => '<div class="rstep"><span class="rn">' + (n + 1) + '</span><div class="ri">' + i + '</div><b>' + t + '</b><p>' + d + '</p></div>').join('')
+        + '</div><p class="rnote">💻 Đặt laptop chỗ cả bàn cùng thấy. Một người làm quản trò bấm cho mọi người.</p>'],
+      ['🎁', 'Thẻ thưởng', '<p class="rnote">Giữ tối đa <b>' + CONFIG.maxBonus + ' thẻ</b> · dùng 1 lần là mất · quá <b>' + CONFIG.cardLifeRounds + ' vòng</b> thì hết hạn</p><div class="rtiles">' + RULE_BONUS.map(id => tile(id, 'good')).join('') + '</div>'],
+      ['💀', 'Thẻ phạt', '<div class="rtiles">' + RULE_PENALTY.map(id => tile(id, 'bad')).join('') + '</div>'
+        + '<div class="rdeath"><span>💥</span><div><b>Án Tử: đủ ' + CONFIG.deathAt + ' thẻ phạt</b><p>Cạn ly và làm 1 thử thách. Không thẻ nào cứu được.</p></div></div>'],
+      ['🪞', 'Né phạt', '<div class="rtiles">'
+        + item('🍀', 'Quay Đổi Vận', 'Bị phạt được quay 1 lần: 1 ô Thoát và 4 ô phải uống, ' + rescuePct() + '% thoát. Mỗi lần quay độc lập, hên xui.')
+        + item('🪞', 'Bật ngược', 'Bị đẩy phạt sang? Có Gương thì đẩy lại, không tính giờ.')
+        + item('🔁', 'Tối đa ' + CONFIG.maxBounces + ' lần', 'Mỗi chuỗi đẩy qua đẩy lại tối đa ' + CONFIG.maxBounces + ' lần.')
+        + '</div>'],
+      ['🤝', 'An toàn', '<div class="rtiles">'
+        + item('🙅', 'Không ai bị ép', 'Luôn có nút Uống thay.')
+        + item('💑', 'Thử thách cặp', 'Đụng chạm chỉ với người đã bật OK thử thách cặp.')
+        + item('🚗', 'Nước lọc', 'Người lái xe chơi bằng nước lọc.')
+        + item('🤫', 'Ở lại bàn nhậu', 'Chuyện trong game không mang ra ngoài.')
+        + '</div>'],
+      ['🎲', 'Tỉ lệ', '<div class="rgrid">'
+        + bars('Vòng ' + (CONFIG.earlyRounds > 1 ? '1–' + CONFIG.earlyRounds : 1) + ': Vòng Quay', Object.keys(CONFIG.earlyWeights).map(id => { const s = id === 'luck' ? CONFIG.luckSeg : wheelSeg(id); return [s.icon + ' ' + s.label, pctOf(CONFIG.earlyWeights, id)]; }))
+        + '<div class="rbars"><h3>' + CONFIG.luckSeg.icon + ' ' + CONFIG.luckSeg.label + ' (vòng 1–' + CONFIG.earlyRounds + ')</h3><p>Mở ra 1 trong 3, tỉ lệ ngang nhau:</p><ul class="rlist">' + Object.values(LUCK).map(L => '<li>' + L.icon + ' ' + L.title + '</li>').join('') + '</ul></div>'
+        + bars('Từ vòng ' + (CONFIG.earlyRounds + 1) + ': Vòng Quay', CONFIG.wheel.map(s => [s.icon + ' ' + s.label, pctOf(wheelW, s.id)]))
+        + cardBars('🎁 Ô Bí ẩn', mw) + cardBars('💀 Ô Xui', CONFIG.xuiWeights) + cardBars('🐔 Từ chối thẻ', CONFIG.penaltyWeights)
+        + bars('🎰 Quay Đổi Vận', [['🍀 Thoát', rescuePct()], ['🍺 Phải uống (4 ô)', 100 - rescuePct()]])
+        + '</div><p class="rnote">🎡 Mỗi lần quay độc lập, chỉ theo tỉ lệ trên: không theo thứ tự ai quay trước, ván mới không lặp lại ván cũ. Mưa Thẻ: mỗi người 1 thẻ, ' + Math.round(CONFIG.randomCardBonusChance * 100) + '% là thẻ thưởng.</p>'],
     ];
-    return `<div class="page">
-      <div class="page-head"><h1>📖 Luật chơi</h1><div class="muted swipe-hint">Vuốt ngang để xem ${slides.length} trang luật</div></div>
-      <div class="slides">${slides.map(([t, b]) => `<section class="slide"><h2>${t}</h2>${b}</section>`).join('')}</div>
-      <div class="actionbar">
-        <button class="btn ghost" data-a="toSetup">⬅ Sửa cài đặt</button>
-        <button class="btn pri" data-a="startGame">🍻 Vào chơi</button>
-      </div>
-    </div>`;
+    const cur = Math.min(ui.rulesTab || 0, tabs.length - 1), [ci, ct, body] = tabs[cur];
+    return '<div class="page">'
+      + '<div class="page-head"><h1>📖 Luật chơi</h1></div>'
+      + '<div class="rtabs" role="tablist">' + tabs.map(([i, t], n) => '<button role="tab" aria-selected="' + (n === cur) + '" class="rtab' + (n === cur ? ' on' : '') + '" data-a="rulesTab" data-v="' + n + '"><span>' + i + '</span>' + t + '</button>').join('') + '</div>'
+      + '<section class="rpanel"><h2>' + ci + ' ' + ct + '</h2>' + body + '</section>'
+      + '<div class="actionbar">'
+      + (cur < tabs.length - 1 ? '<button class="btn ghost" data-a="rulesTab" data-v="' + (cur + 1) + '" title="' + tabs[cur + 1][1] + '">' + tabs[cur + 1][0] + ' Tiếp ➜</button>' : '<button class="btn ghost" data-a="toSetup">⬅ Sửa cài đặt</button>')
+      + '<button class="btn pri" data-a="startGame">🍻 Vào chơi</button>'
+      + '</div></div>';
   },
   game() { const f = SC[state.screen.name]; return f ? f() : ''; },
   end() {
@@ -1868,7 +1956,8 @@ const A = {
   /* Setup */
   toSetup() { S.view = 'setup'; save(); render(); },
   toHome() { S.view = 'home'; save(); render(); },
-  toRules() { S.view = 'rules'; save(); render(); },
+  toRules() { S.view = 'rules'; ui.rulesTab = 0; save(); render(); },
+  rulesTab(d) { ui.rulesTab = Number(d.v); render(); },
   addPlayer() {
     const input = $('newName'), list = plist(), name = (input.value || '').trim();
     if (!name) { input.focus(); return toast('Nhập tên trước đã'); }
@@ -1957,17 +2046,16 @@ const A = {
   next() { next(); },
   spin() {
     $('spinBtn').disabled = true;
-    const segs = CONFIG.wheel, picked = chooseWheelSeg(), idx = segs.findIndex(s => s.id === picked);
-    spinTo($('wheel'), segs, idx, CONFIG.spinMs, () => { commitWheelSeg(segs[idx].id); applySpin(segs[idx]); });
+    const segs = wheelSegs(), picked = chooseWheelSeg(), idx = segs.findIndex(s => s.id === picked);
+    spinTo($('wheel'), segs, idx, CONFIG.spinMs, () => applySpin(segs[idx]));
   },
   toRescue() { flow({ name: 'rescue', pen: state.screen.pen }); },
   spinRescue() {
     const { pen } = state.screen, segs = rescueSegs();
     $('spinBtn').disabled = true;
-    const win = (state.rescueMisses || 0) >= rescueMissLimit();
-    spinTo($('wheel'), segs, win ? 0 : 1, CONFIG.rescueSpinMs, () => {
-      state.rescueMisses = win ? 0 : (state.rescueMisses || 0) + 1;
-      $('rescueMsg').textContent = win ? '🍀 Thoát rồi!' : '🍺 Uống đi!';
+    const idx = weighted(segs, s => s.w), win = segs[idx].id === 'win'; // chỉ theo tỉ lệ, không đếm số lần hụt
+    spinTo($('wheel'), segs, idx, CONFIG.rescueSpinMs, () => {
+      $('rescueMsg').textContent = win ? '🍀 Thoát rồi!' : `${segs[idx].icon} ${segs[idx].label} Uống đi!`;
       sfx(win ? 'reward' : 'buzz');
       if (win) confetti();
       ui.timers.push(setTimeout(() => {
