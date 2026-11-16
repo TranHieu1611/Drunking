@@ -63,6 +63,15 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .pchip .m{display:flex;justify-content:center;gap:2px;white-space:nowrap;font-size:11px;font-weight:800;align-items:center;min-height:16px}
 .pchip .m i{font-style:normal;border-radius:99px;min-width:15px;padding:0 3px;color:#071017}
 .pchip .m .b{background:var(--cyan)}.pchip .m .r{background:var(--red);color:#fff}
+/* Thẻ vàng, thẻ đỏ trên ô tên */
+.pchip .yr{position:absolute;top:-6px;left:50%;transform:translateX(-50%);display:flex;gap:2px}
+.pchip .yr b{width:10px;height:13px;border-radius:2px;background:#ffd60a;box-shadow:0 1px 3px #000a;transform:rotate(-8deg)}
+.pchip .yr b.red{background:#ff2a2a;width:12px;height:15px;animation:pulse 1s infinite}
+.ycard{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:16px;border:1px solid #ffd60a88;background:#3a2d0099;text-align:left}
+.ycard.red{border-color:#ff3b3b;background:#4a0a14cc}
+.ycard .cards{display:flex;gap:4px;flex:none}.ycard .cards b{width:22px;height:30px;border-radius:4px;background:#ffd60a;box-shadow:0 2px 6px #000a}.ycard .cards b.off{background:#ffffff22}.ycard .cards b.red{background:#ff2a2a}
+.redshow{width:120px;height:160px;margin:0 auto;border-radius:14px;background:linear-gradient(160deg,#ff4545,#b3001b);box-shadow:0 0 50px #ff2a2aaa;transform:rotate(-8deg);animation:redIn .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes redIn{from{transform:rotate(-40deg) scale(.2);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
 .pchip.on{border-color:var(--c);animation:pulse 1.5s infinite}
 .pchip .mute{position:absolute;top:-2px;right:0;font-size:13px}
 @keyframes pulse{0%,100%{box-shadow:0 0 4px var(--c)}50%{box-shadow:0 0 16px var(--c)}}
@@ -118,8 +127,6 @@ h1,h2,h3{margin:0;font-weight:900;line-height:1.15}
 .count3{font-size:120px;font-weight:900;color:var(--yellow);text-shadow:0 0 28px var(--yellow);animation:pop .4s}
 .timer{font-size:54px;font-weight:900;color:var(--yellow);text-shadow:0 0 20px #ffd60a99}
 /* Toàn màn hình đặc biệt */
-.death{background:radial-gradient(circle,#7a0014,#1c0208);border-radius:24px;padding:20px 14px;box-shadow:0 0 40px var(--red)}
-.death .big{color:#fff;text-shadow:0 0 18px var(--red)}
 textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);background:#0006;padding:12px;min-height:48px;font-size:16px;resize:vertical}
 .glitch{font-size:36px;font-weight:900;color:var(--yellow);animation:glitch .5s steps(2) 4;text-shadow:3px 0 var(--pink),-3px 0 var(--cyan)}
 @keyframes glitch{0%{transform:translate(0)}25%{transform:translate(-4px,2px) skewX(6deg)}50%{transform:translate(3px,-3px)}75%{transform:translate(-2px,3px) skewX(-6deg)}100%{transform:translate(0)}}
@@ -392,8 +399,6 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .cardgrid,.cardlines{display:flex;flex-direction:column;gap:10px;width:100%}
 .pgrid{display:flex;flex-wrap:wrap;justify-content:center}
 .pgrid button{flex:0 0 calc((100% - 20px) / 3);min-width:0}
-.death .lead,.death .side{display:contents}
-.death-sub{font-weight:800;font-size:18px}
 @media (min-width:900px) and (min-height:560px){
   .page{max-width:1040px;margin:0 auto}
   .page-head h1{font-size:40px}
@@ -418,10 +423,6 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
   .center>.note,.event-bg .note{font-size:28px!important;max-width:820px;margin-inline:auto;padding:12px 20px}
   .event-bg>.btn,.stack>.btn{width:100%;max-width:580px;margin-inline:auto}
   .event-bg .big-icon{font-size:80px}
-  .death{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center;padding:28px 36px;max-width:1000px;margin:auto}
-  .death .lead,.death .side{display:flex;flex-direction:column;gap:14px}
-  .death .big{font-size:40px}.death .death-sub{font-size:20px}
-  .death .side .note{font-size:24px!important;margin:0;max-width:none}.death .side .btn{max-width:none}
   .locked{font-size:16px}
   #sheet{align-items:center}
   .sheet{max-width:560px;max-height:86vh;border:1px solid var(--line);border-radius:24px;padding:22px;font-size:17px;box-shadow:0 20px 70px #000c}
@@ -454,8 +455,6 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 .rtag{align-self:flex-start;font-size:12px;font-weight:800;padding:2px 9px;border-radius:99px;background:#00f0ff22;color:#7ff6ff}
 .rtile.bad .rtag{background:#ff3b3b22;color:#ff9a9a}
 .rsrc{align-self:flex-start;font-size:12px;font-weight:800;color:var(--yellow)}
-.rdeath{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#5c0b1a,#2a0612);border:1px solid #ff3b3b88}
-.rdeath span{font-size:34px}.rdeath b{font-size:17px}.rdeath p{font-size:14px;color:#ffd0d0}
 .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .rbars{display:flex;flex-direction:column;gap:7px;padding:14px;border-radius:16px;background:#ffffff0a;border:1px solid var(--line)}
 .rbars h3{font-size:16px;color:var(--yellow);margin:0 0 2px}
@@ -608,15 +607,16 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 /* ===== CONFIG: mọi tỉ lệ & con số chỉnh ở đây ===== */
 const CONFIG = {
   wheel: [
-    // Tổng = 100 nên mỗi w chính là % hiện trên trang Luật chơi
-    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 12, color: '#7c3aed' },
-    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 14, color: '#2563eb' },
-    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 9,  color: '#db2777' },
-    { id: 'potato',   icon: '🔥', label: 'Gắp lửa',     w: 7,  color: '#0d9488' },
-    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 26, color: '#57534e' },
-    { id: 'bad',      icon: '💀', label: 'Xui',         w: 16, color: '#b91c1c' },
-    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 11, color: '#c2710c' },
-    { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 5,  color: '#ca8a04' },
+    // Từ vòng 3 tới hết ván. w là % (tổng 100): Ngẫu hứng + Không có gì 25%, các ô khác cộng thêm 10/7 so với bản trước
+    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 8 + 10 / 7,  color: '#7c3aed' },
+    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 9 + 10 / 7,  color: '#2563eb' },
+    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 9 + 10 / 7,  color: '#db2777' },
+    { id: 'potato',   icon: '🔥', label: 'Gắp lửa',     w: 7 + 10 / 7,  color: '#0d9488' },
+    { id: 'luck',     icon: '🎲', label: 'Ngẫu hứng',   w: 12.5,        color: '#0891b2' }, // Ngẫu hứng + Không có gì = 25%, chia đôi
+    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 12.5,        color: '#57534e' },
+    { id: 'bad',      icon: '💀', label: 'Xui',         w: 16 + 10 / 7, color: '#b91c1c' },
+    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 11 + 10 / 7, color: '#c2710c' },
+    { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 5 + 10 / 7,  color: '#ca8a04' },
   ],
   // Quay Đổi Vận: 5 ô bằng nhau, 1 ô Thoát (20%) và 4 ô phải uống (80%). Mỗi lần quay độc lập, chỉ theo tỉ lệ.
   rescueWheel: [
@@ -638,14 +638,14 @@ const CONFIG = {
   earlyRounds: 2,                                        // số vòng đầu vòng quay dùng earlyWeights
   // Mỗi lần quay độc lập, chỉ theo tỉ lệ (%), không chia suất theo thứ tự người quay trong vòng.
   // Các vòng đầu chỉ ra 5 ô này; từ sau đó theo trọng số w của wheel ở trên.
-  earlyWeights: { mirror: 13, swap: 13, bad: 14, luck: 30, nothing: 30 },
-  luckSeg: { id: 'luck', icon: '🎲', label: 'Ngẫu hứng', w: 10, color: '#0891b2' }, // chỉ có trên vòng quay ở các vòng đầu
-  luckWeights: { pair: 1, shout: 1, door: 1 },           // 3 kiểu khi mở thẻ Ngẫu hứng, tỉ lệ ngang nhau
+  earlyWeights: { mirror: 8, swap: 8, bad: 14, luck: 35, nothing: 35 },
+  // Mở thẻ Ngẫu hứng (mọi vòng): Hét Ớ và Đi ra cửa ngang nhau, 2 người cùng uống ra ít hơn
+  luckWeights: { shout: 40, door: 40, pair: 20 },
   enabledEffects: ['all_drink', 'never_round', 'mostlikely_vote', 'manual_pick_loser', 'heal_most_penalized', 'random_card_each'], // v1
   randomCardBonusChance: 0.6,                            // Mưa Thẻ: 60% thưởng / 40% phạt
   levelUpRounds: 2,
   maxBonus: 3,
-  deathAt: 3,
+  yellowToRed: 2,                                        // từ chối thẻ nhận 1 thẻ vàng; đủ số này thành thẻ đỏ (lượt sau cạn 1 ly + bắt buộc Thách)
   noTimerCards: ['d025'],                                 // có ghi thời gian nhưng không cần bấm giờ (để story 10 phút)
   maxBounces: 4,
   spinMs: 3600,
@@ -722,6 +722,7 @@ function load() {
     const d = JSON.parse(localStorage.getItem(KEY));
     if (d && d.version === 1) {
       S = d; state = S.game;
+      if (state && state.screen && state.screen.name === 'death') state.screen = { name: 'turn' };
       if (state) state.players.forEach(p => { p.bonus = p.bonus.map(id => (id === 'ally' ? 'split' : id)).filter(id => CARDS[id]); }); // ván cũ còn giữ thẻ đã đổi hoặc đã bỏ
     }
   } catch (e) { /* dữ liệu hỏng thì bắt đầu lại */ }
@@ -746,7 +747,7 @@ const refuseLine = (c, p) => REFUSE_LINES[[...c.id].reduce((a, ch) => a + ch.cha
 const pName = p => `<span class="pn" style="--c:${p.color}">${esc(p.name)}</span>`;
 function log(t) { state.log.push(t); if (state.log.length > 60) state.log.shift(); }
 function addDrink(p) { p.stats.sips += 1; } // stats.sips đếm số lần uống, mỗi lần tính 1 dù uống ít hay cạn ly
-const freshStats = () => ({ sips: 0, truths: 0, dares: 0, refusals: 0, dodges: 0, pushes: 0, deathSentences: 0, cardsUsed: 0 });
+const freshStats = () => ({ sips: 0, truths: 0, dares: 0, refusals: 0, dodges: 0, pushes: 0, reds: 0, cardsUsed: 0 });
 
 function makePlayer(list) {
   const usedC = new Set(list.map(p => p.color)), usedE = new Set(list.map(p => p.emoji));
@@ -1044,8 +1045,6 @@ function partnerNote(c) {
 function go(name, data = {}) { voice$.queue = []; if (name !== 'card') ui.dareTimer = null; state.turn.phase = name; state.screen = { ...data, name }; save(); render(); }
 function flow(...items) { state.queue.unshift(...items); next(); }
 function next() {
-  const doomed = state.players.find(p => p.penalty.length >= CONFIG.deathAt);
-  if (doomed) return go('death', { pid: doomed.id, dare: null }); // Án Tử chen ngang mọi bước
   const it = state.queue.shift();
   if (it) return LOGIC[it.name] ? LOGIC[it.name](it) : go(it.name, it);
   if (!state.turn.ending) return endTurn();
@@ -1053,7 +1052,7 @@ function next() {
 }
 function newGame(d) {
   const players = JSON.parse(JSON.stringify(d.players));
-  players.forEach((p, i) => { p.name = p.name.trim() || `Người ${i + 1}`; p.bonus = []; p.penalty = []; p.stats = freshStats(); });
+  players.forEach((p, i) => { p.name = p.name.trim() || `Người ${i + 1}`; p.bonus = []; p.penalty = []; p.yellow = 0; p.red = false; p.stats = freshStats(); });
   const s = { ...d.settings, startLevel: Math.min(d.settings.startLevel, d.settings.maxLevel) };
   return {
     version: 1, players, settings: s,
@@ -1070,6 +1069,8 @@ function beginTurn(id) {
   // Luật Vua giữ đúng 1 vòng (bằng số người, tính theo lượt), kể cả khi chơi thứ tự ngẫu nhiên. Ván cũ chưa có `until` thì hết khi tới lượt người ra luật.
   state.effects = state.effects.filter(e => e.type !== 'king' || (e.until != null ? e.until > t.index : !e.playerIds.includes(id)));
   state.queue = [];
+  t.redDare = false;
+  if (p.red) return go('redCard'); // thẻ đỏ: cạn 1 ly rồi bắt buộc Thách trước khi chọn
   go('turn');
 }
 function nextPlayerId() {
@@ -1293,7 +1294,10 @@ function applySpin(seg) {
     const lw = CONFIG.luckWeights, lk = Object.keys(lw), kind = lk[weighted(lk, x => lw[x])];
     const L = LUCK[kind];
     res = { icon: L.icon, title: L.title, luck: kind };
-    if (kind === 'pair') {
+    if (kind === 'nothing') {
+      res.pid = p.id; res.tease = pickOne(TEASES);
+      log(`${p.name} quay trúng Ngẫu hứng: không có gì`);
+    } else if (kind === 'pair') {
       const two = [...state.players].sort(() => Math.random() - 0.5).slice(0, 2);
       two.forEach(addDrink);
       res.pids = two.map(x => x.id);
@@ -1370,6 +1374,7 @@ function renderChrome() {
   const t = state.turn, lv = LEVELS[t.level], last = state.log[state.log.length - 1], focus = state.screen.name === 'reaction';
   const chips = state.players.map(p => `
     <button class="pchip ${p.id === t.currentPlayerId ? 'on' : ''}" style="--c:${p.color}" data-a="openBag" data-id="${p.id}" aria-label="Xem túi thẻ của ${esc(p.name)}">
+      ${p.red ? '<span class="yr"><b class="red"></b></span>' : p.yellow ? `<span class="yr">${'<b></b>'.repeat(p.yellow)}</span>` : ''}
       ${p.penalty.includes('silence') ? '<span class="mute">🤐</span>' : ''}
       ${magicOn(p) ? `<span class="mute" style="right:auto;left:0">${CARDS.magic.icon}</span>` : ''}
       <span class="e">${p.emoji}</span><span class="n">${esc(p.name)}</span>
@@ -1402,7 +1407,7 @@ const SC = {
   turn() {
     const p = cur(), t = state.turn, s = state.screen;
     const noT = (s.noPool || []).includes('truth'), noD = (s.noPool || []).includes('dare');
-    const forced = t.expiring.forcedare > 0 && !noD;
+    const forced = (t.expiring.forcedare > 0 || t.redDare) && !noD;
     return `<div class="center">
       <div class="spot" style="--c:${p.color}">
         <div class="ava">${p.emoji}</div>
@@ -1412,7 +1417,7 @@ const SC = {
       </div>
       <div class="choose">
         <button class="btn truth" data-a="choose" data-v="truth" ${forced || noT ? 'disabled' : ''}>
-          <span>${forced ? '🔒' : '🗣️'} THẬT${forced ? '<span class="locked">⛓️ Đang dính Bắt Buộc Thách</span>' : ''}</span></button>
+          <span>${forced ? '🔒' : '🗣️'} THẬT${forced ? `<span class="locked">${t.redDare ? '🟥 Thẻ đỏ: bắt buộc Thách' : '⛓️ Đang dính Bắt Buộc Thách'}</span>` : ''}</span></button>
         <button class="btn dare" data-a="choose" data-v="dare" ${noD ? 'disabled' : ''}>🔥 THÁCH</button>
       </div>
       ${has(p, 'king') ? `<button class="btn warn" data-a="openKing">👑 Dùng ${CARDS.king.name}</button>` : ''}
@@ -1478,6 +1483,7 @@ const SC = {
       <div class="big">${pName(p)} sắp ${esc(penText(pen))}</div>
       ${pen.debt ? `<div class="muted">${CARDS.debt.icon} Tới hạn trả Nợ Ly rồi nha!</div>` : ''}
       ${got ? `<div class="cardline penalty"><span class="i">${CARDS[got].icon}</span><div><b>Nhận thêm ${CARDS[got].name}</b><br><span class="small muted">${CARDS[got].desc}</span></div></div>` : ''}
+      ${state.screen.yellow ? yellowBox(p) : ''}
       <button class="btn pri" data-a="toRescue">🎰 Quay Đổi Vận</button>
     </div>`;
   },
@@ -1534,6 +1540,15 @@ const SC = {
       <div class="muted">Cả bàn chọn cho ${esc(p.name)} một hình phạt vui nhé.</div>
       <button class="btn pri" data-a="next">Làm xong ➜</button></div>`;
   },
+  redCard() {
+    const p = cur();
+    return `<div class="center">
+      <div class="redshow"></div>
+      <div class="big">🟥 Thẻ đỏ cho ${pName(p)}!</div>
+      <div class="muted">Đủ ${CONFIG.yellowToRed} thẻ vàng vì từ chối. ${p.noAlcohol ? 'Cạn 1 ly nước lọc' : 'Cạn 1 ly'} trước, rồi bắt buộc chọn <b>Thách</b>.</div>
+      <button class="btn pri" data-a="redDone">🍺 Cạn rồi ➜</button>
+    </div>`;
+  },
   blameFire() {
     const p = P(state.screen.pid);
     return `<div class="center"><div class="big-icon">${CARDS.blame.icon}</div>
@@ -1561,23 +1576,6 @@ const SC = {
       <div class="muted">Muốn nhận ${c.name} thì bỏ một thẻ:</div>
       <div class="cardgrid">${p.bonus.map((b, i) => `<button class="btn cardbtn" data-a="bagDrop" data-v="${i}"><span class="i">${CARDS[b].icon}</span><span>Bỏ ${CARDS[b].name}</span></button>`).join('')}</div>
       <button class="btn ghost" data-a="next">Không nhận ${c.name}</button>
-    </div>`;
-  },
-  death() {
-    const s = state.screen, p = P(s.pid);
-    return `<div class="center death">
-      <div class="lead">
-      <div class="big-icon">💥</div>
-      <div class="big">${esc(p.name)} dính ÁN TỬ!</div>
-      <div class="death-sub">Uống cạn ly${p.noAlcohol ? ' nước lọc' : ''} và làm 1 thử thách. Thẻ nào cũng vô dụng.</div>
-      </div>
-      <div class="side">
-      ${s.dare ? `<div class="note" style="font-size:20px;font-weight:800">${cardHtml(s.dare, p)}</div>${partnerNote(s.dare)}`
-               : '<textarea id="deathTask" rows="2" maxlength="140" placeholder="Cả bàn nhập thử thách…"></textarea>'}
-      <button class="btn" data-a="deathDraw">🎲 ${s.dare ? 'Rút thẻ khác' : 'Rút thẻ Thách ngẫu nhiên'}</button>
-      <button class="btn ok" data-a="deathDone" data-v="done">✅ Xử xong</button>
-      <button class="btn warn" data-a="deathDone" data-v="refuse">🍺 Uống thay thử thách</button>
-      </div>
     </div>`;
   },
   event() {
@@ -1630,7 +1628,6 @@ const MOUNT = {
     if (got) flyTo(CARDS[got].icon, pen.victim);
     voice(...[got, pen.debt ? 'debt' : null].filter(Boolean)); // thẻ vừa nhận, rồi tới Nợ Ly đang phải trả
   },
-  death() { sfx('drum'); flash(); shake(); vibrate([300, 100, 300, 100, 500]); },
   event() { sfx('siren'); vibrate(200); },
   spinResult() {
     const r = state.screen.res;
@@ -1648,6 +1645,7 @@ const MOUNT = {
     if (state.screen.lines) voice(...new Set(state.screen.lines.map(l => l.id))); // Mưa Thẻ: mỗi loại thẻ đọc một lần
   },
   blameFire() { voice('blame'); bgFx('drink'); },
+  redCard() { sfx('siren'); flash(); shake(); vibrate([200, 80, 200]); bgFx('bad'); },
   pick() {
     if (!state.screen.countdown) return;
     let n = 3; sfx('tick');
@@ -1689,14 +1687,21 @@ function chooseWheelSeg() {
   const w = wheelWeights(), ids = Object.keys(w);
   return ids[weighted(ids, id => w[id])];
 }
-// Các vòng đầu vòng quay có thêm ô Ngẫu hứng, đặt cạnh Không có gì
-// Thẻ Ngẫu hứng: 3 kiểu, mở ra thì xáo qua cả 3 rồi dừng ở kiểu đã chọn
+// Thẻ Ngẫu hứng: 4 kiểu, mở ra thì xáo qua cả 4 rồi dừng ở kiểu đã chọn
 const LUCK = {
+  nothing: { icon: '😐', title: 'Không có gì' },
   pair: { icon: '🎯', title: '2 người xui xẻo uống!' },
   shout: { icon: '📢', title: 'Hét thật to: "Ớ!"' },
   door: { icon: '🚪', title: 'Đi ra cửa rồi quay lại!' },
 };
+// Ô báo thẻ vàng vừa nhận ở màn phạt khi từ chối thẻ
+function yellowBox(p) {
+  const n = CONFIG.yellowToRed;
+  if (p.red) return `<div class="ycard red"><div class="cards"><b class="red"></b></div><div><b>Đủ ${n} thẻ vàng: THẺ ĐỎ!</b><br><span class="small">Lượt sau ${esc(p.name)} phải cạn 1 ly rồi bắt buộc Thách.</span></div></div>`;
+  return `<div class="ycard"><div class="cards">${Array.from({ length: n }, (_, i) => `<b class="${i < p.yellow ? '' : 'off'}"></b>`).join('')}</div><div><b>Thẻ vàng ${p.yellow}/${n}</b><br><span class="small">Thêm ${n - p.yellow} lần từ chối nữa là thẻ đỏ.</span></div></div>`;
+}
 function luckDesc(r) {
+  if (r.luck === 'nothing') return `${pName(P(r.pid))} thoát nạn lần này<div class="muted small">${esc(r.tease || pickOne(TEASES))}</div>`;
   if (r.luck === 'pair') return r.pids.filter(P).map(id => `${pName(P(id))} uống${P(id).noAlcohol ? ' nước lọc' : ''}`).join(' · ') + '<div class="muted small">Xui thôi, không có lý do gì cả.</div>';
   const p = P(r.pid);
   if (r.luck === 'shout') return `${pName(p)} đứng dậy hét thật to chữ <b>"Ớ!"</b><div class="muted small">Không hét đủ to thì hét lại.</div>`;
@@ -1708,6 +1713,7 @@ function luckReveal(r) {
     card.classList.remove('shuffling'); desc.style.visibility = '';
     card.querySelector('.big-icon').textContent = r.icon; card.querySelector('.big').textContent = r.title;
     if (r.luck === 'pair') { sfx('buzz'); bgFx('drink'); vibrate(200); r.pids.forEach(id => flyTo('🍺', id)); }
+    else if (r.luck === 'nothing') sfx('flip');
     else { sfx('reward'); bgFx('good'); }
   };
   if (reduced()) return done();
@@ -1721,12 +1727,8 @@ function luckReveal(r) {
   }, 120);
   ui.timers.push(iv);
 }
-const wheelSegs = () => {
-  if (state.turn.round > CONFIG.earlyRounds) return CONFIG.wheel;
-  const segs = [...CONFIG.wheel], at = segs.findIndex(s => s.id === 'nothing');
-  segs.splice(at + 1, 0, CONFIG.luckSeg);
-  return segs;
-};
+// Vòng quay luôn hiện đủ các ô cho đẹp. Kết quả thật lấy theo wheelWeights (vòng 1–2 chỉ ra Gương, Đổi Câu, Xui, Ngẫu hứng)
+const wheelSegs = () => CONFIG.wheel;
 const rescueSegs = () => CONFIG.rescueWheel;
 const rescuePct = () => { const s = rescueSegs(), t = s.reduce((a, x) => a + x.w, 0); return Math.round(s.filter(x => x.id === 'win').reduce((a, x) => a + x.w, 0) / t * 100); };
 /* ===== Giao diện: ngoài ván ===== */
@@ -1769,7 +1771,7 @@ const V = {
       <div class="clink">🍻</div>
       <div class="home-title">SAY <br class="m-only">HAY SỢ</div>
       <div class="home-tease" id="homeTease">${esc(HOME_TEASES[0])}</div>
-      <div class="home-chips"><span>🗣️ Khai thật</span><span>🔥 Dám làm</span><span>🎡 Quay vận</span><span>💥 Án Tử</span></div>
+      <div class="home-chips"><span>🗣️ Khai thật</span><span>🔥 Dám làm</span><span>🎡 Quay vận</span><span>🟥 Thẻ đỏ</span></div>
       <button class="btn pri home-go" data-a="toSetup">🍻 Vô ly thôi!</button>
       ${DATA._meta && DATA._meta.testSet ? '<div class="small" style="color:var(--yellow)">🧪 Bản chơi thử: câu hỏi tạm, chưa phải bộ chính thức.</div>' : ''}
       <div class="small muted">Dành cho người từ 18 tuổi trở lên. Uống có trách nhiệm, đã uống thì không lái xe.</div>
@@ -1817,14 +1819,15 @@ const V = {
     const tabs = [
       ['🎯', 'Cách chơi', '<div class="rsteps">'
         + [['🗣️', 'Chọn Thật hoặc Thách', 'Rút thẻ và làm theo.'],
-           ['🍺', 'Không dám thì uống', 'Uống thay và nhận thêm 1 thẻ phạt.'],
+           ['🍺', 'Không dám thì uống', 'Uống thay, nhận 1 thẻ phạt và 1 thẻ vàng. Đủ ' + CONFIG.yellowToRed + ' thẻ vàng là thẻ đỏ.'],
            ['🎡', 'Làm xong thì quay', 'Vòng Quay May Mắn ra thưởng, phạt hoặc trò vui.'],
            ['🌶️', 'Càng chơi càng cay', 'Cứ ' + CONFIG.levelUpRounds + ' vòng lên một mức: Nhẹ, Cay, Siêu cay.']]
           .map(([i, t, d], n) => '<div class="rstep"><span class="rn">' + (n + 1) + '</span><div class="ri">' + i + '</div><b>' + t + '</b><p>' + d + '</p></div>').join('')
         + '</div><p class="rnote">💻 Đặt laptop chỗ cả bàn cùng thấy. Một người làm quản trò bấm cho mọi người.</p>'],
       ['🎁', 'Thẻ thưởng', '<p class="rnote">Giữ tối đa <b>' + CONFIG.maxBonus + ' thẻ</b> · dùng 1 lần là mất · quá <b>' + CONFIG.cardLifeRounds + ' vòng</b> thì hết hạn</p><div class="rtiles">' + RULE_BONUS.map(id => tile(id, 'good')).join('') + '</div>'],
-      ['💀', 'Thẻ phạt', '<div class="rtiles">' + RULE_PENALTY.map(id => tile(id, 'bad')).join('') + '</div>'
-        + '<div class="rdeath"><span>💥</span><div><b>Án Tử: đủ ' + CONFIG.deathAt + ' thẻ phạt</b><p>Cạn ly và làm 1 thử thách. Không thẻ nào cứu được.</p></div></div>'],
+      ['💀', 'Thẻ phạt', '<div class="ycard"><div class="cards"><b></b><b></b></div><div><b>Thẻ vàng: mỗi lần từ chối thẻ</b><p class="small">Uống thay thì ngoài thẻ phạt còn nhận 1 thẻ vàng, hiện trên ô tên.</p></div></div>'
+        + '<div class="ycard red"><div class="cards"><b class="red"></b></div><div><b>Thẻ đỏ: đủ ' + CONFIG.yellowToRed + ' thẻ vàng</b><p class="small">Đầu lượt kế tiếp phải cạn 1 ly, rồi bắt buộc chọn Thách. Xong thì xóa thẻ vàng về 0.</p></div></div>'
+        + '<div class="rtiles">' + RULE_PENALTY.map(id => tile(id, 'bad')).join('') + '</div>'],
       ['🪞', 'Né phạt', '<div class="rtiles">'
         + item('🍀', 'Quay Đổi Vận', 'Bị phạt được quay 1 lần: 1 ô Thoát và 4 ô phải uống, ' + rescuePct() + '% thoát. Mỗi lần quay độc lập, hên xui.')
         + item('🪞', 'Bật ngược', 'Bị đẩy phạt sang? Có Gương thì đẩy lại, không tính giờ.')
@@ -1837,8 +1840,8 @@ const V = {
         + item('🤫', 'Ở lại bàn nhậu', 'Chuyện trong game không mang ra ngoài.')
         + '</div>'],
       ['🎲', 'Tỉ lệ', '<div class="rgrid">'
-        + bars('Vòng ' + (CONFIG.earlyRounds > 1 ? '1–' + CONFIG.earlyRounds : 1) + ': Vòng Quay', Object.keys(CONFIG.earlyWeights).map(id => { const s = id === 'luck' ? CONFIG.luckSeg : wheelSeg(id); return [s.icon + ' ' + s.label, pctOf(CONFIG.earlyWeights, id)]; }))
-        + '<div class="rbars"><h3>' + CONFIG.luckSeg.icon + ' ' + CONFIG.luckSeg.label + ' (vòng 1–' + CONFIG.earlyRounds + ')</h3><p>Mở ra 1 trong 3, tỉ lệ ngang nhau:</p><ul class="rlist">' + Object.values(LUCK).map(L => '<li>' + L.icon + ' ' + L.title + '</li>').join('') + '</ul></div>'
+        + bars('Vòng ' + (CONFIG.earlyRounds > 1 ? '1–' + CONFIG.earlyRounds : 1) + ': Vòng Quay', Object.keys(CONFIG.earlyWeights).map(id => [wheelSeg(id).icon + ' ' + wheelSeg(id).label, pctOf(CONFIG.earlyWeights, id)]))
+        + bars(wheelSeg('luck').icon + ' Mở thẻ ' + wheelSeg('luck').label, Object.keys(CONFIG.luckWeights).map(k => [LUCK[k].icon + ' ' + LUCK[k].title, pctOf(CONFIG.luckWeights, k)]))
         + bars('Từ vòng ' + (CONFIG.earlyRounds + 1) + ': Vòng Quay', CONFIG.wheel.map(s => [s.icon + ' ' + s.label, pctOf(wheelW, s.id)]))
         + cardBars('🎁 Ô Bí ẩn', mw) + cardBars('💀 Ô Xui', CONFIG.xuiWeights) + cardBars('🐔 Từ chối thẻ', CONFIG.penaltyWeights)
         + bars('🎰 Quay Đổi Vận', [['🍀 Thoát', rescuePct()], ['🍺 Phải uống (4 ô)', 100 - rescuePct()]])
@@ -1878,7 +1881,7 @@ const V = {
       ${award('pushes', '😈', 'Kẻ Gieo Rắc', 'Đẩy phạt nhiều nhất')}
       ${award('dares', '🔥', 'Liều Mạng', 'Hoàn thành nhiều thẻ Thách nhất')}
       ${award('refusals', '🐔', 'Gà Con', 'Từ chối nhiều nhất')}
-      ${award('deathSentences', '💥', 'Tử Tù', 'Dính Án Tử nhiều nhất')}
+      ${award('reds', '🟥', 'Lì Đòn', 'Ăn thẻ đỏ nhiều nhất')}
       </div>
       <button class="btn pri" data-a="againKeep">🔁 Chơi ván mới (giữ người chơi)</button>
       <button class="btn ghost" data-a="toHomeClear">Về màn hình đầu</button>
@@ -1933,7 +1936,7 @@ const SH = {
       ${magicOn(p) ? `<div class="cardline bonus"><span class="i">${CARDS.magic.icon}</span><div><b>${CARDS.magic.name}</b> <span class="small" style="color:var(--yellow)">⏳ còn ${Math.max(1, Math.ceil((p.magicUntil - t.index) / n))} vòng</span><br><span class="small muted">${CARDS.magic.desc}</span></div></div>` : ''}
       <h3>🎁 Thẻ thưởng (${p.bonus.length}${magicOn(p) ? '' : `/${CONFIG.maxBonus}`})</h3>${p.bonus.map(c => line(c, 'bonus')).join('') || '<div class="muted">Trống</div>'}
       ${has(p, 'beauty') ? `<button class="btn warn" data-a="useBeauty" data-id="${p.id}">${CARDS.beauty.icon} Dùng ${CARDS.beauty.name}</button>` : ''}
-      <h3>💀 Thẻ phạt (${p.penalty.length}/${CONFIG.deathAt})</h3>${p.penalty.map(c => line(c, 'penalty')).join('') || '<div class="muted">Trống</div>'}
+      <h3>💀 Thẻ phạt (${p.penalty.length})</h3>${p.penalty.map(c => line(c, 'penalty')).join('') || '<div class="muted">Trống</div>'}
       <button class="btn ghost" data-a="closeSheet">Đóng</button>`;
   },
   king: () => `<h2>👑 ${CARDS.king.name}</h2><div class="muted">Luật có hiệu lực đúng 1 vòng (${state.players.length} lượt). Ai vi phạm thì uống.</div>
@@ -2045,8 +2048,19 @@ const A = {
     const p = cur(), pen = makePenalty(p), got = randomPenalty();
     p.stats.refusals++;
     p.penalty.push(got);
-    log(`${p.name} từ chối, nhận ${CARDS[got].name}`);
-    go('penIntro', { pen, got });
+    // Từ chối thì nhận thêm 1 thẻ vàng; đủ yellowToRed thẻ vàng thì thành thẻ đỏ, xử ở đầu lượt sau
+    p.yellow = (p.yellow || 0) + 1;
+    if (p.yellow >= CONFIG.yellowToRed) p.red = true;
+    log(`${p.name} từ chối, nhận ${CARDS[got].name} và thẻ vàng ${Math.min(p.yellow, CONFIG.yellowToRed)}/${CONFIG.yellowToRed}`);
+    go('penIntro', { pen, got, yellow: true });
+  },
+  redDone() {
+    const p = cur();
+    addDrink(p);
+    p.red = false; p.yellow = 0; p.stats.reds = (p.stats.reds || 0) + 1;
+    state.turn.redDare = true;
+    log(`${p.name} cạn ly vì thẻ đỏ, giờ bắt buộc Thách`);
+    go('turn');
   },
   next() { next(); },
   spin() {
@@ -2113,21 +2127,6 @@ const A = {
     p.bonus[Number(d.v)] = s.card;
     next();
     flyTo(icon, p.id);
-  },
-  deathDraw() {
-    const s = state.screen, p = P(s.pid), L = state.settings.maxLevel, notId = s.dare ? s.dare.id : undefined;
-    const c = drawCard('dare', p, { level: L, exact: true, notId }) || drawCard('dare', p, { level: L, notId });
-    if (!c) return toast('Không rút được thẻ phù hợp, cả bàn tự ra đề nhé');
-    s.dare = c; save(); render();
-  },
-  deathDone(d) {
-    const p = P(state.screen.pid);
-    addDrink(p);
-    if (d.v === 'refuse') addDrink(p); // bỏ thử thách thì uống thêm 1 lần
-    p.stats.deathSentences++;
-    p.penalty = [];
-    log(`${p.name} đã thi hành Án Tử`);
-    next();
   },
 
   /* Sự kiện */
