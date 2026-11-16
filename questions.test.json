@@ -87,5 +87,31 @@
     { "id": "xe04", "name": "Nâng Ly Chung", "text": "Vì tình bạn của chúng ta! Nâng ly hết đi, không ai được né.", "effect": "all_drink" },
     { "id": "xe05", "name": "Ân Xá", "text": "Trời thương kẻ khổ: ai ôm nhiều vận đen nhất được gỡ bớt một lá.", "effect": "heal_most_penalized" },
     { "id": "xe06", "name": "Phát Thẻ Bừa", "text": "Chia bài! Ai cũng được một lá, hên thì lời, xui thì lỗ.", "effect": "random_card_each" }
+  ],
+  "moan": [
+    { "id": "m001", "text": "Ôi… cơm sôi rồi…" },
+    { "id": "m002", "text": "Ahh… trà đá…" },
+    { "id": "m003", "text": "Ưm… bánh tráng trộn…" },
+    { "id": "m004", "text": "Ôi… ngủ trưa…" },
+    { "id": "m005", "text": "Ahh… kem mát lạnh…" },
+    { "id": "m006", "text": "Ưm… lương về rồi…" },
+    { "id": "m007", "text": "Ôi… cuối tuần…" },
+    { "id": "m008", "text": "Ahh… điều hòa…" },
+    { "id": "m009", "text": "Ưm… gà rán…" },
+    { "id": "m010", "text": "Ôi… wifi mạnh quá…" },
+    { "id": "m011", "text": "Ahh… phở nóng…" },
+    { "id": "m012", "text": "Ưm… nghỉ lễ…" }
+  ],
+  "urgent": [
+    { "id": "u001", "text": "Tìm 1 vật màu xanh", "secs": 15 },
+    { "id": "u002", "text": "Tìm 1 vật bắt đầu bằng chữ T", "secs": 20 },
+    { "id": "u003", "text": "Đứng 1 chân tới hết giờ", "secs": 10 },
+    { "id": "u004", "text": "Chạm tay vào 1 thứ bằng gỗ", "secs": 10 },
+    { "id": "u005", "text": "Giơ lên 1 thứ ăn được", "secs": 10 },
+    { "id": "u006", "text": "Vỗ tay đúng 10 cái cùng lúc với cả bàn", "secs": 15 },
+    { "id": "u007", "text": "Tìm 1 vật có hình tròn", "secs": 15 },
+    { "id": "u008", "text": "Đổi chỗ ngồi với 1 người khác", "secs": 10 },
+    { "id": "u009", "text": "Xếp 3 chiếc đũa thành hình tam giác", "secs": 15 },
+    { "id": "u010", "text": "Nói tên 1 loại trái cây, trùng người trước là thua", "secs": 15 }
   ]
 }

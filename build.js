@@ -23,7 +23,7 @@ if (process.argv[2] === 'test') {
   // Chặn lộ bộ chính thức: không câu nào của questions.json được nằm trong file gửi đi
   const real = JSON.parse(read('questions.json'));
   const decoded = out.replace(/\\u003c/g, '<');
-  const leaked = ['truth', 'dare', 'never', 'mostlikely', 'events']
+  const leaked = ['truth', 'dare', 'never', 'mostlikely', 'events', 'moan', 'urgent']
     .flatMap(k => real[k])
     .filter(c => decoded.includes(c.text) || decoded.includes(JSON.stringify(c.text).slice(1, -1)));
   if (leaked.length) throw new Error(`File thử còn chứa ${leaked.length} câu thật: ${leaked.slice(0, 5).map(c => c.id).join(', ')}`);
