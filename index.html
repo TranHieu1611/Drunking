@@ -138,6 +138,9 @@ textarea,.field{width:100%;border-radius:14px;border:1px solid var(--line);backg
 .luck-card.shuffling{animation:luckShake .12s linear infinite alternate}
 @keyframes luckShake{from{transform:rotate(-3deg) scale(.97)}to{transform:rotate(3deg) scale(1.03)}}
 .luck-desc{font-size:20px;font-weight:800;line-height:1.5;text-shadow:0 1px 3px #000d}
+.moan-word{font-size:30px;font-weight:900;color:var(--pink);text-shadow:0 0 16px #ff2e8888;margin:6px 0}
+/* Đã bấm bắt đầu nhiệm vụ: ẩn lá thẻ to cho gọn, chừa chỗ cho đồng hồ và lưới chọn người */
+.urgent-live .luck-card{display:none}
 #flash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:40}
 #flash.go{animation:flash .6s}
 @keyframes flash{0%,40%{opacity:.75}100%{opacity:0}}
@@ -607,15 +610,15 @@ th:first-child,td:first-child{width:34%;text-align:left;overflow:hidden;text-ove
 /* ===== CONFIG: mọi tỉ lệ & con số chỉnh ở đây ===== */
 const CONFIG = {
   wheel: [
-    // Từ vòng 3 tới hết ván. w là % (tổng 100): Ngẫu hứng + Không có gì 25%, các ô khác cộng thêm 10/7 so với bản trước
-    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 8 + 10 / 7,  color: '#7c3aed' },
-    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 9 + 10 / 7,  color: '#2563eb' },
-    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 9 + 10 / 7,  color: '#db2777' },
-    { id: 'potato',   icon: '🔥', label: 'Gắp lửa',     w: 7 + 10 / 7,  color: '#0d9488' },
-    { id: 'luck',     icon: '🎲', label: 'Ngẫu hứng',   w: 12.5,        color: '#0891b2' }, // Ngẫu hứng + Không có gì = 25%, chia đôi
-    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 12.5,        color: '#57534e' },
-    { id: 'bad',      icon: '💀', label: 'Xui',         w: 16 + 10 / 7, color: '#b91c1c' },
-    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 11 + 10 / 7, color: '#c2710c' },
+    // Từ vòng 3 tới hết ván. w là % (tổng 100). Ngẫu hứng nhận phần còn lại để tổng đủ 100
+    { id: 'mirror',   icon: '🪞', label: 'Gương',       w: 256 / 21,    color: '#7c3aed' }, // Gương = Gắp lửa = Xui ~12,2%
+    { id: 'swap',     icon: '🔄', label: 'Đổi Câu',     w: 9,           color: '#2563eb' },
+    { id: 'mystery',  icon: '🎁', label: 'Bí ẩn',       w: 9,           color: '#db2777' },
+    { id: 'potato',   icon: '🔥', label: 'Gắp lửa',     w: 256 / 21,    color: '#0d9488' },
+    { id: 'luck',     icon: '🎲', label: 'Ngẫu hứng',   w: 20,          color: '#0891b2' }, // phần bớt từ 23,7% chia đều cho Gương và Gắp lửa
+    { id: 'nothing',  icon: '😐', label: 'Không có gì', w: 10,          color: '#57534e' },
+    { id: 'bad',      icon: '💀', label: 'Xui',         w: 256 / 21,    color: '#b91c1c' },
+    { id: 'alldrink', icon: '🍻', label: 'Cả bàn uống', w: 9,           color: '#c2710c' },
     { id: 'jackpot',  icon: '💰', label: 'Jackpot',     w: 5 + 10 / 7,  color: '#ca8a04' },
   ],
   // Quay Đổi Vận: 5 ô bằng nhau, 1 ô Thoát (20%) và 4 ô phải uống (80%). Mỗi lần quay độc lập, chỉ theo tỉ lệ.
@@ -638,9 +641,10 @@ const CONFIG = {
   earlyRounds: 2,                                        // số vòng đầu vòng quay dùng earlyWeights
   // Mỗi lần quay độc lập, chỉ theo tỉ lệ (%), không chia suất theo thứ tự người quay trong vòng.
   // Các vòng đầu chỉ ra 5 ô này; từ sau đó theo trọng số w của wheel ở trên.
-  earlyWeights: { mirror: 8, swap: 8, bad: 14, luck: 35, nothing: 35 },
+  // Vòng 1–2 (tổng 100). Gương, Ngẫu hứng, Không có gì bằng nhau, chia đều 65%. Có Gắp lửa từ đầu để kích làm thử thách
+  earlyWeights: { mirror: 65 / 3, swap: 15, potato: 10, bad: 10, luck: 65 / 3, nothing: 65 / 3 },
   // Mở thẻ Ngẫu hứng (mọi vòng): Hét Ớ và Đi ra cửa ngang nhau, 2 người cùng uống ra ít hơn
-  luckWeights: { shout: 40, door: 40, pair: 20 },
+  luckWeights: { moan: 40, urgent: 40, pair: 20 },
   enabledEffects: ['all_drink', 'never_round', 'mostlikely_vote', 'manual_pick_loser', 'heal_most_penalized', 'random_card_each'], // v1
   randomCardBonusChance: 0.6,                            // Mưa Thẻ: 60% thưởng / 40% phạt
   levelUpRounds: 2,
@@ -1007,23 +1011,29 @@ function eligible(c, A) {
 // opts.level: mức trần thay cho mức hiện tại · opts.exact: chỉ lấy đúng mức đó · opts.notId: tránh thẻ đang hiện
 // Khóa nhận diện câu: mã + băm nội dung, để bộ câu tạm và bộ thật trùng mã (t001…) không bị nhầm nhau
 const cardKey = c => { let h = 0; for (const ch of c.text) h = (h * 31 + ch.codePointAt(0)) | 0; return c.id + ':' + (h >>> 0).toString(36); };
-// Câu đã bốc được nhớ qua mọi ván (S.seenCards), chỉ ra lại khi đã bốc hết câu phù hợp
+// Trong một ván: câu đã hoàn thành (doneCards) bị ẩn; câu bị bỏ qua (Đổi Câu, Uống thay) chờ sang vòng sau mới ra lại (coolCards).
+// Ván mới thì reset cả hai. opts.consume: câu dùng ngay không cần duyệt (sự kiện) thì ẩn luôn khi bốc.
+const markDone = c => { if (c && !state.doneCards.includes(cardKey(c))) state.doneCards.push(cardKey(c)); };
+const markSkipped = c => { if (c) state.coolCards[cardKey(c)] = state.turn.round; };
 function drawCard(type, A, opts = {}) {
   const L = opts.level || state.turn.level;
+  state.doneCards = state.doneCards || []; state.coolCards = state.coolCards || {};
   const pool = (DATA[type] || []).concat(state.customCards.filter(c => c.type === type));
   const all = pool.filter(c => (opts.exact ? c.level === L : c.level <= L) && eligible(c, A) && c.id !== opts.notId);
   if (!all.length) return null;
-  const seen = new Set(S.seenCards || []);
-  let avail = all.filter(c => !seen.has(cardKey(c)));
-  if (!avail.length) { // hết câu phù hợp thì xáo lại phần đó
+  const done = new Set(state.doneCards), cool = state.coolCards, round = state.turn.round;
+  const notDone = all.filter(c => !done.has(cardKey(c)));
+  let avail = notDone.filter(c => !(cool[cardKey(c)] >= round)); // bỏ qua ở vòng này thì chưa ra lại
+  if (!avail.length) avail = notDone;                              // chỉ còn câu vừa bỏ qua thì dùng tạm
+  if (!avail.length) {                                             // đã làm hết: xáo lại phần câu phù hợp
     const keys = new Set(all.map(cardKey));
-    S.seenCards = (S.seenCards || []).filter(k => !keys.has(k));
+    state.doneCards = state.doneCards.filter(k => !keys.has(k));
     avail = all;
   }
   const same = avail.filter(c => c.level === L), low = avail.filter(c => c.level < L);
   const useSame = same.length && (!low.length || Math.random() < CONFIG.levelPreferChance);
   const c = pickOne(useSame ? same : low);
-  S.seenCards = [...(S.seenCards || []), cardKey(c)];
+  if (opts.consume) markDone(c);
   state.usedCardIds.push(c.id);
   const out = { ...c, type, bId: null };
   if (A && (hasB(c) || (c.tags || []).includes('couple'))) out.bId = pickOne(partnersFor(c, A)).id;
@@ -1057,7 +1067,7 @@ function newGame(d) {
   return {
     version: 1, players, settings: s,
     turn: { index: 0, currentPlayerId: null, round: 1, level: s.startLevel, phase: '', card: null, targetB: null, ending: false, expiring: {}, turnsInRound: 0, turnsAtLevel: 0 },
-    effects: [], usedCardIds: [], customCards: [],
+    effects: [], usedCardIds: [], doneCards: [], coolCards: {}, seenLuck: {}, customCards: [],
     lastEventId: null, log: [], queue: [], screen: null, ended: false,
   };
 }
@@ -1302,9 +1312,13 @@ function applySpin(seg) {
       two.forEach(addDrink);
       res.pids = two.map(x => x.id);
       log(`Ngẫu hứng: ${two.map(x => x.name).join(' và ')} uống`);
+    } else if (kind === 'moan') {
+      res.pid = p.id; res.word = pickFresh('moan', MOAN_WORDS, w => w);
+      log(`${p.name} phải rên: ${res.word}`);
     } else {
-      res.pid = p.id;
-      log(`${p.name} quay trúng Ngẫu hứng: ${L.title}`);
+      const u = pickFresh('urgent', URGENT_TASKS, t => t[0]);
+      res.pid = p.id; res.task = u[0]; res.secs = u[1]; res.ticks = [];
+      log(`Nhiệm vụ cấp bách: ${u[0]}`);
     }
   } else if (seg.id === 'bad') {
     const xw = CONFIG.xuiWeights, xk = Object.keys(xw), id = xk[weighted(xk, x => xw[x])];
@@ -1339,9 +1353,9 @@ function runEvent(ev) {
     case 'manual_pick_loser':
       return go('pick', { mode: 'loser', ev, title: 'Ai thua?', candidates: all });
     case 'mostlikely_vote':
-      return go('pick', { mode: 'loser', ev, title: 'Ai bị chỉ nhiều nhất?', candidates: all, countdown: true, q: drawCard('mostlikely', null).text });
+      return go('pick', { mode: 'loser', ev, title: 'Ai bị chỉ nhiều nhất?', candidates: all, countdown: true, q: drawCard('mostlikely', null, { consume: true }).text });
     case 'never_round':
-      return go('eventNever', { ev, q: drawCard('never', null).text, ticks: [] });
+      return go('eventNever', { ev, q: drawCard('never', null, { consume: true }).text, ticks: [] });
     case 'all_drink':
       state.players.forEach(addDrink);
       log(`Cả bàn uống (${ev.name})`);
@@ -1463,11 +1477,11 @@ const SC = {
   },
   spinResult() {
     const r = state.screen.res;
-    if (r.luck) return `<div class="center">
+    if (r.luck) return `<div class="center${r.luck === 'urgent' && r.endAt ? ' urgent-live' : ''}">
       <div class="muted small">🎲 NGẪU HỨNG</div>
       <div class="luck-card" id="luckCard"><div class="big-icon">${r.icon}</div><div class="big">${esc(r.title)}</div></div>
       <div class="luck-desc">${luckDesc(r)}</div>
-      <button class="btn pri" data-a="next">Tiếp ➜</button>
+      ${r.luck === 'urgent' ? urgentControls(r) : '<button class="btn pri" data-a="next">Tiếp ➜</button>'}
     </div>`;
     return `<div class="center">
       <div class="big-icon">${r.icon}</div>
@@ -1687,13 +1701,122 @@ function chooseWheelSeg() {
   const w = wheelWeights(), ids = Object.keys(w);
   return ids[weighted(ids, id => w[id])];
 }
-// Thẻ Ngẫu hứng: 4 kiểu, mở ra thì xáo qua cả 4 rồi dừng ở kiểu đã chọn
+// Thẻ Ngẫu hứng: mở ra thì xáo qua các kiểu trong luckWeights rồi dừng ở kiểu đã chọn
 const LUCK = {
-  nothing: { icon: '😐', title: 'Không có gì' },
   pair: { icon: '🎯', title: '2 người xui xẻo uống!' },
-  shout: { icon: '📢', title: 'Hét thật to: "Ớ!"' },
-  door: { icon: '🚪', title: 'Đi ra cửa rồi quay lại!' },
+  moan: { icon: '🫦', title: 'Rên!' },
+  urgent: { icon: '⏱️', title: 'Nhiệm vụ cấp bách!' },
 };
+// Câu để rên: nửa ‘phim người lớn’, nửa đời thường vô duyên. Rên càng tình càng hài
+const MOAN_WORDS = [
+  'Anh ơi… sâu nữa đi anh…', 'Đừng dừng lại… em xin anh…', 'Ôi… cái đó to quá…', 'Nhẹ thôi… đau em…', 'Nữa đi… nữa đi…',
+  'Trời ơi… sướng quá…', 'Ướt hết rồi nè…', 'Tới rồi… tới rồi…!', 'Chồng ơi… mạnh nữa lên…', 'Vợ ơi… đừng dừng…',
+  'Ưm… cởi ra đi…', 'Cắn nhẹ thôi mà…', 'Ôi… dài quá…', 'Đổi tư thế đi anh…', 'Từ từ… cho em thở với…',
+  'Ahh… hóa đơn tiền điện tháng này…', 'Ưm… thuế thu nhập cá nhân…', 'Ahh… bún đậu… thêm mắm tôm đi…', 'Mạnh nữa lên… bảo hiểm xã hội…',
+  'Sâu hơn nữa… giá xăng hôm nay…', 'Ôi… nồi lẩu… sôi rồi…', 'Nhanh lên… sắp hết giờ gửi xe rồi…', 'Ahh… chủ nhà đòi tiền trọ…',
+  'Đừng… đừng mở sao kê ngân hàng…', 'Ôi… máy giặt… vắt mạnh quá…', 'Anh ơi… khóa cửa chưa…', 'Ưm… deadline… sáng mai…',
+  'Ahh… thịt nướng… cháy rồi…', 'Ôi… sếp nhắn tin lúc 11 giờ đêm…', 'Nhẹ thôi… cái ghế nhựa sắp gãy…', 'Ưm… đổ xăng… đầy bình…',
+  'Sâu… sâu nữa… móc túi tìm chìa khóa…', 'Ahh… họp phụ huynh…', 'Ôi… quạt trần… quay nhanh quá…', 'Em muốn… một ly trà đá…',
+  'Ahh… cục sạc dự phòng… cắm vào đi…', 'Ưm… mì tôm… trụng thêm 2 phút…', 'Ôi… 5% pin…',
+  'Anh… anh hư quá à…', 'Ưm… chỗ đó… đúng chỗ đó…', 'Ahh… đừng nhìn em như vậy…', 'Ôi… em chịu hết nổi rồi…',
+  'Lần nữa đi… lần cuối…', 'Ưm… tắt đèn đi anh…', 'Ahh… giữ chặt em…', 'Ôi… nóng quá… quạt đâu…',
+  'Ưm… nói tên em đi…', 'Ahh… đừng để ai nghe thấy…', 'Ôi… trên bàn luôn hả…', 'Ưm… nhẹ… nhẹ thôi… rồi mạnh…',
+  'Ahh… anh làm em mất ngủ rồi…', 'Ôi… đổi bên đi…', 'Ưm… áo… vướng quá…', 'Ahh… sắp… sắp…',
+  'Ôi… tiền mạng… chưa đóng…', 'Ưm… Grab… đang tới…', 'Ahh… điểm danh… có mặt…', 'Ôi… trượt môn… thi lại…',
+  'Ưm… kem đánh răng… bóp từ giữa…', 'Ahh… nước mắm… pha chua ngọt…', 'Ôi… cái bồn cầu… tắc rồi…', 'Ưm… lương… về rồi…',
+  'Ahh… mẹ gọi… về ăn cơm…', 'Ôi… cửa hàng tiện lợi… mở 24 giờ…', 'Ưm… sale 50%… chốt đơn…', 'Ahh… trứng vịt lộn… thêm rau răm…',
+  'Ôi… wifi… mạnh quá…', 'Ưm… điều hòa… 16 độ…', 'Ahh… vé số… trúng rồi…', 'Ôi… cái muỗng… lạnh quá…',
+  'Ưm… bánh tráng trộn… thêm sa tế…', 'Ahh… chồng ơi… ra mở cổng…', 'Ôi… shipper… gọi lần thứ 3…', 'Ưm… gà rán… giòn quá…',
+  'Ahh… lau nhà… trơn quá…', 'Ôi… quỹ lớp… hết tiền rồi…',
+];
+// Nhiệm vụ cấp bách cho cả bàn: [nội dung, số giây]. Bựa, nhây, 18+ nhưng không ép đụng chạm hay cởi đồ
+const URGENT_TASKS = [
+  ['Cởi 1 chiếc tất, đeo lên tai như bông tai', 15],
+  ['Tìm 1 vật có hình dáng ‘nhạy cảm’ nhất. Cả bàn chọn ai tìm dở nhất', 20],
+  ['Tìm thứ dài và cứng nhất trong tầm tay', 15],
+  ['Tìm thứ tròn và mềm nhất trong tầm tay', 15],
+  ['Tìm 1 vật có lỗ', 15],
+  ['Đưa ra 1 cái bao cao su, hoặc thứ ‘có thể thay thế’ thuyết phục nhất', 20],
+  ['Tìm 1 món đồ màu hồng trên người hoặc quanh bàn', 15],
+  ['Giơ lên 1 thứ ướt, không tính ly của mình', 15],
+  ['Mang tới bàn 1 món đồ của người khác giới', 20],
+  ['Đưa ra 1 sợi tóc không phải của mình', 20],
+  ['Tìm 1 vật bắt đầu bằng chữ ‘Ch’: chai, chén, chân…', 20],
+  ['Tìm 1 thứ có chữ X hoặc S (XL, XS cũng tính)', 20],
+  ['Viết tên crush lên lòng bàn tay rồi giơ lên', 15],
+  ['Tạo dáng ‘người mẫu nội y’ (mặc đủ đồ) và đứng im tới hết giờ', 10],
+  ['Làm mặt ‘lên đỉnh’ thật nhất. Cả bàn chọn ai diễn dở nhất', 10],
+  ['Ôm gối hoặc ghế như ôm người yêu, mặt phải thật ‘phê’', 10],
+  ['Đứng lên lắc hông 10 vòng liên tục, dừng giữa chừng là thua', 15],
+  ['Nhảy uốn éo theo nhạc tưởng tượng, không được dừng', 15],
+  ['Bắt chước tiếng mèo động dục thật to', 10],
+  ['Kể tên 1 tư thế ‘yêu’, nói trùng người trước là thua', 20],
+  ['Nói 1 từ lóng ‘bậy’, nói trùng người trước là thua', 20],
+  ['Đặt 1 viên đá lạnh lên cổ mình, giữ tới hết giờ', 15],
+  ['Ngậm ngang 1 chiếc đũa tới hết giờ, rơi là thua', 15],
+  ['Lấy son hoặc bút vẽ trái tim lên má mình', 15],
+  ['Đội 1 món đồ lên đầu làm vương miện (không tính mũ)', 15],
+  ['Liếm được khuỷu tay của chính mình thì thoát, không được thì uống', 10],
+  ['Tìm thứ có mùi thơm nhất, đưa cả bàn ngửi', 20],
+  ['Tìm thứ có mùi ‘khó tả’ nhất. Cả bàn chọn người thắng, những ai còn lại uống', 20],
+  ['Tìm 1 vật bắt đầu bằng chữ ‘B’ mà nói ra nghe ‘bậy’ nhất', 20],
+  ['Tìm 1 vật nhỏ nhất có thể nhét vừa túi quần', 15],
+  ['Giơ lên 1 thứ có lông (không tính tóc trên đầu)', 15],
+  ['Tìm 1 vật có thể dùng làm ‘roi’', 15],
+  ['Tìm thứ gì đó có thể dùng để bịt mắt', 15],
+  ['Mang về bàn 1 thứ có trong nhà vệ sinh', 20],
+  ['Đưa ra 1 tờ tiền có mệnh giá nhỏ nhất', 15],
+  ['Hít đất 5 cái thật ‘gợi cảm’', 15],
+  ['Plank 15 giây, kèm tiếng rên mỗi 5 giây', 15],
+  ['Xoay vòng 5 lần rồi đứng 1 chân không được ngã', 15],
+  ['Cầm ly đầy đi 1 vòng quanh bàn, đổ là thua', 20],
+  ['Diễn cảnh ‘bị vợ/chồng bắt quả tang’ trong 10 giây', 10],
+  ['Làm 3 kiểu nháy mắt đưa tình khác nhau', 10],
+  ['Hát 1 câu nhạc sến bằng giọng thều thào quyến rũ', 15],
+  ['Nói ‘Em/anh muốn’ bằng 3 giọng khác nhau: ngây thơ, hư hỏng, say rượu', 15],
+  ['Bắt chước tiếng rên trong phim, không được cười', 10],
+  ['Giả tiếng chim gáy sáng thật to', 10],
+  ['Kể tên 1 người nổi tiếng mình muốn ‘qua đêm’, trùng người trước là thua', 20],
+  ['Kể tên 1 chỗ ‘yêu’ liều lĩnh, trùng người trước là thua', 20],
+  ['Kể tên 1 món đồ lót, trùng người trước là thua', 15],
+  ['Tả người bên phải bằng đúng 3 từ ‘gợi cảm’', 15],
+  ['Viết 1 chữ ‘bậy’ lên khăn giấy, ai viết chậm nhất uống', 15],
+  ['Cả bàn hét ‘Dzô!’ cùng lúc, ai lệch nhịp thì uống', 10],
+  ['Tìm 1 vật bằng kim loại, không tính điện thoại', 15],
+  ['Tìm 1 vật bắt đầu bằng chữ K', 20],
+  ['Mang về bàn 1 chiếc dép không phải của mình', 20],
+  ['Tìm 1 món đồ có hình trái tim hoặc màu đỏ', 15],
+  ['Mang về bàn 1 thứ có thể đội lên đầu cho ‘sexy’', 20],
+  ['Tìm 1 thứ có thể dùng làm ‘cà vạt’, đeo vào cổ luôn', 20],
+  ['Tìm 1 món mồi có hình dáng ‘gợi cảm’ nhất trên bàn. Cả bàn chọn người thua', 15],
+  ['Tìm 1 vật lạnh nhất quanh đây, áp lên má', 15],
+  ['Lượm 1 chiếc lá hoặc bông hoa, cài lên tai', 20],
+  ['Tìm 1 thứ phát ra tiếng kêu ‘bậy bạ’ nhất. Cả bàn chọn người thua', 20],
+  ['Xếp 3 vỏ chai hoặc lon thành tháp, đổ là thua', 20],
+  ['Dùng đúng 2 ngón tay gắp 1 miếng mồi đút người bên cạnh', 15],
+  ['Đi kiểu người mẫu ra tới cửa rồi quay lại', 20],
+  ['Cõng hoặc bế 1 cái ghế đi một vòng quanh bàn', 15],
+  ['Bắt chước dáng ngủ ‘hư hỏng’ nhất trên ghế, giữ nguyên tới hết giờ', 10],
+  ['Ăn 1 miếng mồi không dùng tay, không dùng đũa', 15],
+  ['Làm ‘tượng sống’: tạo dáng 18+ (mặc đủ đồ) và đứng im, ai cử động là thua', 15],
+  ['Chạy 1 vòng quanh bàn hô ‘Tôi say rồi!’', 15],
+];
+// Bốc không lặp trong một ván (state.seenLuck), bốc hết danh sách thì mới xáo lại; ván mới thì reset
+function pickFresh(kind, list, key) {
+  const seen = (state.seenLuck = state.seenLuck || {})[kind] = (state.seenLuck[kind] || []).filter(k => list.some(x => key(x) === k));
+  let avail = list.filter(x => !seen.includes(key(x)));
+  if (!avail.length) { seen.length = 0; avail = list; }
+  const x = pickOne(avail);
+  seen.push(key(x));
+  return x;
+}
+// Nhiệm vụ cấp bách: Bắt đầu → đếm ngược → chọn ai chưa xong → mỗi người 1 ly
+function urgentControls(r) {
+  if (!r.endAt) return `<button class="btn pri" data-a="urgentStart">▶️ Bắt đầu ${r.secs} giây</button>`;
+  if (!r.over) return `<div class="timer" id="urgentTimer">${Math.max(0, Math.ceil((r.endAt - Date.now()) / 1000))}</div><button class="btn ghost" data-a="urgentStop">⏹ Dừng sớm</button>`;
+  return `<div class="big">⏰ Hết giờ! Ai chưa xong?</div>${pgrid(state.players.map(p => p.id), 'urgentTick', r.ticks)}
+    <button class="btn pri" data-a="urgentDone">${r.ticks.length ? `🍺 ${r.ticks.length} người uống ➜` : 'Ai cũng xong ➜'}</button>`;
+}
 // Ô báo thẻ vàng vừa nhận ở màn phạt khi từ chối thẻ
 function yellowBox(p) {
   const n = CONFIG.yellowToRed;
@@ -1704,19 +1827,24 @@ function luckDesc(r) {
   if (r.luck === 'nothing') return `${pName(P(r.pid))} thoát nạn lần này<div class="muted small">${esc(r.tease || pickOne(TEASES))}</div>`;
   if (r.luck === 'pair') return r.pids.filter(P).map(id => `${pName(P(id))} uống${P(id).noAlcohol ? ' nước lọc' : ''}`).join(' · ') + '<div class="muted small">Xui thôi, không có lý do gì cả.</div>';
   const p = P(r.pid);
-  if (r.luck === 'shout') return `${pName(p)} đứng dậy hét thật to chữ <b>"Ớ!"</b><div class="muted small">Không hét đủ to thì hét lại.</div>`;
-  return `${pName(p)} đứng dậy đi ra tới cửa rồi quay lại chỗ ngồi<div class="muted small">Cả bàn nhìn theo, cấm chạy.</div>`;
+  if (r.luck === 'moan') return `${pName(p)} rên thật sexy, khiêu gợi nhất có thể:<div class="moan-word">“${esc(r.word)}”</div><div class="muted small">Cả bàn chấm, chưa đủ ‘tình’ thì rên lại.</div>`;
+  return `<div class="moan-word">${esc(r.task)}</div><div class="muted small">Cả bàn cùng làm trong ${r.secs} giây. Hết giờ ai chưa xong uống 1 ly.</div>`;
 }
 function luckReveal(r) {
-  const card = $('luckCard'), desc = card.nextElementSibling, kinds = Object.keys(LUCK);
+  const card = $('luckCard'), desc = card.nextElementSibling, kinds = Object.keys(CONFIG.luckWeights);
+  if (r.luck === 'urgent' && r.endAt && !r.over) return urgentTick(r); // đang đếm ngược: không xáo lại
+  if (r.revealed) return;
+  const ctrl = desc.nextElementSibling;
   const done = () => {
-    card.classList.remove('shuffling'); desc.style.visibility = '';
+    r.revealed = true; save();
+    card.classList.remove('shuffling'); desc.style.visibility = ''; if (ctrl) ctrl.style.visibility = '';
     card.querySelector('.big-icon').textContent = r.icon; card.querySelector('.big').textContent = r.title;
     if (r.luck === 'pair') { sfx('buzz'); bgFx('drink'); vibrate(200); r.pids.forEach(id => flyTo('🍺', id)); }
-    else if (r.luck === 'nothing') sfx('flip');
-    else { sfx('reward'); bgFx('good'); }
+    else if (r.luck === 'moan') { sfx('reward'); bgFx('good'); }
+    else { sfx('siren'); bgFx('bad'); vibrate(200); }
   };
   if (reduced()) return done();
+  if (ctrl) ctrl.style.visibility = 'hidden';
   desc.style.visibility = 'hidden'; card.classList.add('shuffling');
   let n = 0;
   const iv = setInterval(() => {
@@ -1727,7 +1855,19 @@ function luckReveal(r) {
   }, 120);
   ui.timers.push(iv);
 }
-// Vòng quay luôn hiện đủ các ô cho đẹp. Kết quả thật lấy theo wheelWeights (vòng 1–2 chỉ ra Gương, Đổi Câu, Xui, Ngẫu hứng)
+// Đếm ngược Nhiệm vụ cấp bách; tải lại trang vẫn đếm tiếp theo mốc giờ đã lưu
+function urgentTick(r) {
+  let last = -1;
+  const step = () => {
+    const left = Math.max(0, Math.ceil((r.endAt - Date.now()) / 1000)), el = $('urgentTimer');
+    if (el && left !== last) { el.textContent = left; if (left <= 3 && left > 0) sfx('tick'); last = left; }
+    if (left <= 0) { clearInterval(iv); r.over = true; sfx('siren'); vibrate(300); save(); render(); }
+  };
+  const iv = setInterval(step, 200);
+  ui.timers.push(iv);
+  step();
+}
+// Vòng quay luôn hiện đủ các ô cho đẹp. Kết quả thật lấy theo wheelWeights (vòng 1–2 chỉ ra các ô trong earlyWeights)
 const wheelSegs = () => CONFIG.wheel;
 const rescueSegs = () => CONFIG.rescueWheel;
 const rescuePct = () => { const s = rescueSegs(), t = s.reduce((a, x) => a + x.w, 0); return Math.round(s.filter(x => x.id === 'win').reduce((a, x) => a + x.w, 0) / t * 100); };
@@ -2025,6 +2165,7 @@ const A = {
     const p = cur(), old = state.turn.card;
     const c = drawCard(old.type, p, { level: old.level, exact: true, notId: old.id });
     if (!c) return toast('Không còn thẻ cùng mức để đổi');
+    markSkipped(old); // câu bị đổi trả lại bộ câu, sang vòng sau mới ra lại
     take(p, 'swap'); voice('swap');
     state.turn.card = c; state.turn.targetB = c.bId;
     log(`${p.name} dùng Đổi Câu`);
@@ -2040,12 +2181,14 @@ const A = {
   done() { go('approve'); },
   approve() {
     const p = cur(), isTruth = state.turn.card.type === 'truth';
+    markDone(state.turn.card); // cả bàn duyệt: ẩn câu này tới hết ván
     if (isTruth) p.stats.truths++; else p.stats.dares++;
     log(`${p.name} hoàn thành thẻ ${isTruth ? 'Thật' : 'Thách'}`);
     go('spin');
   },
   refuse() {
     const p = cur(), pen = makePenalty(p), got = randomPenalty();
+    markSkipped(state.turn.card); // không làm: trả câu lại, sang vòng sau mới ra lại
     p.stats.refusals++;
     p.penalty.push(got);
     // Từ chối thì nhận thêm 1 thẻ vàng; đủ yellowToRed thẻ vàng thì thành thẻ đỏ, xử ở đầu lượt sau
@@ -2131,6 +2274,19 @@ const A = {
 
   /* Sự kiện */
   eventGo() { runEvent(state.screen.ev); },
+  urgentStart() { const r = state.screen.res; r.endAt = Date.now() + r.secs * 1000; save(); render(); },
+  urgentStop() { const r = state.screen.res; r.over = true; save(); render(); },
+  urgentTick(d) {
+    const t = state.screen.res.ticks, i = t.indexOf(d.id);
+    if (i >= 0) t.splice(i, 1); else t.push(d.id);
+    save(); render();
+  },
+  urgentDone() {
+    const r = state.screen.res;
+    r.ticks.forEach(id => { if (P(id)) addDrink(P(id)); });
+    if (r.ticks.length) log(`Nhiệm vụ cấp bách: ${r.ticks.map(id => P(id).name).join(', ')} uống`);
+    next();
+  },
   neverTick(d) {
     const s = state.screen, i = s.ticks.indexOf(d.id);
     if (i >= 0) s.ticks.splice(i, 1); else s.ticks.push(d.id);
